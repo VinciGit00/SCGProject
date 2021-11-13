@@ -1,4 +1,4 @@
-,Nr. movimento,Budget/cons,Codice MP,Nr articolo,Nr. documento,Quantità MP impiegata,Importo costo (TOTALE)
+,NrMovimento,Budget/cons,CodiceMP,NrArticolo,NrDocumento,QuantityMPImpiegata,ImportoCostoTOTALE
 0,21684,BUDGET,ART0001929,ART0000788,ODP16-16812,1.0,126.01
 1,21685,BUDGET,ART0001820,ART0000788,ODP16-16812,1.0,52.71
 2,21686,BUDGET,ART0005137,ART0000788,ODP16-16812,1.0,0.0
