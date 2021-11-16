@@ -2,3 +2,4 @@ Lista delle cose modificate nel dataset:
 -Nella tabella clienti è stata aggiunta una colonna con i nomi delle valute utilizzate per le transazioni
 -Nella tabella consumi sono state cancellate le colonne "Tipo movimento" e "Tipo origine"
 -Nella tabella vendite sono state cancellate le colonne "Tipo movimento" e "Tipo origine"
+-Molte colonne sono stare rinominate per semplificare le funzioni in python
