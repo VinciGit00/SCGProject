@@ -6,15 +6,16 @@ from flask import Flask, request, send_from_directory
 app = Flask(__name__)
 
 # PATHS
-# Raw uploaded datasets
+# Raw uploaded datasets folder
 UPLOAD_DATASET = r"C:\SCGProject\Datasets\RawDatasets"
+# Output Graphs folder
 GRAPHS_IMAGES = r"C:\SCGProject\Datasets\Graphs"
 
-# ???
+# Add paths to the app configuration
 app.config['GRAPH_IMAGES'] = r"C:\SCGProject\Datasets\Graphs"
 
 
-# TODO: upload dataset
+# TODO: upload dataset api
 
 
 # Get Graph Image Api

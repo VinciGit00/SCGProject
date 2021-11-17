@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/graph_list_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,14 +33,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Title"),
+        title: const Text("Progetto SCG"),
+        centerTitle: true,
       ),
-      body: Center(child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-          ],
-        ),
-      ),
+      body: const GraphListWidget()
       );
   }
 }
