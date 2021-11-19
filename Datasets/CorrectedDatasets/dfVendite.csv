@@ -1,4 +1,4 @@
-,NrMovimento,budgetCons,NrArticolo,NrOrigine,Quantity,ImportoVenditaInValutaLocaleTOTALEVENDITA
+,NrMovimento,budget/cons,NrArticolo,NrOrigine,Quantity,ImportoVenditaValutaLocaleTOTALEVENDITA
 0,21621,BUDGET,ART0001433,C00140,4,18.8
 1,21629,BUDGET,ART0001610,C00140,12,145.28
 2,21631,BUDGET,ART0003269,C00140,24,933.99
