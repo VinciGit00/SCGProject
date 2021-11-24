@@ -1,4 +1,4 @@
-,nrArticolo,budgetConsuntivo,NrOrdineDiProduzione,Descrizione,NrAreaProduzione,Risorsa,TempoRisorsa,QuantityOutput
+,NrArticolo,budgetConsuntivo,NrOrdineProduzione,Descrizione,NrAreaProduzione,Risorsa,TempoRisorsa,QuantitydiOutput
 0,ART0000788,BUDGET,ODP16-16812,Montaggio,A40,RIS4,0.25,1.0
 1,ART0000756,BUDGET,ODP16-15232,Montaggio,A40,RIS4,1.0,2.0
 2,ART0000772,BUDGET,ODP16-15712,Montaggio,A40,RIS4,1.25,1.0
