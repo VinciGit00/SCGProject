@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/graph_list_widget.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -35,8 +40,61 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text("Progetto SCG"),
         centerTitle: true,
+        actions: [
+          // Pulsante per upload del dataset
+          IconButton(            
+            onPressed: () => upload(),   
+            icon: const Icon(Icons.upload)
+          )        
+        ],
       ),
       body: const GraphListWidget()
-      );
+    );
   }
+
+  // CARICAMENTO DATASET ED INVIO A SERVER
+  void upload() async {
+    // Prendo il file
+              var picked = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ['csv', 'xlsx'],
+                withData: true
+              );    
+
+              if (picked != null) {                
+                print(picked.files.first.name);
+
+                final fileBytes = picked.files.first.bytes;
+                final List<int> selected_file = List.from(fileBytes!.map((e) => (e)));
+
+                var url = Uri.parse("http://127.0.0.1:5000/uploadDataset");
+                var request =  http.MultipartRequest("POST", url);                
+
+                print("check1");
+                request.files.add(
+                  http.MultipartFile.fromBytes(
+                      'file',
+                      selected_file,
+                      contentType:  MediaType('file', 'csv'),
+                      filename: picked.names.first
+                  ),
+                );  
+
+                // Aggiungo gli headers
+                request.headers.addAll({
+                  "Content-type": "multipart/form-data"
+                });
+
+                print("check2");
+
+                request.send().then((response) {                
+                    print("check3");
+                    print(response.statusCode);
+                    if (response.statusCode == 200) print("Uploaded!");
+                });
+              }
+  }
+
+
+
 }
