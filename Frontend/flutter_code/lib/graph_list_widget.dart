@@ -3,6 +3,8 @@ import 'package:frontendscg/utils/graph_names.dart';
 
 // TODO: evitare di fare una request alla api per ogni volta che lo schermo esegue un refresh. Meglio farlo una volta sola.
 
+// flutter build web --release --web-renderer html
+
 class GraphListWidget extends StatefulWidget {
   const GraphListWidget({ Key? key }) : super(key: key);
 
@@ -57,7 +59,18 @@ class _GraphListWidgetState extends State<GraphListWidget> {
             ),           
 
             // Creo url per l'api da cui vado a pescare l'immagine
-            Image.network("${widget.prefixUrl}/get-graph-image/${listaGrafici[index]}$widget.imageExtension")
+            Image.network("https://cors-anywhere.herokuapp.com/${widget.prefixUrl}/get-graph-image/${listaGrafici[index]}${widget.imageExtension}", loadingBuilder: (BuildContext context, Widget child,ImageChunkEvent? loadingProgress) {
+  if (loadingProgress == null) return child;
+  
+  return Center(
+      child: CircularProgressIndicator(
+      value: loadingProgress.expectedTotalBytes != null ? 
+             loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+             : null,
+      ),
+    );
+  }
+            )
           ],
          ),
 

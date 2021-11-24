@@ -6,10 +6,15 @@ from flask import Flask, request, send_from_directory
 app = Flask(__name__)
 
 # PATHS
-# Raw uploaded datasets folder
+# Windows Raw uploaded datasets folder
 UPLOAD_DATASET = r"C:\SCGProject\Datasets\RawDatasets"
-# Output Graphs folder
+# TODO Windows Raw uploaded datasets folder
+
+
+# Windows Output Graphs folder
 GRAPHS_IMAGES = r"C:\SCGProject\Datasets\Graphs"
+# TODO MacOS Output Graphs folder
+
 
 # Add paths to the app configuration
 app.config['GRAPH_IMAGES'] = r"C:\SCGProject\Datasets\Graphs"
