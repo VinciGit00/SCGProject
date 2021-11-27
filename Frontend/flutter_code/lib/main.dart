@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 final fileBytes = picked.files.first.bytes;
                 final List<int> selected_file = List.from(fileBytes!.map((e) => (e)));
 
-                var url = Uri.parse("http://127.0.0.1:5000/uploadDataset");
+                var url = Uri.parse("https://192.168.1.113:80/uploadDataset");
                 var request =  http.MultipartRequest("POST", url);                
 
                 print("check1");
