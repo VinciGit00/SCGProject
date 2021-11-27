@@ -1,0 +1,29 @@
+\documentclass{article}
+
+\usepackage[a4paper,left=18mm,right=18mm,top=20mm,bottom=18mm]{geometry}
+\usepackage[italian]{babel}
+
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
+
+\title{Considerazioni sul dataset di SCG }
+\author{Ianitchii Alin, Gabriele Marchesi, David Guzman Piedrahita e Marco Vinciguerra}
+\date{\today}    
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item \textbf{Tassi di cambio} $\rightarrow$ contiene i tassi di cambio sia a BUDGET che a CONSUNTIVO
+    \item \textbf{Impiego orario risorse} $\rightarrow$ contiene articoli (colonna nr articolo) non unique. 
+    \\Considerazione = ordine di produzione $\rightarrow$ prima c’è budget e poi consuntivo, sempre. Il controllo qualità viene eseguito sempre dopo nell’ordine di produzione. ART0000128 ha solo controllo di qualità.
+    Controllo qualità ha sempre tempo di risorsa nullo. Fresatura ha quantità di output = 0.
+    \item \textbf{Vendite} $\rightarrow$ la colonna Nr.Origine corrisponde all’id del cliente.
+    \item \textbf{Consumi} $\rightarrow$ consumo di materia prima. Nr.documento $\rightarrow$ si riconduce all’ordine di produzione.
+    \\Possibile camino di join $\rightarrow$ doppio join con la tabella impiego orario risorse.
+    \item \textbf{Costo orario risorse} $\rightarrow$ Contiene il codice della risorsa e il costo orario della risorsa.
+    \item \textbf{Clienti} $\rightarrow$ c’è il codice cliente e la valuta.
+\end{enumerate}
+\textbf{N.B:} Non c’è corrispondenza biunivoca tra budget e consuntivo.
+\end{document}
