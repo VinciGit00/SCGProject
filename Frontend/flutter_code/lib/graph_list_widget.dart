@@ -10,7 +10,8 @@ class GraphListWidget extends StatefulWidget {
   final int numeroGrafici = 7;
 
   // Url base del nostro server
-  final String prefixUrl = "https://192.168.1.113:80";
+  //final String prefixUrl = "https://192.168.1.113:80";
+  final String prefixUrl = "https://localhost:80";
 
   // Formato delle immagini mostrate
   final String imageExtension = ".jpeg";  
