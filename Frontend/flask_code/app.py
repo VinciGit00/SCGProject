@@ -1,49 +1,37 @@
 import os
 from flask import Flask, request, send_from_directory, flash, request
-from flask_cors import CORS 
 from werkzeug.utils import secure_filename
 
 # This file contains all the apis required to upload the datasets and to get the graph images that will be displayed in the flutter frontend
 
 app = Flask(__name__)
-# CORS is required to allow other domains to access files and images on the webpage
-CORS(app)
 
 # Allowed dataset file extensions
 ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 
 # PATHS
 # Raw uploaded datasets folder
-#UPLOAD_FOLDER_WIN = r"C:\SCGProject\Datasets\RawDatasets"
+UPLOAD_FOLDER_WIN = r"C:\SCGProject\Datasets\RawDatasets"
 UPLOAD_FOLDER_OSX = "/Users/marcovinciguerra/Github/SCGProject/Datasets/RawDatasets"
 
 # Output Graphs folder
-#GRAPH_IMAGES_WIN = r"C:\SCGProject\Datasets\Graphs"
-GRAPH_IMAGES_OSX = "/Users/marcovinciguerra/Github/SCGProject/Datasets/Graphs"
+GRAPH_IMAGES_WIN = r"C:\SCGProject\Datasets\Graphs"
+#GRAPH_IMAGES_OSX = "/Users/marcovinciguerra/Github/SCGProject/Datasets/Graphs"
 
 # Add paths to the app configuration
-app.config['GRAPH_IMAGES_OSX'] = GRAPH_IMAGES_OSX
-
+#app.config['GRAPH_IMAGES_OSX'] = GRAPH_IMAGES_OSX
+app.config['GRAPH_IMAGES_WIN'] = GRAPH_IMAGES_WIN   
 
 #Controllo che il file caricato abbia il formato corretto
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
     
-
-#@app.before_request
-def before_request():
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
-
-
 # Api per caricare il raw dataset
 @app.route('/uploadDataset', methods = ['GET', 'POST'])
 def uploadDataset():
     if request.method == 'POST':
-        # Controllo se è presente un file nella POST request
+        # Controllo se e presente un file nella POST request
         if 'file' not in request.files:
             print("no file selezionato")
             flash('No file part')
@@ -65,7 +53,7 @@ def uploadDataset():
             filename = secure_filename(file.filename)
             # Salvo il file nel file system
             print("salvo file nel sistema")
-            file.save(os.path.join(UPLOAD_FOLDER_OSX, filename))
+            file.save(os.path.join(UPLOAD_FOLDER_WIN, filename))
             return "OK" 
     return "OK" 
 
@@ -73,7 +61,7 @@ def uploadDataset():
 # Get Graph Image Api
 @app.route('/get-graph-image/<filename>')
 def get_graph(filename):
-    return send_from_directory(app.config['GRAPH_IMAGES_OSX'], filename)
+    return send_from_directory(app.config['GRAPH_IMAGES_WIN'], filename)
 
 
 if __name__ == "__main__":
