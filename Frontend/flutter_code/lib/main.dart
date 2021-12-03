@@ -7,7 +7,8 @@ import 'package:http_parser/http_parser.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  print("Ciao");
+  //runApp(const MyApp());
 }
 
 // Use this command to run the app on chrome
