@@ -14,14 +14,15 @@ ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 
 # PATHS
 # Raw uploaded datasets folder
-UPLOAD_FOLDER_WIN = r"C:\SCGProject\Datasets\RawDatasets"
-UPLOAD_FOLDER_OSX = r""
+#UPLOAD_FOLDER_WIN = r"C:\SCGProject\Datasets\RawDatasets"
+UPLOAD_FOLDER_OSX = "/Users/marcovinciguerra/Github/SCGProject/Datasets/RawDatasets"
 
 # Output Graphs folder
-GRAPH_IMAGES = r"C:\SCGProject\Datasets\Graphs"
+#GRAPH_IMAGES_WIN = r"C:\SCGProject\Datasets\Graphs"
+GRAPH_IMAGES_OSX = "/Users/marcovinciguerra/Github/SCGProject/Datasets/Graphs"
 
 # Add paths to the app configuration
-app.config['GRAPH_IMAGES'] = GRAPH_IMAGES 
+app.config['GRAPH_IMAGES_OSX'] = GRAPH_IMAGES_OSX
 
 
 #Controllo che il file caricato abbia il formato corretto
@@ -64,7 +65,7 @@ def uploadDataset():
             filename = secure_filename(file.filename)
             # Salvo il file nel file system
             print("salvo file nel sistema")
-            file.save(os.path.join(UPLOAD_FOLDER_WIN, filename))
+            file.save(os.path.join(UPLOAD_FOLDER_OSX, filename))
             return "OK" 
     return "OK" 
 
@@ -72,11 +73,11 @@ def uploadDataset():
 # Get Graph Image Api
 @app.route('/get-graph-image/<filename>')
 def get_graph(filename):
-    return send_from_directory(app.config['GRAPH_IMAGES'], filename)
+    return send_from_directory(app.config['GRAPH_IMAGES_OSX'], filename)
 
 
 if __name__ == "__main__":
-    app.run(port = 80, host = 'localhost', ssl_context =('\SCGProject\Frontend\server.crt', '\SCGProject\Frontend\server.key'))
+    app.run()
 
 
 
