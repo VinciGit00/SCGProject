@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.13.0 (TeX Live 2021)  (format=lualatex 2021.11.9)  4 DEC 2021 16:54
+This is LuaHBTeX, Version 1.13.0 (TeX Live 2021)  (format=lualatex 2021.11.9)  4 DEC 2021 17:31
  restricted system commands enabled.
 **Info.tex
 (./Info.tex
@@ -270,9 +270,9 @@ File: l3backend-luatex.def 2021-03-18 L3 backend support: PDF output (LuaTeX)
 \l__color_backend_stack_int=\count196
 \l__pdf_internal_box=\box49
 )
-(./Info.aux)
-\openout1 = Info.aux
+No file Info.aux.
 
+\openout1 = Info.aux
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
 LaTeX Font Info:    ... okay on input line 15.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
@@ -284,7 +284,7 @@ LaTeX Font Info:    ... okay on input line 15.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 15.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
 5.
- (/usr/local/texlive/2021/texmf-dist/tex/latex/base/ts1cmr.fd
+(/usr/local/texlive/2021/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 15.
@@ -371,7 +371,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (./Info.aux))
 
 Here is how much of LuaTeX's memory you used:
- 4609 strings out of 478531
+ 4604 strings out of 478531
  100000,460012 words of node,token memory allocated
  464 words of node memory still in use:
    4 hlist, 1 vlist, 1 rule, 5 glue, 3 kern, 1 glyph, 7 attribute, 52 glue_spec,
