@@ -1,4 +1,5 @@
 import os
+import os.path
 from flask import Flask, request, send_from_directory, flash, request
 from werkzeug.utils import secure_filename
 
@@ -11,16 +12,26 @@ ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 
 # PATHS
 # Raw uploaded datasets folder
-UPLOAD_FOLDER_WIN = r"C:\SCGProject\Datasets\RawDatasets"
-UPLOAD_FOLDER_OSX = "/Users/marcovinciguerra/Github/SCGProject/Datasets/RawDatasets"
-
 # Output Graphs folder
-GRAPH_IMAGES_WIN = r"C:\SCGProject\Datasets\Graphs"
-#GRAPH_IMAGES_OSX = "/Users/marcovinciguerra/Github/SCGProject/Datasets/Graphs"
+
+username = getpass.getuser()
+
+if platform.system() == "Windows":
+    UPLOAD_FOLDER = r"C:\SCGProject\Datasets\RawDatasets"
+    GRAPH_IMAGES  = r"C:\SCGProject\Datasets\Graphs"
+
+if platform.system() == "Darwin" :
+    if(username == "marcovinciguerra"):
+     UPLOAD_FOLDER = "/Users/marcovinciguerra/Github/SCGProject/Datasets/RawDatasets"
+     GRAPH_IMAGES  = "/Users/marcovinciguerra/Github/SCGProject/Datasets/Graphs"
+    elif(username == "davidguzman"):
+        UPLOAD_FOLDER = "/Users/davidguzman/documents/Github/SCGProject/Datasets/RawDatasets"
+        GRAPH_IMAGES = "/Users/davidguzman/documents/Github/SCGProject/Datasets/Graphs"
+
 
 # Add paths to the app configuration
 #app.config['GRAPH_IMAGES_OSX'] = GRAPH_IMAGES_OSX
-app.config['GRAPH_IMAGES_WIN'] = GRAPH_IMAGES_WIN   
+app.config['GRAPH_IMAGES'] = GRAPH_IMAGES
 
 #Controllo che il file caricato abbia il formato corretto
 def allowed_file(filename):
@@ -53,7 +64,7 @@ def uploadDataset():
             filename = secure_filename(file.filename)
             # Salvo il file nel file system
             print("salvo file nel sistema")
-            file.save(os.path.join(UPLOAD_FOLDER_WIN, filename))
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
             return "OK" 
     return "OK" 
 
@@ -61,7 +72,7 @@ def uploadDataset():
 # Get Graph Image Api
 @app.route('/get-graph-image/<filename>')
 def get_graph(filename):
-    return send_from_directory(app.config['GRAPH_IMAGES_WIN'], filename)
+    return send_from_directory(app.config['GRAPH_IMAGES'], filename)
 
 
 if __name__ == "__main__":
