@@ -10,7 +10,7 @@ import getpass
 import platform
 
 
-def run():
+def runFixDatas():
     username = getpass.getuser()
     pathPart1 = "/Users/"
 

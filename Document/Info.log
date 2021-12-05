@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.13.0 (TeX Live 2021)  (format=lualatex 2021.11.9)  4 DEC 2021 18:46
+This is LuaHBTeX, Version 1.13.0 (TeX Live 2021)  (format=lualatex 2021.11.9)  5 DEC 2021 19:04
  restricted system commands enabled.
 **Info.tex
 (./Info.tex
@@ -364,11 +364,11 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 18.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 18.
-<Lavagnetta.jpg, id=1, 1185.42876pt x 397.485pt>
+<Lavagnetta.jpg, id=1, 968.61874pt x 517.935pt>
 File: Lavagnetta.jpg Graphic file (type jpg)
 <use Lavagnetta.jpg>
 Package luatex.def Info: Lavagnetta.jpg  used on input line 35.
-(luatex.def)             Requested size: 474.1631pt x 158.99118pt.
+(luatex.def)             Requested size: 387.44063pt x 207.17032pt.
 
 [1
 
@@ -378,10 +378,10 @@ tta.jpg>] (./Info.aux))
 Here is how much of LuaTeX's memory you used:
  4618 strings out of 478531
  100000,460012 words of node,token memory allocated
- 464 words of node memory still in use:
-   4 hlist, 1 vlist, 1 rule, 5 glue, 3 kern, 1 glyph, 7 attribute, 52 glue_spec,
- 5 attribute_list, 1 write nodes
-   avail lists: 1:1,2:373,3:122,4:6,5:162,6:22,7:4192,8:1,9:136,10:5,11:554
+ 470 words of node memory still in use:
+   4 hlist, 1 vlist, 1 rule, 5 glue, 3 kern, 1 glyph, 9 attribute, 52 glue_spec,
+ 6 attribute_list, 1 write nodes
+   avail lists: 1:1,2:400,3:144,4:6,5:210,6:24,7:4442,8:76,9:170,10:5,11:566
  24433 multiletter control sequences out of 65536+600000
  47 fonts using 4488183 bytes
  69i,6n,74p,291b,202s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -390,12 +390,15 @@ Here is how much of LuaTeX's memory you used:
 </usr/local/texlive/2021/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.o
 tf></usr/local/texlive/2021/texmf-dist/fonts/opentype/public/lm/lmroman12-regula
 r.otf></usr/local/texlive/2021/texmf-dist/fonts/opentype/public/lm/lmroman17-reg
-ular.otf></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb>
-Output written on Info.pdf (1 page, 91463 bytes).
+ular.otf></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex
+10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10
+.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pf
+b></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 
-PDF statistics: 48 PDF objects out of 1000 (max. 8388607)
- 27 compressed objects within 1 object stream
+Output written on Info.pdf (1 page, 128418 bytes).
+
+PDF statistics: 60 PDF objects out of 1000 (max. 8388607)
+ 36 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
