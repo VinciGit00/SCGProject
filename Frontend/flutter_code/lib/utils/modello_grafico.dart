@@ -1,5 +1,7 @@
 import 'package:frontendscg/utils/graph_names.dart';
 
+// INFORMAZIONI ASSOCIATE AD OGNI SINGOLO GRAFICO
+
 class ModelloGrafico {
   ModelloGrafico(
       {required this.indexX, required this.indexY, required this.nomeGrafico});

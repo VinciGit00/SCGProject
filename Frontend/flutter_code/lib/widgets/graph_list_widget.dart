@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/widgets/graph_drawer_widget.dart';
-import 'package:frontendscg/utils/graph_names.dart';
 import 'package:frontendscg/utils/modello_grafico.dart';
 
-// TODO: evitare di fare una request alla api per ogni volta che lo schermo esegue un refresh. Meglio farlo una volta sola.
-
-// QUESTO WIDGET SERVE A COSTRUIRE UNA LISTA CONTENENTE I GRAFICI CHE VENGON PASSATI COME PARAMETRO
+// QUESTO WIDGET SERVE A COSTRUIRE UNA LISTA CONTENENTE I GRAFICI PASSATI COME PARAMETRO
 
 class GraphList extends StatefulWidget {
   const GraphList({Key? key, required this.listaGrafici}) : super(key: key);
-
-  // Url base del nostro server
-  final String prefixUrl = "http://127.0.0.1:5000";
-
-  // Formato delle immagini mostrate
-  final String imageExtension = ".jpeg";
 
   // Lista di grafici da costruire
   final List<ModelloGrafico> listaGrafici;
@@ -24,22 +15,22 @@ class GraphList extends StatefulWidget {
 }
 
 class _GraphListState extends State<GraphList> {
-  // late List<String> listaGrafici;
-
   @override
   void initState() {
-    // listaGrafici = GraphNames().graphList;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Itero i grafici e li costruisco uno ad uno
     return ListView.builder(
       itemCount: widget.listaGrafici.length,
       itemBuilder: (context, index) {
         return Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Colors.blue[200]),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.blue[200],
+          ),
           margin: const EdgeInsets.all(25),
           padding: const EdgeInsets.all(25),
           child: Row(
@@ -63,7 +54,7 @@ class _GraphListState extends State<GraphList> {
                     // Disegno il grafico
                     // Come parametro passo il nome del singono grafico da disegnare
                     GraphDrawer(
-                      nomeDataset: widget.listaGrafici[index].nomeGrafico,
+                      modelloGrafico: widget.listaGrafici[index],
                     )
                   ],
                 ),

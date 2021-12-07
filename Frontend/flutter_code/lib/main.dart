@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
-import 'package:frontendscg/widgets/graph_drawer_widget.dart';
 import 'package:frontendscg/widgets/graph_list_widget.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -20,10 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'SCGProject',
-        home: MyHomePage() //GraphDrawer(),
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'SCGProject',
+      home: MyHomePage(),
+    );
   }
 }
 
@@ -44,26 +40,27 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           // Pulsante per upload del dataset
           IconButton(
-              onPressed: () async {
-                // Avvio processo di upload dataset
-                bool result = await UploadDataset().upload();
+            onPressed: () async {
+              // Avvio processo di upload dataset
+              bool result = await UploadDataset().upload();
 
-                // Mostro esito dell'operazione di upload
-                if (result) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Caricamento Riuscito"),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Caricamento Non Riuscito"),
-                    ),
-                  );
-                }
-              },
-              icon: const Icon(Icons.upload))
+              // Mostro esito dell'operazione di upload
+              if (result) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Caricamento Riuscito"),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Caricamento Non Riuscito"),
+                  ),
+                );
+              }
+            },
+            icon: const Icon(Icons.upload),
+          )
         ],
       ),
 

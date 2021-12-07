@@ -2,8 +2,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+// FUNZIONE PER IL CARICAMENTO DEL DATASET E DELLO STORAGE NEL FILE SYSTEM
+
 class UploadDataset {
-  // CARICAMENTO DATASET ED INVIO A SERVER
   Future<bool> upload() async {
     // Prendo il file
     var picked = await FilePicker.platform.pickFiles(
@@ -12,17 +13,18 @@ class UploadDataset {
       withData: true,
     );
 
+    // Controllo se l'utente ha selezionato un file
     if (picked != null) {
-      print(picked.files.first.name);
-
       final fileBytes = picked.files.first.bytes;
-      final List<int> selected_file = List.from(fileBytes!.map((e) => (e)));
+      final List<int> selectedFile = List.from(fileBytes!.map((e) => (e)));
 
+      // Chiamo l'api per l'invio
       var url = Uri.parse("http://127.0.0.1:5000/uploadDataset");
       var request = http.MultipartRequest("POST", url);
 
+      // preparo il file per l'invio
       request.files.add(
-        http.MultipartFile.fromBytes('file', selected_file,
+        http.MultipartFile.fromBytes('file', selectedFile,
             contentType: MediaType('file', 'csv'),
             filename: picked.names.first),
       );

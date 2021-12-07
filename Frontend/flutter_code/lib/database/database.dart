@@ -6,7 +6,7 @@ class Database {
   List<ModelloGrafico> rawGraphsList = [
     ModelloGrafico(
       nomeGrafico: GraphNames.VALUTA,
-      indexX: 6,
+      indexX: 100,
       indexY: 1,
     ),
   ];
