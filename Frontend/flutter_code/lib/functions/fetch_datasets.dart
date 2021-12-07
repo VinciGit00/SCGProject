@@ -1,10 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'package:csv/csv.dart';
 
-class Test {
-  Future<List<Data>> getlist() async {
+class FetchDatasets {
+  Future<List<Data>> fetchDatasets({required String nomeDataset}) async {
     final response = await http.get(
-        Uri.parse("http://127.0.0.1:5000/get-csvgraph/dfVendite.csv"),
+        Uri.parse("http://127.0.0.1:5000/get-csvgraph/$nomeDataset" ".csv"),
         headers: {
           "Content-type": "multipart/form-data",
           "Access-Control-Allow-Origin": "*",

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
-import 'package:frontendscg/graph_drawer_widget.dart';
-import 'package:frontendscg/graph_list_widget.dart';
+import 'package:frontendscg/widgets/graph_drawer_widget.dart';
+import 'package:frontendscg/widgets/graph_list_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -19,11 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'SCGProject',
-      home: //GraphDrawer()
-          MyHomePage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'SCGProject',
+        home: MyHomePage() //GraphDrawer(),
+        );
   }
 }
 
@@ -50,7 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 // Mostro esito dell'operazione di upload
                 if (result) {
-                  print("us");
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text("Caricamento Riuscito"),
@@ -67,7 +66,11 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(Icons.upload))
         ],
       ),
-      body: const GraphListWidget(),
+
+      // Lista dei raw datasets
+      body: GraphList(
+        listaGrafici: Database().rawGraphsList,
+      ),
     );
   }
 }
