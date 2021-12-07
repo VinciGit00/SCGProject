@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/functions/upload_dataset.dart';
+import 'package:frontendscg/graph_drawer_widget.dart';
 import 'package:frontendscg/graph_list_widget.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -19,7 +21,8 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'SCGProject',
-      home: MyHomePage(),
+      home: //GraphDrawer()
+          MyHomePage(),
     );
   }
 }
@@ -35,49 +38,36 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Progetto SCG"),
-          centerTitle: true,
-          actions: [
-            // Pulsante per upload del dataset
-            IconButton(
-                onPressed: () => upload(), icon: const Icon(Icons.upload))
-          ],
-        ),
-        body: const GraphListWidget());
-  }
+      appBar: AppBar(
+        title: const Text("Progetto SCG"),
+        centerTitle: true,
+        actions: [
+          // Pulsante per upload del dataset
+          IconButton(
+              onPressed: () async {
+                // Avvio processo di upload dataset
+                bool result = await UploadDataset().upload();
 
-  // CARICAMENTO DATASET ED INVIO A SERVER
-  void upload() async {
-    // Prendo il file
-    var picked = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['csv', 'xlsx'],
-        withData: true);
-
-    if (picked != null) {
-      print(picked.files.first.name);
-
-      final fileBytes = picked.files.first.bytes;
-      final List<int> selected_file = List.from(fileBytes!.map((e) => (e)));
-
-      var url = Uri.parse("http://127.0.0.1:5000/uploadDataset");
-      var request = http.MultipartRequest("POST", url);
-
-      print("check1");
-      request.files.add(
-        http.MultipartFile.fromBytes('file', selected_file,
-            contentType: MediaType('file', 'csv'),
-            filename: picked.names.first),
-      );
-
-      // Aggiungo gli headers
-      request.headers.addAll({"Content-type": "multipart/form-data"});
-
-      request.send().then((response) {
-        print(response.statusCode);
-        if (response.statusCode == 200) print("Uploaded!");
-      });
-    }
+                // Mostro esito dell'operazione di upload
+                if (result) {
+                  print("us");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Caricamento Riuscito"),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Caricamento Non Riuscito"),
+                    ),
+                  );
+                }
+              },
+              icon: const Icon(Icons.upload))
+        ],
+      ),
+      body: const GraphListWidget(),
+    );
   }
 }

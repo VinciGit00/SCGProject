@@ -4,9 +4,14 @@ from flask import Flask, request, send_from_directory, flash, request
 from werkzeug.utils import secure_filename
 import getpass
 import platform
+from flask_cors import CORS
+
 # This file contains all the apis required to upload the datasets and to get the graph images that will be displayed in the flutter frontend
 
 app = Flask(__name__)
+
+# CORS is required to allow other domains to access files and images on the webpage
+CORS(app)
 
 # Allowed dataset file extensions
 ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
@@ -31,7 +36,6 @@ if platform.system() == "Darwin" :
 
 
 # Add paths to the app configuration
-#app.config['GRAPH_IMAGES_OSX'] = GRAPH_IMAGES_OSX
 app.config['GRAPH_IMAGES'] = GRAPH_IMAGES
 
 #Controllo che il file caricato abbia il formato corretto
@@ -69,10 +73,18 @@ def uploadDataset():
             return "OK" 
     return "OK" 
 
+
+#TODO CAMBIARE IL PATH CON IL PATH DINAMICO BASATO SULL OS CORRENTE
+# Get csv graphs from folder 
+@app.route('/get-csvgraph/<filename>')
+def get_csv_graph(filename):
+    return send_from_directory(r"C:\SCGProject\Datasets\CorrectedDatasets", filename)
+
+
     
 # Get Graph Image Api
 @app.route('/get-graph-image/<filename>')
-def get_graph(filename):
+def get_graph_image(filename):
     return send_from_directory(app.config['GRAPH_IMAGES'], filename)
 
 

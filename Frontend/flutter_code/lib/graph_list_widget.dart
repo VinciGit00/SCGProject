@@ -54,8 +54,6 @@ class _GraphListWidgetState extends State<GraphListWidget> {
                   ),
 
                   // Creo url per l'api da cui vado a pescare l'immagine
-                  //Image.network("${widget.prefixUrl}/get-graph-image/${listaGrafici[index]}${widget.imageExtension}")
-                  //https://cors-anywhere.herokuapp.com/
                   Image.network(
                       "${widget.prefixUrl}/get-graph-image/${listaGrafici[index]}${widget.imageExtension}")
                 ],
