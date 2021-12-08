@@ -5,21 +5,23 @@ import 'package:frontendscg/utils/modello_grafico.dart';
 
 class Database {
   // Lista grafici raw
-  List<ModelloGrafico> rawGraphsList = [
+  List<ModelloGrafico> rawGraphsList = [    
+
+    // VENDITE
     ModelloGrafico(
-      nomeGrafico: GraphNames.VALUTA,
+      nomeGrafico: GraphNames.VENDITE,
       indexX: 100,
-      indexY: 1,
+      indexY1: 6,      
     ),
+    
+    // SCOSTAMENTO CONSUMI ARTICOLO
     ModelloGrafico(
-      nomeGrafico: GraphNames.CONSUMI_COSTO_TOTALE,
+      nomeGrafico: GraphNames.SCOSTAMENTO_CONSUMI_ART,
       indexX: 100,
-      indexY: 7,
-    ),
-    ModelloGrafico(
-      nomeGrafico: GraphNames.IMPIEGO_RISORSE_DESCRIZIONE,
-      indexX: 100,
-      indexY: 7,
-    ),
+      // Costo mp budget
+      indexY1: 2,
+      // Costo mp consuntivo
+      indexY2: 3
+    ),       
   ];
 }

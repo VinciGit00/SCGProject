@@ -24,6 +24,7 @@ class _GraphListState extends State<GraphList> {
   Widget build(BuildContext context) {
     // Itero i grafici e li costruisco uno ad uno
     return ListView.builder(
+      cacheExtent: 1000000,
       itemCount: widget.listaGrafici.length,
       itemBuilder: (context, index) {
         return Container(
@@ -40,21 +41,26 @@ class _GraphListState extends State<GraphList> {
               Expanded(
                 flex: 5,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Titolo Immagine
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: Text(
-                        widget.listaGrafici[index].nomeGrafico,
-                        style: const TextStyle(fontSize: 30),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Text(
+                          widget.listaGrafici[index].nomeGrafico,
+                          style: const TextStyle(fontSize: 30),
+                        ),
                       ),
                     ),
 
                     // Disegno il grafico
-                    // Come parametro passo il nome del singono grafico da disegnare
-                    GraphDrawer(
-                      modelloGrafico: widget.listaGrafici[index],
+                    // Come parametro passo il modello del singolo grafico da disegnare
+                    Flexible(
+                      child: GraphDrawer(
+                        modelloGrafico: widget.listaGrafici[index],
+                      ),
                     )
                   ],
                 ),
@@ -64,11 +70,11 @@ class _GraphListState extends State<GraphList> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  margin: const EdgeInsets.only(top: 50),
+                  /* margin: const EdgeInsets.only(top: 50),
                   child: const Text(
                     "Descrizione:",
                     style: TextStyle(fontSize: 20),
-                  ),
+                  ), */
                 ),
               )
             ],
