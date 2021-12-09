@@ -69,13 +69,7 @@ class _GraphListState extends State<GraphList> {
               // Descrizione
               Expanded(
                 flex: 2,
-                child: Container(
-                  /* margin: const EdgeInsets.only(top: 50),
-                  child: const Text(
-                    "Descrizione:",
-                    style: TextStyle(fontSize: 20),
-                  ), */
-                ),
+                child: Container(),
               )
             ],
           ),

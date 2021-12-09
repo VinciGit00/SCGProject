@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
+import 'package:frontendscg/screens/homepage.dart';
 import 'package:frontendscg/widgets/graph_list_widget.dart';
 
 // TODO: mettere schermatra di caricamento finchè tutti i grafici presenti nella pagina da visualizzare sono pronti
@@ -37,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Progetto SCG"),
+        title: const Text("DASHBOARD"),
         centerTitle: true,
         actions: [
           // Pulsante per upload del dataset
@@ -67,9 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       // Lista dei raw datasets
-      body: GraphList(
-        listaGrafici: Database().rawGraphsList,
-      ),
+      body: const HomePage()
     );
   }
 }

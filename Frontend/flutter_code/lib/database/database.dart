@@ -5,7 +5,7 @@ import 'package:frontendscg/utils/modello_grafico.dart';
 
 class Database {
   // Lista grafici raw
-  List<ModelloGrafico> rawGraphsList = [    
+  List<ModelloGrafico> scostamentiCosti = [    
 
     // VENDITE
     ModelloGrafico(
