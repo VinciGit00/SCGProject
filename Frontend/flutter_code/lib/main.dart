@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
 import 'package:frontendscg/screens/homepage.dart';
-import 'package:frontendscg/widgets/graph_list_widget.dart';
 
 // TODO: mettere schermatra di caricamento finchè tutti i grafici presenti nella pagina da visualizzare sono pronti
 
@@ -12,6 +10,7 @@ void main() async {
 
 // Use this command to run the app on chrome
 // flutter run -d chrome --web-renderer html
+// flutter run --profile
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

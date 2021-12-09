@@ -14,11 +14,7 @@ class GraphList extends StatefulWidget {
   _GraphListState createState() => _GraphListState();
 }
 
-class _GraphListState extends State<GraphList> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class _GraphListState extends State<GraphList> { 
 
   @override
   Widget build(BuildContext context) {
