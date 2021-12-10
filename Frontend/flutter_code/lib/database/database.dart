@@ -1,5 +1,6 @@
 import 'package:frontendscg/utils/graph_names.dart';
 import 'package:frontendscg/utils/modello_grafico.dart';
+import 'package:frontendscg/widgets/columnChart.dart';
 
 // DATABASE MOCKUP, DA QUI VENGONO PRESE LE LISTE DI GRAFICI PER NON INTASARE IL CODICE
 
@@ -24,4 +25,12 @@ class Database {
       indexY2: 3
     ),       
   ];
+
+  List<ColumnChartData> listaHomeColumnChart =  [
+      ColumnChartData('Ricavi', 12),
+      ColumnChartData('Materie Prime', 15),
+      ColumnChartData('Lavorazioni Interne', 30),
+      ColumnChartData('Costi Totali', 6.4),
+      ColumnChartData('Margine Op. Lordo', 14)
+    ];
 }
