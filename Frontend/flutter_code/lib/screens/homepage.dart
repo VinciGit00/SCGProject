@@ -1,50 +1,147 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
-import 'package:frontendscg/screens/pagina_scostamenti_costi.dart';
 import 'package:frontendscg/widgets/columnChart.dart';
-import 'package:frontendscg/widgets/pulsante_home_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      appBar: AppBar(
-        title: const Text("DASHBOARD"),
-        centerTitle: true,
-        actions: [
-          // Pulsante per upload del dataset
-          IconButton(
-            onPressed: () async {
-              // Avvio processo di upload dataset
-              bool result = await UploadDataset().upload();
+  State<HomePage> createState() => _HomePageState();
+}
 
-              // Mostro esito dell'operazione di upload
-              if (result) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Caricamento Riuscito"),
+class _HomePageState extends State<HomePage> {
+  late double _scostamentoTotaleMol;
+  late double _molBudget;
+  late double _molConsuntivo;
+
+  @override
+  void initState() {
+    _scostamentoTotaleMol = Database().scostamentoTotaleMol;
+    _molBudget = Database().budgetMol;
+    _molConsuntivo = Database().consuntivoMol;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("DASHBOARD"),
+          centerTitle: true,
+          actions: [
+            // Pulsante per upload del dataset
+            IconButton(
+              onPressed: () async {
+                // Avvio processo di upload dataset
+                bool result = await UploadDataset().upload();
+
+                // Mostro esito dell'operazione di upload
+                if (result) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Caricamento Riuscito"),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Caricamento Non Riuscito"),
+                    ),
+                  );
+                }
+              },
+              icon: const Icon(Icons.upload),
+            )
+          ],
+        ),
+        body: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 50, bottom: 50, left: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  // TITOLO
+                  Container(
+                    child: const Text(
+                      "Scostamento Totale (MOL):    ",
+                      style: TextStyle(fontSize: 50),
+                    ),
                   ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Caricamento Non Riuscito"),
+
+                  // NUMERO TITOLO
+                  Container(
+                    child: Text(
+                      "€ $_scostamentoTotaleMol",
+                      style: TextStyle(fontSize: 50),
+                    ),
                   ),
-                );
-              }
-            },
-            icon: const Icon(Icons.upload),
-          )
-        ],
+                ],
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        // TITOLI BUDGET CONSUNTIVO 
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const <Widget>[
+                             Text(
+                              "Margine Operativo Lordo Budget:",
+                              style: TextStyle(fontSize: 30),
+                            ),
+                             Text(
+                              "Margine Operativo Lordo Consuntivo:",
+                              style: TextStyle(fontSize: 30),
+                            ),
+                          ],
+                        ),
+
+                        // VALORI NUMERI BUDGET/CONSUNTIVO
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            
+                            Padding(
+                              padding: const EdgeInsets.only(right: 100),
+                              child: Text(
+                                "€ $_molBudget",
+                                style: const TextStyle(fontSize: 30),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 100),
+                              child: Text(
+                                "€ $_molConsuntivo",
+                                style: const TextStyle(fontSize: 30),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // COLUMN CHART
+                const ColumnChartDrawer()
+              ],
+            ),
+          ],
+        ),
       ),
-      body: Column(
-        children: [
-          ColumnChartDrawer()
-        ],
-      ),
-    ),);
+    );
   }
 }
 
