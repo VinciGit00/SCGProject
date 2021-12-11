@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.green[200],
-        appBar: AppBar(
+        /* appBar: AppBar(
           backgroundColor: Colors.green,
           title: const Text("DASHBOARD"),
           centerTitle: true,
@@ -59,48 +59,160 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.upload),
             )
           ],
-        ),
+        ), */
         body: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 30, bottom: 20, left: 20),
+            Expanded(
               child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.green[400],
-                  borderRadius: BorderRadius.circular(
-                    10,
+                margin: const EdgeInsets.only(top: 20, bottom: 20, left: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.green[400],
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    ),
                   ),
-                ),
-                margin: EdgeInsets.only(right: 20),
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    // TITOLO
-                    Container(
-                      child: const Text(
-                        "Scostamento Margine Operativo Lordo:    ",
-                        style: TextStyle(fontSize: 50),
+                  margin: EdgeInsets.only(right: 20),
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      // TITOLO
+                      Container(
+                        child: const Text(
+                          "Scostamento Margine Operativo Lordo:    ",
+                          style: TextStyle(fontSize: 50),
+                        ),
                       ),
-                    ),
 
-                    // NUMERO TITOLO
-                    Container(
-                      child: Text(
-                        "€ $_scostamentoTotaleMol",
-                        style: TextStyle(fontSize: 50),
+                      // NUMERO TITOLO
+                      Container(
+                        child: Text(
+                          "€ $_scostamentoTotaleMol",
+                          style: TextStyle(fontSize: 50),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 20),
+            Expanded(
+              flex: 5,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 20),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green[400],
+                          borderRadius: BorderRadius.circular(
+                            10,
+                          ),
+                        ),
+                        margin: const EdgeInsets.only(right: 20),
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            // RIGA CON TESTO BUDGET/CONSUNTIVO
+                            Flexible(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  // TITOLI BUDGET CONSUNTIVO
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const <Widget>[
+                                      Text(
+                                        "Margine Operativo Lordo Budget:",
+                                        style: TextStyle(fontSize: 30),
+                                      ),
+                                      Text(
+                                        "Margine Operativo Lordo Consuntivo:",
+                                        style: TextStyle(fontSize: 30),
+                                      ),
+                                    ],
+                                  ),
+
+                                  // VALORI NUMERI BUDGET/CONSUNTIVO
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 100),
+                                        child: Text(
+                                          "€ $_molBudget",
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 100),
+                                        child: Text(
+                                          "€ $_molConsuntivo",
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // RIGA CON PULSANTI BUDGET/CONSUNTIVO
+                            Flexible(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  // PULSANTE BUDGET + CONSUNTIVO
+                                  Container(
+                                    margin: EdgeInsets.only(top: 30, right: 20),
+                                    height: 100,
+                                    width: 200,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.green),
+                                      onPressed: () {},
+                                      child: const Text("Budget + Consuntivo"),
+                                    ),
+                                  ),
+
+                                  // PULSANTE SCOSTAMENTO
+                                  Container(
+                                    margin: EdgeInsets.only(top: 30, right: 20),
+                                    height: 100,
+                                    width: 200,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.green),
+                                      onPressed: () {},
+                                      child: const Text("Scostamento"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // PIE CHART
+                            const Expanded(
+                              flex: 5,
+                              child: PieChartDrawer(),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.green[400],
@@ -108,158 +220,70 @@ class _HomePageState extends State<HomePage> {
                           10,
                         ),
                       ),
-                      margin: const EdgeInsets.only(right: 20),
-                      padding: EdgeInsets.all(20),
+                      margin: EdgeInsets.only(right: 20, bottom: 20),
+                      padding: EdgeInsets.only(
+                        top: 20,
+                        left: 20,
+                        right: 20,
+                      ),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          // RIGA CON TESTO BUDGET/CONSUNTIVO
-                          Flexible(
-                            child: Row(
+                          // COLUMN CHART
+                          Expanded(child: const ColumnChartDrawer()),
+
+                          Expanded(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                // TITOLI BUDGET CONSUNTIVO
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const <Widget>[
-                                    Text(
-                                      "Margine Operativo Lordo Budget:",
-                                      style: TextStyle(fontSize: 30),
-                                    ),
-                                    Text(
-                                      "Margine Operativo Lordo Consuntivo:",
-                                      style: TextStyle(fontSize: 30),
-                                    ),
-                                  ],
-                                ),
-
-                                // VALORI NUMERI BUDGET/CONSUNTIVO
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 100),
-                                      child: Text(
-                                        "€ $_molBudget",
-                                        style: const TextStyle(fontSize: 30),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 100),
-                                      child: Text(
-                                        "€ $_molConsuntivo",
-                                        style: const TextStyle(fontSize: 30),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // RIGA CON PULSANTI BUDGET/CONSUNTIVO
-                          Flexible(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                // PULSANTE BUDGET + CONSUNTIVO
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                // PULSANTI PER GLI ALTRI SCOSTAMENTI
                                 Container(
-                                  margin: EdgeInsets.only(top: 30, right: 20),
-                                  height: 100,
-                                  width: 200,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.green),
-                                    onPressed: () {},
-                                    child: const Text("Budget + Consuntivo"),
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  child: const Text(
+                                    "Altri Scostamenti: ",
+                                    style: TextStyle(fontSize: 40),
                                   ),
                                 ),
 
-                                // PULSANTE SCOSTAMENTO
-                                Container(
-                                  margin: EdgeInsets.only(top: 30, right: 20),
-                                  height: 100,
-                                  width: 200,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.green),
-                                    onPressed: () {},
-                                    child: const Text("Scostamento"),
-                                  ),
+                                PulsanteAltriScostamenti(
+                                  nomeScostamento: "Ricavi",
+                                  valoreScostamento:
+                                      Database().scostamentoRicavi,
+                                ),
+
+                                PulsanteAltriScostamenti(
+                                  nomeScostamento: "Materie Prime",
+                                  valoreScostamento:
+                                      Database().scostamentoMateriePrime,
+                                ),
+
+                                PulsanteAltriScostamenti(
+                                  nomeScostamento: "Lavorazioni Interne",
+                                  valoreScostamento:
+                                      Database().scostamentoLavorazioniInterne,
+                                ),
+
+                                PulsanteAltriScostamenti(
+                                  nomeScostamento: "Costi Totali",
+                                  valoreScostamento:
+                                      Database().scostamentoCostiTotali,
+                                ),
+
+                                PulsanteAltriScostamenti(
+                                  nomeScostamento: "Margine Op. Lordo",
+                                  valoreScostamento:
+                                      Database().scostamentoTotaleMol,
                                 ),
                               ],
                             ),
-                          ),
-
-                          // PIE CHART
-                          const Flexible(
-                            child: PieChartDrawer(),
                           )
                         ],
                       ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.green[400],
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
-                    ),
-                    margin: EdgeInsets.only(right: 20),
-                    padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 27),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // COLUMN CHART
-                        const ColumnChartDrawer(),
-
-                        // PULSANTI PER GLI ALTRI SCOSTAMENTI
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 20),
-                          child: const Text(
-                            "Altri Scostamenti: ",
-                            style: TextStyle(fontSize: 40),
-                          ),
-                        ),
-
-                        PulsanteAltriScostamenti(
-                          nomeScostamento: "Ricavi",
-                          valoreScostamento: Database().scostamentoRicavi,
-                        ),
-
-                        PulsanteAltriScostamenti(
-                          nomeScostamento: "Materie Prime",
-                          valoreScostamento: Database().scostamentoMateriePrime,
-                        ),
-
-                        PulsanteAltriScostamenti(
-                          nomeScostamento: "Lavorazioni Interne",
-                          valoreScostamento:
-                              Database().scostamentoLavorazioniInterne,
-                        ),
-
-                        PulsanteAltriScostamenti(
-                          nomeScostamento: "Costi Totali",
-                          valoreScostamento: Database().scostamentoCostiTotali,
-                        ),
-
-                        PulsanteAltriScostamenti(
-                          nomeScostamento: "Margine Op. Lordo",
-                          valoreScostamento: Database().scostamentoTotaleMol,
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ],
         ),

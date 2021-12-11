@@ -26,7 +26,6 @@ class ColumnChartDrawerState extends State<ColumnChartDrawer> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
       width: 1000,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
