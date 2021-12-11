@@ -38,6 +38,7 @@ dependencies:
   syncfusion_flutter_charts: ^19.3.57
   path_provider: ^2.0.7
   csv: ^5.0.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

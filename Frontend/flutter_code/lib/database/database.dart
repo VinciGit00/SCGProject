@@ -8,6 +8,10 @@ import 'package:frontendscg/widgets/pie_chart.dart';
 class Database {
   Database() {
      scostamentoTotaleMol = 1500010;
+      scostamentoCostiTotali = 250021;
+      scostamentoRicavi = 200239;
+      scostamentoMateriePrime = 10002;
+      scostamentoLavorazioniInterne = 1000000;
      budgetMol = 500010;
      consuntivoMol = 210000;
   }
@@ -30,6 +34,20 @@ class Database {
   ];
 
 
+  // SCOSTAMENTO RICAVI
+  late double scostamentoRicavi;
+
+  
+  // SCOSTAMENTO MATERIE PRIME
+  late double scostamentoMateriePrime;
+
+  
+  // SCOSTAMENTO LAVORAZIONI INTERNE
+  late double scostamentoLavorazioniInterne;
+
+  
+  // SCOSTAMENTO COSTI TOTALI  
+  late double scostamentoCostiTotali;
 
 
   // SCOSTAMENTO TOTALE MOL

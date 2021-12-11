@@ -25,74 +25,38 @@ class ColumnChartDrawerState extends State<ColumnChartDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 500,
-        width: 1000,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
-              tooltipBehavior: _tooltip,
-              legend: Legend(isVisible: true),
-              series: <ChartSeries<ColumnChartData, String>>[
-                // COLONNA DEL BUDGET
-                ColumnSeries<ColumnChartData, String>(
-                  dataSource: data,
-                  xValueMapper: (ColumnChartData data, _) => data.x,
-                  yValueMapper: (ColumnChartData data, _) => data.budget,
-                  name: 'Budget',
-                  color: Color.fromRGBO(8, 142, 255, 1),
-                ),
-
-                // COLONNA DEL CONSUNTIVO
-                ColumnSeries<ColumnChartData, String>(
-                  dataSource: data,
-                  xValueMapper: (ColumnChartData data, _) => data.x,
-                  yValueMapper: (ColumnChartData data, _) => data.consuntivo,
-                  name: 'Consuntivo',
-                  color: Color.fromRGBO(100, 142, 255, 1),
-                )
-              ],
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 40),
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Ricavi"),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 60),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Materie Prime"),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 25),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Lavorazioni Interne"),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 35),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Costi Totali"),
-                    ),
-                  ),
-                  
-                ],
+    return SizedBox(
+      width: 1000,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SfCartesianChart(
+            primaryXAxis: CategoryAxis(),
+            tooltipBehavior: _tooltip,
+            legend: Legend(isVisible: true),
+            series: <ChartSeries<ColumnChartData, String>>[
+              // COLONNA DEL BUDGET
+              ColumnSeries<ColumnChartData, String>(
+                dataSource: data,
+                xValueMapper: (ColumnChartData data, _) => data.x,
+                yValueMapper: (ColumnChartData data, _) => data.budget,
+                name: 'Budget',
+                color: Color.fromRGBO(8, 142, 255, 1),
               ),
-            )
-          ],
-        ));
+
+              // COLONNA DEL CONSUNTIVO
+              ColumnSeries<ColumnChartData, String>(
+                dataSource: data,
+                xValueMapper: (ColumnChartData data, _) => data.x,
+                yValueMapper: (ColumnChartData data, _) => data.consuntivo,
+                name: 'Consuntivo',
+                color: Color.fromRGBO(100, 142, 255, 1),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
