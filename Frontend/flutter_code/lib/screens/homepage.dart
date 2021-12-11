@@ -3,6 +3,7 @@ import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:frontendscg/widgets/pie_chart.dart';
+import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                   // TITOLO
                   Container(
                     child: const Text(
-                      "Scostamento Totale (MOL):    ",
+                      "Scostamento Margine Operativo Lordo:    ",
                       style: TextStyle(fontSize: 50),
                     ),
                   ),
@@ -147,12 +148,12 @@ class _HomePageState extends State<HomePage> {
                             children: <Widget>[
                               // PULSANTE BUDGET + CONSUNTIVO
                               Container(
-                                margin: EdgeInsets.only(top:30, right: 20),
+                                margin: EdgeInsets.only(top: 30, right: 20),
                                 height: 100,
                                 width: 200,
                                 child: ElevatedButton(
-                                                                    style: ElevatedButton.styleFrom(primary: Colors.green),
-
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.green),
                                   onPressed: () {},
                                   child: const Text("Budget + Consuntivo"),
                                 ),
@@ -160,13 +161,12 @@ class _HomePageState extends State<HomePage> {
 
                               // PULSANTE SCOSTAMENTO
                               Container(
-                                                                
-
-                                margin: EdgeInsets.only(top:30, right: 20),
+                                margin: EdgeInsets.only(top: 30, right: 20),
                                 height: 100,
                                 width: 200,
                                 child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.green),
                                   onPressed: () {},
                                   child: const Text("Scostamento"),
                                 ),
@@ -176,57 +176,62 @@ class _HomePageState extends State<HomePage> {
                         ),
 
                         // PIE CHART
-                        Flexible(
-                          child: const PieChartDrawer(),
+                        const Flexible(
+                          child: PieChartDrawer(),
                         )
                       ],
                     ),
                   ),
                 ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      // COLUMN CHART
+                      const ColumnChartDrawer(),
 
-                // COLUMN CHART
-                const Expanded(
-                  child:  ColumnChartDrawer(),
+                      // PULSANTI PER GLI ALTRI SCOSTAMENTI
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 20),
+                        child: const Text(
+                          "Altri Scostamenti: ",
+                          style: TextStyle(fontSize: 40),
+                        ),
+                      ),
+
+                      PulsanteAltriScostamenti(
+                        nomeScostamento: "Ricavi",
+                        valoreScostamento: Database().scostamentoRicavi,
+                      ),
+
+                      PulsanteAltriScostamenti(
+                        nomeScostamento: "Materie Prime",
+                        valoreScostamento: Database().scostamentoMateriePrime,
+                      ),
+
+                      PulsanteAltriScostamenti(
+                        nomeScostamento: "Lavorazioni Interne",
+                        valoreScostamento:
+                            Database().scostamentoLavorazioniInterne,
+                      ),
+
+                      PulsanteAltriScostamenti(
+                        nomeScostamento: "Costi Totali",
+                        valoreScostamento: Database().scostamentoCostiTotali,
+                      ),
+
+                      PulsanteAltriScostamenti(
+                        nomeScostamento: "Margine Op. Lordo",
+                        valoreScostamento: Database().scostamentoTotaleMol,
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
           ],
-        )
+        ),
       ),
     );
   }
 }
-
-/* Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.blue[200],
-      ),
-      margin: const EdgeInsets.all(25),
-      padding: const EdgeInsets.all(25),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const <Widget>[
-          // PAGINA SCOSTAMENTI COSTI
-          PulsanteHomePage(
-            route: PaginaScostamentiCosti(title: "SCOSTAMENTI COSTI"),
-            title: "Scostamenti Costi",
-          ),
-
-          // PAGINA SCOSTAMENTI VENDITE
-          PulsanteHomePage(
-            route: PaginaScostamentiCosti(title: "Scostamenti Vendite",),
-            title: "Scostamenti Vendite",
-          ),
-
-          // PAGINA GRAFICI
-          PulsanteHomePage(
-            route: PaginaScostamentiCosti(title: "",),
-            title: "Grafici",
-          ),
-        ],
-      ),
-    );
-  } */
