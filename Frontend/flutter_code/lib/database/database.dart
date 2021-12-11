@@ -1,6 +1,7 @@
 import 'package:frontendscg/utils/graph_names.dart';
 import 'package:frontendscg/utils/modello_grafico.dart';
-import 'package:frontendscg/widgets/columnChart.dart';
+import 'package:frontendscg/widgets/column_chart.dart';
+import 'package:frontendscg/widgets/pie_chart.dart';
 
 // DATABASE MOCKUP, DA QUI VENGONO PRESE LE LISTE DI GRAFICI PER NON INTASARE IL CODICE
 
@@ -19,6 +20,17 @@ class Database {
     ColumnChartData('Costi Totali', 6.4, 38),
     ColumnChartData('Margine Op. Lordo', 14, 36)
   ];
+
+  // LISTA DATI PER GRAFICO A TORTA DEGLI SCOSTAMENTI NELLA HOMEPAGE
+  List<PieChartData> listaHomePieChart = [
+    PieChartData('Ricavi', 20),
+    PieChartData('Materie Prime', 50),
+    PieChartData('Lavorazioni Interne', 20),
+    PieChartData('Costi Totali', 38),
+  ];
+
+
+
 
   // SCOSTAMENTO TOTALE MOL
   late double scostamentoTotaleMol;

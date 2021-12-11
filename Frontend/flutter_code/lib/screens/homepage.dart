@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
-import 'package:frontendscg/widgets/columnChart.dart';
+import 'package:frontendscg/widgets/column_chart.dart';
+import 'package:frontendscg/widgets/pie_chart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,7 +28,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.green[200],
         appBar: AppBar(
+          backgroundColor: Colors.green,
           title: const Text("DASHBOARD"),
           centerTitle: true,
           actions: [
@@ -59,7 +62,7 @@ class _HomePageState extends State<HomePage> {
         body: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 50, bottom: 50, left: 20),
+              margin: const EdgeInsets.only(top: 50, bottom: 50, left: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -87,64 +90,112 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        // TITOLI BUDGET CONSUNTIVO 
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: const <Widget>[
-                             Text(
-                              "Margine Operativo Lordo Budget:",
-                              style: TextStyle(fontSize: 30),
-                            ),
-                             Text(
-                              "Margine Operativo Lordo Consuntivo:",
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ],
+                        // RIGA CON TESTO BUDGET/CONSUNTIVO
+                        Flexible(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              // TITOLI BUDGET CONSUNTIVO
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: const <Widget>[
+                                  Text(
+                                    "Margine Operativo Lordo Budget:",
+                                    style: TextStyle(fontSize: 30),
+                                  ),
+                                  Text(
+                                    "Margine Operativo Lordo Consuntivo:",
+                                    style: TextStyle(fontSize: 30),
+                                  ),
+                                ],
+                              ),
+
+                              // VALORI NUMERI BUDGET/CONSUNTIVO
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 100),
+                                    child: Text(
+                                      "€ $_molBudget",
+                                      style: const TextStyle(fontSize: 30),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 100),
+                                    child: Text(
+                                      "€ $_molConsuntivo",
+                                      style: const TextStyle(fontSize: 30),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
 
-                        // VALORI NUMERI BUDGET/CONSUNTIVO
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            
-                            Padding(
-                              padding: const EdgeInsets.only(right: 100),
-                              child: Text(
-                                "€ $_molBudget",
-                                style: const TextStyle(fontSize: 30),
+                        // RIGA CON PULSANTI BUDGET/CONSUNTIVO
+                        Flexible(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              // PULSANTE BUDGET + CONSUNTIVO
+                              Container(
+                                margin: EdgeInsets.only(top:30, right: 20),
+                                height: 100,
+                                width: 200,
+                                child: ElevatedButton(
+                                                                    style: ElevatedButton.styleFrom(primary: Colors.green),
+
+                                  onPressed: () {},
+                                  child: const Text("Budget + Consuntivo"),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 100),
-                              child: Text(
-                                "€ $_molConsuntivo",
-                                style: const TextStyle(fontSize: 30),
+
+                              // PULSANTE SCOSTAMENTO
+                              Container(
+                                                                
+
+                                margin: EdgeInsets.only(top:30, right: 20),
+                                height: 100,
+                                width: 200,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                                  onPressed: () {},
+                                  child: const Text("Scostamento"),
+                                ),
                               ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
+
+                        // PIE CHART
+                        Flexible(
+                          child: const PieChartDrawer(),
+                        )
                       ],
                     ),
                   ),
                 ),
 
                 // COLUMN CHART
-                const ColumnChartDrawer()
+                const Expanded(
+                  child:  ColumnChartDrawer(),
+                )
               ],
             ),
           ],
-        ),
+        )
       ),
     );
   }
 }
-
 
 /* Widget build(BuildContext context) {
     return Container(
