@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
+import 'package:frontendscg/widgets/graph_drawer_widget.dart';
+import 'package:frontendscg/widgets/line_chart_mol.dart';
 import 'package:frontendscg/widgets/pie_chart.dart';
 import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
 import 'package:intl/intl.dart';
@@ -17,12 +19,15 @@ class _HomePageState extends State<HomePage> {
   late double _scostamentoTotaleMol;
   late double _molBudget;
   late double _molConsuntivo;
+  // Booleano che regola quando viene mostrato il grafico dello scostamento e quando quello di budget/consuntivo
+  late bool _isGraficoScostamento;
 
   @override
   void initState() {
     _scostamentoTotaleMol = Database().scostamentoTotaleMol;
     _molBudget = Database().budgetMol;
     _molConsuntivo = Database().consuntivoMol;
+    _isGraficoScostamento = false;
     super.initState();
   }
 
@@ -48,15 +53,43 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 200,
-                        child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(
-                            "Scostamento Margine Operativo Lordo:    € ${NumberFormat.currency(name: "").format(_scostamentoTotaleMol)} ",
+                      Expanded(
+                        flex: 6,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width - 200,
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              "Scostamento Margine Operativo Lordo:    € ${NumberFormat.currency(name: "").format(_scostamentoTotaleMol)} ",
+                            ),
                           ),
                         ),
                       ),
+
+                      // PULSANTE UPLOAD DATASET
+                      Expanded(
+                          child: Container(
+                        height: 70,
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(primary: Colors.green[700]),
+                          onPressed: () {
+                            UploadDataset().upload();
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const <Widget>[
+                              Expanded(
+                                flex: 3, 
+                                child: Text("Upload a new dataset: "),
+                              ),
+                              Expanded(
+                                child: Icon(Icons.upload),
+                              )
+                            ],
+                          ),
+                        ),
+                      ))
                     ],
                   ),
                 ),
@@ -136,8 +169,12 @@ class _HomePageState extends State<HomePage> {
                                       width: 200,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                            primary: Colors.green),
-                                        onPressed: () {},
+                                            primary: Colors.green[700]),
+                                        onPressed: () {
+                                          setState(() {
+                                            _isGraficoScostamento = false;
+                                          });
+                                        },
                                         child:
                                             const Text("Budget + Consuntivo"),
                                       ),
@@ -153,8 +190,12 @@ class _HomePageState extends State<HomePage> {
                                       width: 200,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
-                                            primary: Colors.green),
-                                        onPressed: () {},
+                                            primary: Colors.green[700]),
+                                        onPressed: () {
+                                          setState(() {
+                                            _isGraficoScostamento = true;
+                                          });
+                                        },
                                         child: const Text("Scostamento"),
                                       ),
                                     ),
@@ -187,10 +228,11 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          // COLUMN CHART
-                          const Expanded(
-                            child: ColumnChartDrawer(),
+                          // GRAFICO 
+                           Expanded(
+                            child: _isGraficoScostamento ? const LineChartMol() : const ColumnChartDrawer(),
                           ),
+
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

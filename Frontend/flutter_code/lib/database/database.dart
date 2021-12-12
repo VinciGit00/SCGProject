@@ -14,7 +14,16 @@ class Database {
       scostamentoLavorazioniInterne = 1000000;
      budgetMol = 500010;
      consuntivoMol = 210000;
+     graficoScostamentoMol = ModelloGrafico(
+       nomeGrafico: "scostamentoConsumiArt", 
+       indexX: 100, 
+       indexY1: 4
+     );
   }
+
+  // GRAFICO SCOSTAMENTO MOL
+  late ModelloGrafico graficoScostamentoMol; 
+
 
   // LISTA DATI PER GRAFICO COLONNE BUDGET/CONSUNTIVO NELLA HOMEPAGE
   List<ColumnChartData> listaHomeColumnChart = [

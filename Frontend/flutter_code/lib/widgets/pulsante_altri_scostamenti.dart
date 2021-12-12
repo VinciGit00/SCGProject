@@ -23,6 +23,7 @@ class PulsanteAltriScostamenti extends StatelessWidget {
             width: 200,
             padding: const EdgeInsets.only(right: 35),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.green[700]),
               onPressed: () {},
               child: Text(nomeScostamento),
             ),
