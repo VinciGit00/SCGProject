@@ -7,57 +7,59 @@ import 'package:frontendscg/widgets/pie_chart.dart';
 
 class Database {
   Database() {
-     scostamentoTotaleMol = 1500010;
-      scostamentoCostiTotali = 250021;
-      scostamentoRicavi = 200239;
-      scostamentoMateriePrime = 10002;
-      scostamentoLavorazioniInterne = 1000000;
-     budgetMol = 500010;
-     consuntivoMol = 210000;
-     graficoScostamentoMol = ModelloGrafico(
-       nomeGrafico: "scostamentoConsumiArt", 
-       indexX: 100, 
-       indexY1: 4
-     );
+    scostamentoTotaleMol = 1500010;
+    scostamentoCostiTotali = 250021;
+    scostamentoRicavi = 200239;
+    scostamentoMateriePrime = 10002;
+    scostamentoLavorazioniInterne = 1000000;
+    budgetMol = 500010;
+    consuntivoMol = 210000;
   }
 
-  // GRAFICO SCOSTAMENTO MOL
-  late ModelloGrafico graficoScostamentoMol; 
-
-
   // LISTA DATI PER GRAFICO COLONNE BUDGET/CONSUNTIVO NELLA HOMEPAGE
-  List<ColumnChartData> listaHomeColumnChart = [
-    ColumnChartData('Ricavi', 12, 20),
-    ColumnChartData('Materie Prime', 15, 50),
-    ColumnChartData('Lavorazioni Interne', 30, 20),
-    ColumnChartData('Costi Totali', 6.4, 38),
-    ColumnChartData('Margine Op. Lordo', 14, 36)
-  ];
+  // TODO: sostituire "colonna1", "colonna2" con il valore preso dall'api
+  Future<List<ColumnChartData>> budgetConsuntivoMolData =
+      Future.delayed(Duration(seconds: 2)).then((value) => [
+            ColumnChartData(x: 'Ricavi', colonna1: 12, colonna2: 20),
+            ColumnChartData(x: 'Materie Prime', colonna1: 15, colonna2: 50),
+            ColumnChartData(
+                x: 'Lavorazioni Interne', colonna1: 30, colonna2: 20),
+            ColumnChartData(x: 'Costi Totali', colonna1: 6.4, colonna2: 38),
+            ColumnChartData(x: 'Margine Op. Lordo', colonna1: 14, colonna2: 36)
+          ]);
+
+  // LISTA DATI PER GRAFICO SCOSTAMENTO NELLA HOMEPAGE
+  // TODO: sostituire "colonna1"con il valore preso dall'api
+  Future<List<ColumnChartData>> scostamentoMolData =
+      Future.delayed(Duration(seconds: 2)).then((value) => [
+            ColumnChartData(x: 'Ricavi', colonna1: 12),
+            ColumnChartData(x: 'Materie Prime', colonna1: 15),
+            ColumnChartData(x: 'Lavorazioni Interne', colonna1: 30),
+            ColumnChartData(x: 'Costi Totali', colonna1: 6.4),
+            ColumnChartData(x: 'Margine Op. Lordo', colonna1: 14)
+          ]);
 
   // LISTA DATI PER GRAFICO A TORTA DEGLI SCOSTAMENTI NELLA HOMEPAGE
-  List<PieChartData> listaHomePieChart = [
-    PieChartData('Ricavi', 20),
-    PieChartData('Materie Prime', 50),
-    PieChartData('Lavorazioni Interne', 20),
-    PieChartData('Costi Totali', 38),
-  ];
-
+  // TODO: sostituire "valoreScostamento" con il valore preso dall'api
+  Future<List<PieChartData>> listaHomePieChart =
+      Future.delayed(Duration(seconds: 2)).then((value) => [
+            PieChartData('Ricavi', 20),
+            PieChartData('Materie Prime', 50),
+            PieChartData('Lavorazioni Interne', 20),
+            PieChartData('Costi Totali', 38),
+          ]);
 
   // SCOSTAMENTO RICAVI
   late double scostamentoRicavi;
 
-  
   // SCOSTAMENTO MATERIE PRIME
   late double scostamentoMateriePrime;
 
-  
   // SCOSTAMENTO LAVORAZIONI INTERNE
   late double scostamentoLavorazioniInterne;
 
-  
-  // SCOSTAMENTO COSTI TOTALI  
+  // SCOSTAMENTO COSTI TOTALI
   late double scostamentoCostiTotali;
-
 
   // SCOSTAMENTO TOTALE MOL
   late double scostamentoTotaleMol;

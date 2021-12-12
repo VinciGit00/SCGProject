@@ -18,34 +18,54 @@ class PieChartDrawerState extends State<PieChartDrawer> {
 
   @override
   void initState() {
-    _data = Database().listaHomePieChart;
+    //_data = Database().listaHomePieChart;
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
 
+  Future<List<PieChartData>> getPieData() async {
+    return Database().listaHomePieChart;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 500,
-      width: 1000,
-      child: SfCircularChart(
-        legend: Legend(
-          isVisible: true,
-          position: LegendPosition.left,
-          offset: const Offset(20, 150)
-        ),
-        // Enables the tooltip for all the series in chart
-        tooltipBehavior: _tooltip,
-        series: <CircularSeries>[
-          // Initialize line series
-          PieSeries<PieChartData, String>(
-              // Enables the tooltip for individual series
-              enableTooltip: true,
-              dataSource: _data,
-              xValueMapper: (PieChartData scost, _) => scost.nomeScostamento,
-              yValueMapper: (PieChartData scost, _) => scost.valoreScostamento)
-        ],
-      ),
+    return FutureBuilder<List<PieChartData>>(
+      future: getPieData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            height: 500,
+            width: 1000,
+            child: SfCircularChart(
+              legend: Legend(
+                  isVisible: true,
+                  position: LegendPosition.left,
+                  offset: const Offset(20, 150)),
+              // Enables the tooltip for all the series in chart
+              tooltipBehavior: _tooltip,
+              series: <CircularSeries>[
+                // Initialize line series
+                PieSeries<PieChartData, String>(
+                    // Enables the tooltip for individual series
+                    enableTooltip: true,
+                    dataSource: snapshot.data,
+                    xValueMapper: (PieChartData scost, _) =>
+                        scost.nomeScostamento,
+                    yValueMapper: (PieChartData scost, _) =>
+                        scost.valoreScostamento)
+              ],
+            ),
+          );
+        } else {
+          return const Center(
+            child: SizedBox(
+              height: 150,
+              width: 150,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
   }
 }

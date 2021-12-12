@@ -72,7 +72,8 @@ class _HomePageState extends State<HomePage> {
                         height: 70,
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(primary: Colors.green[700]),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.green[700]),
                           onPressed: () {
                             UploadDataset().upload();
                           },
@@ -80,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                             mainAxisSize: MainAxisSize.min,
                             children: const <Widget>[
                               Expanded(
-                                flex: 3, 
+                                flex: 3,
                                 child: Text("Upload a new dataset: "),
                               ),
                               Expanded(
@@ -175,8 +176,10 @@ class _HomePageState extends State<HomePage> {
                                             _isGraficoScostamento = false;
                                           });
                                         },
-                                        child:
-                                            const Text("Budget + Consuntivo"),
+                                        child: const Text(
+                                          "Overview \nBudget + Consuntivo",
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -228,9 +231,22 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          // GRAFICO 
-                           Expanded(
-                            child: _isGraficoScostamento ? const LineChartMol() : const ColumnChartDrawer(),
+                          // GRAFICO
+                          Expanded(
+                            child: _isGraficoScostamento
+                                ?   ColumnChartDrawer(
+                                  nomePrimaColonna: "Scostamento",
+                                  title: "Scostamento MOL",
+                                  data: Database().scostamentoMolData
+                                  ,
+                                )
+                                :  ColumnChartDrawer(
+                                    title: "Overview Budget e Consuntivo",
+                                    nomePrimaColonna: "Budget",
+                                    nomeSecondaColonna: "Consuntivo",
+                                    secondaColonna: true,
+                                    data: Database().budgetConsuntivoMolData,
+                                  ),
                           ),
 
                           Expanded(
