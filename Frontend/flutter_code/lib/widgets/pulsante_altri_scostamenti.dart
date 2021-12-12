@@ -13,9 +13,8 @@ class PulsanteAltriScostamenti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 500,
-      // padding: const EdgeInsets.only(top: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,7 +28,7 @@ class PulsanteAltriScostamenti extends StatelessWidget {
             ),
           ),
           Text(
-            "€ ${NumberFormat.currency(name: "").format(valoreScostamento)} ",
+            "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(valoreScostamento)} ",
             style: const TextStyle(fontSize: 30),
           ),
         ],

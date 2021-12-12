@@ -27,33 +27,29 @@ class ColumnChartDrawerState extends State<ColumnChartDrawer> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 1000,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SfCartesianChart(
-            primaryXAxis: CategoryAxis(),
-            tooltipBehavior: _tooltip,
-            legend: Legend(isVisible: true),
-            series: <ChartSeries<ColumnChartData, String>>[
-              // COLONNA DEL BUDGET
-              ColumnSeries<ColumnChartData, String>(
-                dataSource: data,
-                xValueMapper: (ColumnChartData data, _) => data.x,
-                yValueMapper: (ColumnChartData data, _) => data.budget,
-                name: 'Budget',
-                color: Color.fromRGBO(8, 142, 255, 1),
-              ),
-
-              // COLONNA DEL CONSUNTIVO
-              ColumnSeries<ColumnChartData, String>(
-                dataSource: data,
-                xValueMapper: (ColumnChartData data, _) => data.x,
-                yValueMapper: (ColumnChartData data, _) => data.consuntivo,
-                name: 'Consuntivo',
-                color: Color.fromRGBO(100, 142, 255, 1),
-              )
-            ],
+      child: SfCartesianChart(
+        margin: EdgeInsets.zero,
+        primaryXAxis: CategoryAxis(),
+        tooltipBehavior: _tooltip,
+        legend: Legend(isVisible: true),
+        series: <ChartSeries<ColumnChartData, String>>[
+          // COLONNA DEL BUDGET
+          ColumnSeries<ColumnChartData, String>(
+            dataSource: data,
+            xValueMapper: (ColumnChartData data, _) => data.x,
+            yValueMapper: (ColumnChartData data, _) => data.budget,
+            name: 'Budget',
+            color: Color.fromRGBO(8, 142, 255, 1),
           ),
+
+          // COLONNA DEL CONSUNTIVO
+          ColumnSeries<ColumnChartData, String>(
+            dataSource: data,
+            xValueMapper: (ColumnChartData data, _) => data.x,
+            yValueMapper: (ColumnChartData data, _) => data.consuntivo,
+            name: 'Consuntivo',
+            color: Color.fromRGBO(100, 142, 255, 1),
+          )
         ],
       ),
     );

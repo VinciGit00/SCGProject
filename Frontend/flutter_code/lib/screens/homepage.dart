@@ -31,36 +31,6 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.green[200],
-        /* appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: const Text("DASHBOARD"),
-          centerTitle: true,
-          actions: [
-            // Pulsante per upload del dataset
-            IconButton(
-              onPressed: () async {
-                // Avvio processo di upload dataset
-                bool result = await UploadDataset().upload();
-
-                // Mostro esito dell'operazione di upload
-                if (result) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Caricamento Riuscito"),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Caricamento Non Riuscito"),
-                    ),
-                  );
-                }
-              },
-              icon: const Icon(Icons.upload),
-            )
-          ],
-        ), */
         body: Column(
           children: [
             Expanded(
@@ -78,19 +48,13 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      // TITOLO
-                      Container(
-                        child: const Text(
-                          "Scostamento Margine Operativo Lordo:    ",
-                          style: TextStyle(fontSize: 50),
-                        ),
-                      ),
-
-                      // NUMERO TITOLO
-                      Container(
-                        child: Text(
-                          "€ $_scostamentoTotaleMol",
-                          style: TextStyle(fontSize: 50),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width - 200,
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            "Scostamento Margine Operativo Lordo:    € ${NumberFormat.currency(name: "").format(_scostamentoTotaleMol)} ",
+                          ),
                         ),
                       ),
                     ],
@@ -158,34 +122,41 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
 
-                            // RIGA CON PULSANTI BUDGET/CONSUNTIVO
+                            // RIGA CON PULSANTI BUDGET/CONSUNTIVO E SCOSTAMENTO
                             Flexible(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   // PULSANTE BUDGET + CONSUNTIVO
-                                  Container(
-                                    margin: EdgeInsets.only(top: 30, right: 20),
-                                    height: 100,
-                                    width: 200,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.green),
-                                      onPressed: () {},
-                                      child: const Text("Budget + Consuntivo"),
+                                  Flexible(
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.only(top: 30, right: 20),
+                                      height: 100,
+                                      width: 200,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.green),
+                                        onPressed: () {},
+                                        child:
+                                            const Text("Budget + Consuntivo"),
+                                      ),
                                     ),
                                   ),
 
                                   // PULSANTE SCOSTAMENTO
-                                  Container(
-                                    margin: EdgeInsets.only(top: 30, right: 20),
-                                    height: 100,
-                                    width: 200,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.green),
-                                      onPressed: () {},
-                                      child: const Text("Scostamento"),
+                                  Flexible(
+                                    child: Container(
+                                      margin:
+                                          EdgeInsets.only(top: 30, right: 20),
+                                      height: 100,
+                                      width: 200,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.green),
+                                        onPressed: () {},
+                                        child: const Text("Scostamento"),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -210,18 +181,16 @@ class _HomePageState extends State<HomePage> {
                           10,
                         ),
                       ),
-                      margin: EdgeInsets.only(right: 20, bottom: 20),
-                      padding: EdgeInsets.only(
-                        top: 20,
-                        left: 20,
-                        right: 20,
-                      ),
+                      margin: const EdgeInsets.only(right: 20, bottom: 20),
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           // COLUMN CHART
-                          Expanded(child: const ColumnChartDrawer()),
-
+                          const Expanded(
+                            child: ColumnChartDrawer(),
+                          ),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,10 +198,10 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 // PULSANTI PER GLI ALTRI SCOSTAMENTI
                                 Container(
-                                  margin: const EdgeInsets.only(bottom: 10),
+                                  margin: const EdgeInsets.only(bottom: 5),
                                   child: const Text(
                                     "Altri Scostamenti: ",
-                                    style: TextStyle(fontSize: 40),
+                                    style: TextStyle(fontSize: 35),
                                   ),
                                 ),
 
