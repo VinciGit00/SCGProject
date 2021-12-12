@@ -4,6 +4,7 @@ import 'package:frontendscg/functions/upload_dataset.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:frontendscg/widgets/pie_chart.dart';
 import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -113,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         margin: const EdgeInsets.only(right: 20),
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -125,44 +126,33 @@ class _HomePageState extends State<HomePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   // TITOLI BUDGET CONSUNTIVO
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const <Widget>[
-                                      Text(
-                                        "Margine Operativo Lordo Budget:",
-                                        style: TextStyle(fontSize: 30),
-                                      ),
-                                      Text(
-                                        "Margine Operativo Lordo Consuntivo:",
-                                        style: TextStyle(fontSize: 30),
-                                      ),
-                                    ],
-                                  ),
-
-                                  // VALORI NUMERI BUDGET/CONSUNTIVO
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 100),
-                                        child: Text(
-                                          "€ $_molBudget",
-                                          style: const TextStyle(fontSize: 30),
+                                  Expanded(
+                                    flex: 8,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              "Margine Operativo Lordo Budget:    € ${NumberFormat.currency(name: "").format(_molBudget)} ",
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 100),
-                                        child: Text(
-                                          "€ $_molConsuntivo",
-                                          style: const TextStyle(fontSize: 30),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: FittedBox(
+                                            fit: BoxFit.fitWidth,
+                                            child: Text(
+                                              "Margine Operativo Lordo Consuntivo:    € ${NumberFormat.currency(name: "").format(_molConsuntivo)} ",
+                                            ),
+                                          ),
                                         ),
-                                      )
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
