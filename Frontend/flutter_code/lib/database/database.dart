@@ -7,13 +7,10 @@ import 'package:frontendscg/widgets/pie_chart.dart';
 
 class Database {
   Database() {
-    scostamentoTotaleMol = 1500010;
     scostamentoCostiTotali = 250021;
     scostamentoRicavi = 200239;
     scostamentoMateriePrime = 10002;
     scostamentoLavorazioniInterne = 1000000;
-    budgetMol = 500010;
-    consuntivoMol = 210000;
   }
 
   // LISTA DATI PER GRAFICO COLONNE BUDGET/CONSUNTIVO NELLA HOMEPAGE
@@ -49,24 +46,28 @@ class Database {
             PieChartData('Costi Totali', 38),
           ]);
 
+
+  // DATI MARGINE OPERATIVO LORDO
+  // TODO: sostituire i 3 valori con i dati presi dall'api
+  Future<Map<String, int>> molData = Future.delayed(Duration(seconds: 1)).then(
+    (value) => {
+      'consuntivoMol': 210000,
+      'budgetMol': 500010,
+      'scostamentoTotaleMol': 1500010
+    },
+  );
+
   // SCOSTAMENTO RICAVI
-  late double scostamentoRicavi;
+  late int scostamentoRicavi;
 
   // SCOSTAMENTO MATERIE PRIME
-  late double scostamentoMateriePrime;
+  late int scostamentoMateriePrime;
 
   // SCOSTAMENTO LAVORAZIONI INTERNE
-  late double scostamentoLavorazioniInterne;
+  late int scostamentoLavorazioniInterne;
 
   // SCOSTAMENTO COSTI TOTALI
-  late double scostamentoCostiTotali;
-
-  // SCOSTAMENTO TOTALE MOL
-  late double scostamentoTotaleMol;
-  // CONSUNTIVO MOL
-  late double budgetMol;
-  // BUDGET MOL
-  late double consuntivoMol;
+  late int scostamentoCostiTotali; 
 
   // Lista grafici raw
   List<ModelloGrafico> scostamentiCosti = [

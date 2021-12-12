@@ -9,7 +9,7 @@ class PulsanteAltriScostamenti extends StatelessWidget {
       : super(key: key);
 
   final String nomeScostamento;
-  final double valoreScostamento;
+  final int valoreScostamento;
 
   @override
   Widget build(BuildContext context) {
