@@ -1,3 +1,4 @@
+import asyncio
 import os
 import os.path
 from flask import Flask, request, send_from_directory, flash, request
@@ -5,6 +6,8 @@ from werkzeug.utils import secure_filename
 import getpass
 import platform
 from flask_cors import CORS
+from scripts.datascript import Datascript
+
 
 # This file contains all the apis required to upload the datasets and to get the graph images that will be displayed in the flutter frontend
 
@@ -24,19 +27,16 @@ username = getpass.getuser()
 
 if platform.system() == "Windows":
     UPLOAD_FOLDER = r"C:\SCGProject\Datasets\RawDatasets"
-#    GRAPH_IMAGES  = r"C:\SCGProject\Datasets\Graphs"
+    DATASET_FOLDER = r"C:\SCGProject\Datasets\CsvForGraphing"
 
 if platform.system() == "Darwin" :
     if(username == "marcovinciguerra"):
      UPLOAD_FOLDER = "/Users/marcovinciguerra/Github/SCGProject/Datasets/RawDatasets"
-#     GRAPH_IMAGES  = "/Users/marcovinciguerra/Github/SCGProject/Datasets/Graphs"
+     DATASET_FOLDER = "/Users/marcovinciguerra/Github/SCGProject/Datasets/CsvForGraphing"
     elif(username == "davidguzman"):
         UPLOAD_FOLDER = "/Users/davidguzman/documents/Github/SCGProject/Datasets/RawDatasets"
-#        GRAPH_IMAGES = "/Users/davidguzman/documents/Github/SCGProject/Datasets/Graphs"
+        DATASET_FOLDER = "/Users/davidguzman/documents/Github/SCGProject/Datasets/CsvForGraphing"
 
-
-# Add paths to the app configuration
-#app.config['GRAPH_IMAGES'] = GRAPH_IMAGES
 
 #Controllo che il file caricato abbia il formato corretto
 def allowed_file(filename):
@@ -74,19 +74,15 @@ def uploadDataset():
     return "OK" 
 
 
-#TODO CAMBIARE IL PATH CON IL PATH DINAMICO BASATO SULL OS CORRENTE
 # Get csv graphs from folder 
 @app.route('/get-csvgraph/<filename>')
 def get_csv_graph(filename):
-    return send_from_directory(r"C:\SCGProject\Datasets\CsvForGraphing", filename)
+    return send_from_directory(DATASET_FOLDER, filename)
 
-
-    
-# Get Graph Image Api
-#@app.route('/get-graph-image/<filename>')
-#def get_graph_image(filename):
-#    return send_from_directory(app.config['GRAPH_IMAGES'], filename)
-
+# Get data from python scripts. It awaits data from the script
+@app.route('/get-scriptdata')
+async def get_script_data():
+    return await Datascript.getData()
 
 if __name__ == "__main__":
     app.run()

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/screens/pagina_secondaria.dart';
 import 'package:intl/intl.dart';
 
 class PulsanteAltriScostamenti extends StatelessWidget {
@@ -24,7 +25,20 @@ class PulsanteAltriScostamenti extends StatelessWidget {
             padding: const EdgeInsets.only(right: 35),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(primary: Colors.green[700]),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const PaginaSecondaria(
+                        titoloPagina: "Ricavi",
+                        valoreBudget: 1173671,
+                        valoreConsuntivo: 2638762,
+                      );
+                    },
+                  ),
+                );
+              },
               child: Text(nomeScostamento),
             ),
           ),
