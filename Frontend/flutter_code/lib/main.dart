@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontendscg/screens/homepage.dart';
-
-// TODO: mettere schermatra di caricamento finchè tutti i grafici presenti nella pagina da visualizzare sono pronti
+import 'package:frontendscg/screens/homepage/homepage.dart';
+import 'package:frontendscg/screens/pagina%20secondaria/pagina_secondaria.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -19,7 +18,9 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'SCGProject',
-      home: HomePage(),
+      home: PaginaSecondaria(
+        titoloPagina: "Ricavi",
+      ),
     );
   }
 }

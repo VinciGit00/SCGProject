@@ -35,9 +35,19 @@ class Data:
     # Metodo che contiene lo script da eseguire 
     async def scr(self):
         print("inizio esecuzione script...")
+
         self.scostamentoMol = 7738
-        await asyncio.sleep(5)
-        self.scostamentoRicavi = 381781
+        self.molBudget = 188827
+        self.molConsuntivo = 1888200        
+
+        self.scostamentoRicavi = 1873378 
+        self.ricaviBudget = 776276
+        self.ricaviConsuntivo = 199999
+
+        self.scostamentoCosti = 1000000
+        self.costiBudget = 1000011
+        self.costiConsuntivo = 999199
+
         print("fine esecuzione script...")
         return 
 

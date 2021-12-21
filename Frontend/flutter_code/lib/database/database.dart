@@ -6,13 +6,13 @@ import 'package:frontendscg/widgets/pie_chart.dart';
 // DATABASE MOCKUP, DA QUI VENGONO PRESE LE LISTE DI GRAFICI PER NON INTASARE IL CODICE
 
 class Database {
-  Database() {
+  /*  Database() {
     scostamentoCostiTotali = 250021;
     scostamentoRicavi = 200239;
     scostamentoMateriePrime = 10002;
     scostamentoLavorazioniInterne = 1000000;
   }
-
+ */
   // LISTA DATI PER GRAFICO COLONNE BUDGET/CONSUNTIVO NELLA HOMEPAGE
   // TODO: sostituire "colonna1", "colonna2" con il valore preso dall'api
   Future<List<ColumnChartData>> budgetConsuntivoMolData =
@@ -46,18 +46,20 @@ class Database {
             PieChartData('Costi Totali', 38),
           ]);
 
-
   // DATI MARGINE OPERATIVO LORDO
   // TODO: sostituire i 3 valori con i dati presi dall'api
-  Future<Map<String, int>> molData = Future.delayed(Duration(seconds: 1)).then(
+  Future<Map<String, int>> data = Future.delayed(Duration(seconds: 1)).then(
     (value) => {
       'consuntivoMol': 210000,
       'budgetMol': 500010,
-      'scostamentoTotaleMol': 1500010
+      'scostamentoTotaleMol': 1500010,
+      'consuntivoRicavi': 128881,
+      'budgetRicavi': 120002,
+      'scostamentoTotaleRicavi': 1238210
     },
   );
 
-  // SCOSTAMENTO RICAVI
+/*  // SCOSTAMENTO RICAVI
   late int scostamentoRicavi;
 
   // SCOSTAMENTO MATERIE PRIME
@@ -67,7 +69,8 @@ class Database {
   late int scostamentoLavorazioniInterne;
 
   // SCOSTAMENTO COSTI TOTALI
-  late int scostamentoCostiTotali; 
+  late int scostamentoCostiTotali;
+  */
 
   // Lista grafici raw
   List<ModelloGrafico> scostamentiCosti = [

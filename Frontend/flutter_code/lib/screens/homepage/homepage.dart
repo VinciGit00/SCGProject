@@ -1,33 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/database/database.dart';
+import 'package:frontendscg/functions/fetch_data.dart';
+import 'package:frontendscg/functions/upload_dataset.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
+import 'package:frontendscg/widgets/pie_chart.dart';
+import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
 import 'package:intl/intl.dart';
 
-// QUESTA PAGINA SERVE A MOSTRARE LE INFORMAZIONI RIGUARDO ALTRI SCOSTAMENTI ED E' ACCESSIBILE
-// DALLA HOMEPAGE
-
-class PaginaSecondaria extends StatefulWidget {
-  const PaginaSecondaria(
-      {Key? key,
-      required this.titoloPagina,
-      required this.valoreBudget,
-      required this.valoreConsuntivo})
-      : super(key: key);
-  final String titoloPagina;
-  final int valoreBudget;
-  final int valoreConsuntivo;
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<PaginaSecondaria> createState() => _PaginaSecondariaState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _PaginaSecondariaState extends State<PaginaSecondaria> {
-  // Booleano che regola quando viene mostrato il grafico del budget e quando quello di consuntivo
-  late bool _isGraficoBudget;
+class _HomePageState extends State<HomePage> {
+  // Booleano che regola quando viene mostrato il grafico dello scostamento e quando quello di budget/consuntivo
+  late bool _isGraficoScostamento;
 
   @override
   void initState() {
-    _isGraficoBudget = false;
+    _isGraficoScostamento = false;
     super.initState();
   }
 
@@ -36,8 +29,8 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.green[200],
-        body: FutureBuilder<Map<String, int>>(
-          future: Database().molData,
+        body: FutureBuilder<Map<String, dynamic>>(
+          future: FetchData().getData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
@@ -54,14 +47,50 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                         ),
                         margin: const EdgeInsets.only(right: 20),
                         padding: const EdgeInsets.all(10),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              "${widget.titoloPagina}:    € ${NumberFormat.currency(name: "").format(snapshot.data!["scostamentoTotaleMol"])} ",
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 6,
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width - 200,
+                                child: FittedBox(
+                                  fit: BoxFit.fitWidth,
+                                  child: Text(
+                                    "Scostamento Margine Operativo Lordo:    € ${NumberFormat.currency(name: "").format(snapshot.data!["scostamentoTotaleMol"])} ",
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+
+                            // PULSANTE UPLOAD DATASET
+                            Expanded(
+                              child: Container(
+                                height: 70,
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.green[700]),
+                                  onPressed: () {
+                                    UploadDataset().upload();
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const <Widget>[
+                                      Expanded(
+                                        flex: 3,
+                                        child: Text("Upload a new dataset: "),
+                                      ),
+                                      Expanded(
+                                        child: Icon(Icons.upload),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -75,6 +104,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                         children: <Widget>[
                           Expanded(
                             child: Container(
+                              //margin: const EdgeInsets.only(left: 20),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.green[400],
@@ -108,7 +138,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                                   child: FittedBox(
                                                     fit: BoxFit.fitWidth,
                                                     child: Text(
-                                                      "${widget.titoloPagina} Budget:    € ${NumberFormat.currency(name: "").format(snapshot.data!["budgetMol"])} ",
+                                                      "Margine Operativo Lordo Budget:    € ${NumberFormat.currency(name: "").format(snapshot.data!["budgetMol"])} ",
                                                     ),
                                                   ),
                                                 ),
@@ -117,7 +147,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                                   child: FittedBox(
                                                     fit: BoxFit.fitWidth,
                                                     child: Text(
-                                                      "${widget.titoloPagina} Consuntivo:    € ${NumberFormat.currency(name: "").format(snapshot.data!["consuntivoMol"])} ",
+                                                      "Margine Operativo Lordo Consuntivo:    € ${NumberFormat.currency(name: "").format(snapshot.data!["consuntivoMol"])} ",
                                                     ),
                                                   ),
                                                 ),
@@ -137,7 +167,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                           // PULSANTE BUDGET + CONSUNTIVO
                                           Flexible(
                                             child: Container(
-                                              margin: const EdgeInsets.only(
+                                              margin: EdgeInsets.only(
                                                   top: 30, right: 20),
                                               height: 100,
                                               width: 200,
@@ -146,7 +176,8 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                                     primary: Colors.green[700]),
                                                 onPressed: () {
                                                   setState(() {
-                                                    _isGraficoBudget = false;
+                                                    _isGraficoScostamento =
+                                                        false;
                                                   });
                                                 },
                                                 child: const Text(
@@ -160,7 +191,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                           // PULSANTE SCOSTAMENTO
                                           Flexible(
                                             child: Container(
-                                              margin: const EdgeInsets.only(
+                                              margin: EdgeInsets.only(
                                                   top: 30, right: 20),
                                               height: 100,
                                               width: 200,
@@ -169,7 +200,8 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                                     primary: Colors.green[700]),
                                                 onPressed: () {
                                                   setState(() {
-                                                    _isGraficoBudget = true;
+                                                    _isGraficoScostamento =
+                                                        true;
                                                   });
                                                 },
                                                 child:
@@ -180,6 +212,12 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                         ],
                                       ),
                                     ),
+
+                                    // PIE CHART
+                                    const Expanded(
+                                      flex: 5,
+                                      child: PieChartDrawer(),
+                                    )
                                   ],
                                 ),
                               ),
@@ -201,7 +239,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                 children: <Widget>[
                                   // GRAFICO
                                   Expanded(
-                                    child: _isGraficoBudget
+                                    child: _isGraficoScostamento
                                         ? ColumnChartDrawer(
                                             nomePrimaColonna: "Scostamento",
                                             title: "Scostamento MOL",
@@ -217,6 +255,53 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                                 .budgetConsuntivoMolData,
                                           ),
                                   ),
+
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        // PULSANTI PER GLI ALTRI SCOSTAMENTI
+                                        const Text(
+                                          "Altri Scostamenti: ",
+                                          style: TextStyle(fontSize: 35),
+                                        ),
+
+                                        PulsanteAltriScostamenti(
+                                          nomeScostamento: "Ricavi",
+                                          valoreScostamento: snapshot.data![
+                                              "scostamentoTotaleRicavi"]!,
+                                        ),
+
+                                        PulsanteAltriScostamenti(
+                                          nomeScostamento: "Materie Prime",
+                                          valoreScostamento: snapshot.data![
+                                              "scostamentoTotaleRicavi"]!,
+                                        ),
+
+                                        PulsanteAltriScostamenti(
+                                          nomeScostamento:
+                                              "Lavorazioni Interne",
+                                          valoreScostamento: snapshot.data![
+                                              "scostamentoTotaleRicavi"]!,
+                                        ),
+
+                                        PulsanteAltriScostamenti(
+                                          nomeScostamento: "Costi Totali",
+                                          valoreScostamento: snapshot.data![
+                                              "scostamentoTotaleRicavi"]!,
+                                        ),
+
+                                        PulsanteAltriScostamenti(
+                                          nomeScostamento: "Margine Op. Lordo",
+                                          valoreScostamento: snapshot.data![
+                                              "scostamentoTotaleRicavi"]!,
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
                             ),

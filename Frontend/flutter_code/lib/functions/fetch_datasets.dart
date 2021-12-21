@@ -67,7 +67,8 @@ class FetchDatasets {
           "Access-Control-Allow-Methods": "GET, OPTIONS"
         });
 
-    List<List<dynamic>> file = const CsvToListConverter().convert(response.body);
+    List<List<dynamic>> file =
+        const CsvToListConverter().convert(response.body);
     // Ritorno solo la prima riga contenten i nomi
     return file.first;
   }

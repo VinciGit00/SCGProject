@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:frontendscg/screens/pagina_secondaria.dart';
+import 'package:frontendscg/screens/pagina%20secondaria/pagina_secondaria.dart';
 import 'package:intl/intl.dart';
+
+// Pulsante per accedere alle pagine secondarie degli scostamenti.
+// Questo widget mostra anche il valore dello scostamento legato al pulsante
 
 class PulsanteAltriScostamenti extends StatelessWidget {
   const PulsanteAltriScostamenti(
@@ -9,7 +12,9 @@ class PulsanteAltriScostamenti extends StatelessWidget {
       required this.valoreScostamento})
       : super(key: key);
 
+  // Nome scostamento contenuto nel pulsante
   final String nomeScostamento;
+  // Valore scostamento presente di fianco al pulsante
   final int valoreScostamento;
 
   @override
@@ -30,10 +35,8 @@ class PulsanteAltriScostamenti extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const PaginaSecondaria(
-                        titoloPagina: "Ricavi",
-                        valoreBudget: 1173671,
-                        valoreConsuntivo: 2638762,
+                      return PaginaSecondaria(
+                        titoloPagina: nomeScostamento,
                       );
                     },
                   ),
@@ -42,6 +45,8 @@ class PulsanteAltriScostamenti extends StatelessWidget {
               child: Text(nomeScostamento),
             ),
           ),
+
+          // Valore Scostamento
           Text(
             "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(valoreScostamento)} ",
             style: const TextStyle(fontSize: 30),
