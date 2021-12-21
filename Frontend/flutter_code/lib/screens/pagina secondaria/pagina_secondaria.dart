@@ -3,33 +3,29 @@ import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/blocco_sinistra.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/parte_superiore_pagina.dart';
+import 'package:frontendscg/utils/data_notifier.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
+import 'package:provider/provider.dart';
 
 // Questa pagina mostra le informazioni relative al singolo tipo di scostamento
 // La pagina è raggiungibile tramite i pulsantiAltriScostamenti presenti sulla home
 
 class PaginaSecondaria extends StatefulWidget {
-  const PaginaSecondaria({
-    Key? key,
-    required this.titoloPagina,
-  }) : super(key: key);
+  const PaginaSecondaria(
+      {Key? key, required this.titoloPagina, required this.dataPath})
+      : super(key: key);
 
+  // Titolo presente in alto alla pagina
   final String titoloPagina;
+
+  // Chiave per recuperare dati dal file json
+  final String dataPath;
 
   @override
   State<PaginaSecondaria> createState() => _PaginaSecondariaState();
 }
 
 class _PaginaSecondariaState extends State<PaginaSecondaria> {
-  // Booleano che regola quando viene mostrato il grafico del budget e quando quello di consuntivo
-  late bool _isGraficoBudget;
-
-  @override
-  void initState() {
-    _isGraficoBudget = false;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,9 +40,9 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                   // PARTE SUPERIORE PAGINA
                   ParteSuperiorePagina(
                     titoloPagina: widget.titoloPagina,
-                    scostamentoTitolo: snapshot.data!["scostamentoRicavi"]!,
+                    scostamentoTitolo:
+                        snapshot.data!["${widget.dataPath}Scostamento"]!,
                   ),
-
                   Expanded(
                     flex: 5,
                     child: Container(
@@ -57,8 +53,9 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                           // BLOCCO DI SINISTRA
                           BloccoSinistra(
                             titoloPagina: widget.titoloPagina,
-                            budget: snapshot.data!["ricaviBudget"]!,
-                            consuntivo: snapshot.data!["ricaviConsuntivo"]!,
+                            budget: snapshot.data!["${widget.dataPath}Budget"]!,
+                            consuntivo:
+                                snapshot.data!["${widget.dataPath}Consuntivo"]!,
                           ),
 
                           // BLOCCO DI DESTRA
@@ -70,7 +67,6 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                   10,
                                 ),
                               ),
-                              //margin: const EdgeInsets.only(right: 20, bottom: 20),
                               padding: const EdgeInsets.only(
                                   top: 20, left: 20, right: 20),
                               child: Column(
@@ -78,10 +74,12 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                 children: <Widget>[
                                   // GRAFICO
                                   Expanded(
-                                    child: _isGraficoBudget
+                                    child: Provider.of<DataNotifier>(context)
+                                            .isGraficoScostamentoPagSecondaria
                                         ? ColumnChartDrawer(
                                             nomePrimaColonna: "Scostamento",
-                                            title: "Scostamento MOL",
+                                            title:
+                                                "Scostamento ${widget.titoloPagina}",
                                             data: Database().scostamentoMolData,
                                           )
                                         : ColumnChartDrawer(

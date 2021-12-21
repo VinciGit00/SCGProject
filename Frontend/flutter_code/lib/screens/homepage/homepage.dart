@@ -270,18 +270,21 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          dataPath: "ricavi",
                                           nomeScostamento: "Ricavi",
                                           valoreScostamento: snapshot.data![
                                               "scostamentoTotaleRicavi"]!,
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          dataPath: "materiePrime",
                                           nomeScostamento: "Materie Prime",
                                           valoreScostamento: snapshot.data![
                                               "scostamentoTotaleRicavi"]!,
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          dataPath: "lavorazioniInterne",
                                           nomeScostamento:
                                               "Lavorazioni Interne",
                                           valoreScostamento: snapshot.data![
@@ -289,12 +292,14 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          dataPath: "costi",
                                           nomeScostamento: "Costi Totali",
                                           valoreScostamento: snapshot.data![
                                               "scostamentoTotaleRicavi"]!,
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          dataPath: "mol",
                                           nomeScostamento: "Margine Op. Lordo",
                                           valoreScostamento: snapshot.data![
                                               "scostamentoTotaleRicavi"]!,

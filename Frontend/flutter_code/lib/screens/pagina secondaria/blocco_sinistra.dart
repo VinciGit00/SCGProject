@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/utils/data_notifier.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+// Blocco sinistro contentente diversi widget, presente nella PaginaSecondaria
 
 class BloccoSinistra extends StatefulWidget {
   const BloccoSinistra(
@@ -18,15 +22,6 @@ class BloccoSinistra extends StatefulWidget {
 }
 
 class _BloccoSinistraState extends State<BloccoSinistra> {
-  // Se true allora viene mostrato il grafico scostamento, altrimenti quello budget/scostamento
-  late bool _isGraficoScostamento;
-
-  @override
-  void initState() {
-    _isGraficoScostamento = true;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -95,9 +90,8 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                         style: ElevatedButton.styleFrom(
                             primary: Colors.green[700]),
                         onPressed: () {
-                          setState(() {
-                            _isGraficoScostamento = false;
-                          });
+                          Provider.of<DataNotifier>(context, listen: false)
+                              .showGraficoBudgetConsuntivo();
                         },
                         child: const Text(
                           "Overview \nBudget + Consuntivo",
@@ -117,9 +111,8 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                         style: ElevatedButton.styleFrom(
                             primary: Colors.green[700]),
                         onPressed: () {
-                          setState(() {
-                            _isGraficoScostamento = true;
-                          });
+                          Provider.of<DataNotifier>(context, listen: false)
+                              .showGraficoScostamento();
                         },
                         child: const Text("Scostamento"),
                       ),
