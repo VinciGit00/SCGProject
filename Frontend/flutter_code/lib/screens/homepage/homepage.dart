@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/database/database.dart';
+import 'package:frontendscg/functions/data_graph_builder.dart';
 import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
+import 'package:frontendscg/screens/homepage/blocco_sinistra_home.dart';
+import 'package:frontendscg/screens/homepage/parte_superiore_pagina_home.dart';
+import 'package:frontendscg/utils/data_notifier_home.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:frontendscg/widgets/pie_chart.dart';
 import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,65 +40,8 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasData) {
               return Column(
                 children: [
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 20, left: 20),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.green[400],
-                          borderRadius: BorderRadius.circular(
-                            10,
-                          ),
-                        ),
-                        margin: const EdgeInsets.only(right: 20),
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 6,
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width - 200,
-                                child: FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    "Scostamento Margine Operativo Lordo:    € ${NumberFormat.currency(name: "").format(snapshot.data!["scostamentoTotaleMol"])} ",
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            // PULSANTE UPLOAD DATASET
-                            Expanded(
-                              child: Container(
-                                height: 70,
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.green[700]),
-                                  onPressed: () {
-                                    UploadDataset().upload();
-                                  },
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const <Widget>[
-                                      Expanded(
-                                        flex: 3,
-                                        child: Text("Upload a new dataset: "),
-                                      ),
-                                      Expanded(
-                                        child: Icon(Icons.upload),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                  ParteSuperiorePaginaHome(
+                    scostamentoTitolo: snapshot.data!["molScostamento"],
                   ),
                   Expanded(
                     flex: 5,
@@ -102,127 +50,13 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              //margin: const EdgeInsets.only(left: 20),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.green[400],
-                                  borderRadius: BorderRadius.circular(
-                                    10,
-                                  ),
-                                ),
-                                margin: const EdgeInsets.only(right: 20),
-                                padding: const EdgeInsets.all(25),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    // RIGA CON TESTO BUDGET/CONSUNTIVO
-                                    Flexible(
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          // TITOLI BUDGET CONSUNTIVO
-                                          Expanded(
-                                            flex: 8,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                SizedBox(
-                                                  width: double.infinity,
-                                                  child: FittedBox(
-                                                    fit: BoxFit.fitWidth,
-                                                    child: Text(
-                                                      "Margine Operativo Lordo Budget:    € ${NumberFormat.currency(name: "").format(snapshot.data!["budgetMol"])} ",
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: double.infinity,
-                                                  child: FittedBox(
-                                                    fit: BoxFit.fitWidth,
-                                                    child: Text(
-                                                      "Margine Operativo Lordo Consuntivo:    € ${NumberFormat.currency(name: "").format(snapshot.data!["consuntivoMol"])} ",
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    // RIGA CON PULSANTI BUDGET/CONSUNTIVO E SCOSTAMENTO
-                                    Flexible(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          // PULSANTE BUDGET + CONSUNTIVO
-                                          Flexible(
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 30, right: 20),
-                                              height: 100,
-                                              width: 200,
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    primary: Colors.green[700]),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _isGraficoScostamento =
-                                                        false;
-                                                  });
-                                                },
-                                                child: const Text(
-                                                  "Overview \nBudget + Consuntivo",
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-
-                                          // PULSANTE SCOSTAMENTO
-                                          Flexible(
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 30, right: 20),
-                                              height: 100,
-                                              width: 200,
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    primary: Colors.green[700]),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _isGraficoScostamento =
-                                                        true;
-                                                  });
-                                                },
-                                                child:
-                                                    const Text("Scostamento"),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    // PIE CHART
-                                    const Expanded(
-                                      flex: 5,
-                                      child: PieChartDrawer(),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                          // BLOCCO SINISTRA
+                          BloccoSinistraHome(
+                            budget: snapshot.data!["molBudget"],
+                            consuntivo: snapshot.data!["molConsuntivo"],
                           ),
+
+                          // BLOCCO DESTRA
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
@@ -231,7 +65,6 @@ class _HomePageState extends State<HomePage> {
                                   10,
                                 ),
                               ),
-                              //margin: const EdgeInsets.only(right: 20, bottom: 20),
                               padding: const EdgeInsets.only(
                                   top: 20, left: 20, right: 20),
                               child: Column(
@@ -239,21 +72,25 @@ class _HomePageState extends State<HomePage> {
                                 children: <Widget>[
                                   // GRAFICO
                                   Expanded(
-                                    child: _isGraficoScostamento
-                                        ? ColumnChartDrawer(
-                                            nomePrimaColonna: "Scostamento",
-                                            title: "Scostamento MOL",
-                                            data: Database().scostamentoMolData,
-                                          )
-                                        : ColumnChartDrawer(
-                                            title:
-                                                "Overview Budget e Consuntivo",
-                                            nomePrimaColonna: "Budget",
-                                            nomeSecondaColonna: "Consuntivo",
-                                            secondaColonna: true,
-                                            data: Database()
-                                                .budgetConsuntivoMolData,
-                                          ),
+                                    child:
+                                        Provider.of<DataNotifierHome>(context)
+                                                .isGraficoScostamentoHome
+                                            ? ColumnChartDrawer(
+                                                nomePrimaColonna: "Scostamento",
+                                                title: "Scostamento MOL",
+                                                data: DataGraphBuilder()
+                                                    .datiGraficoHomepageScostamento(),
+                                              )
+                                            : ColumnChartDrawer(
+                                                title:
+                                                    "Overview Budget e Consuntivo",
+                                                nomePrimaColonna: "Budget",
+                                                nomeSecondaColonna:
+                                                    "Consuntivo",
+                                                secondaColonna: true,
+                                                data: DataGraphBuilder()
+                                                    .datiGraficoHomepageBudgetConsuntivo(),
+                                              ),
                                   ),
 
                                   Expanded(
@@ -272,37 +109,37 @@ class _HomePageState extends State<HomePage> {
                                         PulsanteAltriScostamenti(
                                           dataPath: "ricavi",
                                           nomeScostamento: "Ricavi",
-                                          valoreScostamento: snapshot.data![
-                                              "scostamentoTotaleRicavi"]!,
+                                          valoreScostamento: snapshot
+                                              .data!["ricaviScostamento"]!,
                                         ),
 
                                         PulsanteAltriScostamenti(
                                           dataPath: "materiePrime",
                                           nomeScostamento: "Materie Prime",
-                                          valoreScostamento: snapshot.data![
-                                              "scostamentoTotaleRicavi"]!,
+                                          valoreScostamento: snapshot
+                                              .data!["ricaviScostamento"]!,
                                         ),
 
                                         PulsanteAltriScostamenti(
                                           dataPath: "lavorazioniInterne",
                                           nomeScostamento:
                                               "Lavorazioni Interne",
-                                          valoreScostamento: snapshot.data![
-                                              "scostamentoTotaleRicavi"]!,
+                                          valoreScostamento: snapshot
+                                              .data!["ricaviScostamento"]!,
                                         ),
 
                                         PulsanteAltriScostamenti(
                                           dataPath: "costi",
                                           nomeScostamento: "Costi Totali",
-                                          valoreScostamento: snapshot.data![
-                                              "scostamentoTotaleRicavi"]!,
+                                          valoreScostamento: snapshot
+                                              .data!["ricaviScostamento"]!,
                                         ),
 
                                         PulsanteAltriScostamenti(
                                           dataPath: "mol",
                                           nomeScostamento: "Margine Op. Lordo",
-                                          valoreScostamento: snapshot.data![
-                                              "scostamentoTotaleRicavi"]!,
+                                          valoreScostamento: snapshot
+                                              .data!["ricaviScostamento"]!,
                                         ),
                                       ],
                                     ),

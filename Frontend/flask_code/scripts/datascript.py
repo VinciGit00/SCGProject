@@ -18,39 +18,56 @@ class Datascript :
 
 class Data:
     # MARGINE OPERATIVO LORDO
-    scostamentoMol = 0
+    molScostamento = 0
     molBudget = 0
     molConsuntivo = 0 
 
     # RICAVI
-    scostamentoRicavi = 0
+    ricaviScostamento = 0
     ricaviBudget = 0
     ricaviConsuntivo = 0
     
     # COSTI
-    scostamentoCosti = 0
+    costiScostamento = 0
     costiBudget = 0
     costiConsuntivo = 0
-    
+
+    # MATERIE PRIME
+    materiePrimeScostamento = 0
+    materiePrimeBudget = 0
+    materiePrimeConsuntivo = 0
+
+    # LAVORAZIONI INTERNE
+    lavorazioniInterneScostamento = 0
+    lavorazioniInterneBudget = 0
+    lavorazioniInterneConsuntivo = 0
+   
     # Metodo che contiene lo script da eseguire 
     async def scr(self):
         print("inizio esecuzione script...")
 
-        self.scostamentoMol = 7738
+        self.molScostamento = 7738
         self.molBudget = 188827
         self.molConsuntivo = 1888200        
 
-        self.scostamentoRicavi = 1873378 
+        self.ricaviScostamento = 1873378 
         self.ricaviBudget = 776276
         self.ricaviConsuntivo = 199999
 
-        self.scostamentoCosti = 1000000
+        self.costiScostamento = 1000000
         self.costiBudget = 1000011
         self.costiConsuntivo = 999199
 
+        self.materiePrimeScostamento = 76716273
+        self.materiePrimeBudget = 718278 
+        self.materiePrimeConsuntivo = 1888829
+
+        self.lavorazioniInterneScostamento = 1000000 
+        self.lavorazioniInterneBudget = 500190 
+        self.lavorazioniInterneConsuntivo = 1872889 
+
         print("fine esecuzione script...")
         return 
-
 
     # Metodo per trasformare una classe in un json
     def toJSON(self):

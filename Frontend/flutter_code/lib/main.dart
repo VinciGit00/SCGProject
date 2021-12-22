@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontendscg/screens/homepage/homepage.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/pagina_secondaria.dart';
 import 'package:frontendscg/utils/data_notifier.dart';
+import 'package:frontendscg/utils/data_notifier_home.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -11,6 +12,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => DataNotifier(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => DataNotifierHome(),
+        )
       ],
       child: const MyApp(),
     ),
@@ -27,12 +31,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'SCGProject',
-      home: PaginaSecondaria(
+        debugShowCheckedModeBanner: false, title: 'SCGProject', home: HomePage()
+
+        /* PaginaSecondaria(
         titoloPagina: "Ricavi",
         dataPath: "ricavi",
       ),
-    );
+ */
+        );
   }
 }

@@ -32,80 +32,81 @@ class ColumnChartDrawerState extends State<ColumnChartDrawer> {
     super.initState();
   }
 
-  Future<List<ColumnChartData>> waitData()async{
-    return await widget.data;
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<ColumnChartData>>(
       future: widget.data,
       builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return SizedBox(
-          width: 1000,
-          child: widget.secondaColonna
-              ?
-              // GRAFICO A DOPPIA COLONNA
-              SfCartesianChart(
-                  title: ChartTitle(text: widget.title),
-                  margin: EdgeInsets.zero,
-                  primaryXAxis: CategoryAxis(),
-                  tooltipBehavior: _tooltip,
-                  legend: Legend(isVisible: true),
-                  series: <ChartSeries<ColumnChartData, String>>[
-                    // PRIMA COLONNA / COLONNA BUDGET
-                    ColumnSeries<ColumnChartData, String>(
-                      dataSource: snapshot.data!,
-                      xValueMapper: (ColumnChartData data, _) => data.x,
-                      yValueMapper: (ColumnChartData data, _) => data.colonna1,
-                      name: widget.nomePrimaColonna,
-                      color: const Color.fromRGBO(8, 142, 255, 1),
-                    ),
+        if (snapshot.hasData) {
+          return SizedBox(
+            width: 1000,
+            child: widget.secondaColonna
+                ?
+                // GRAFICO A DOPPIA COLONNA
+                SfCartesianChart(
+                    title: ChartTitle(text: widget.title),
+                    margin: EdgeInsets.zero,
+                    primaryXAxis: CategoryAxis(),
+                    tooltipBehavior: _tooltip,
+                    legend: Legend(isVisible: true),
+                    series: <ChartSeries<ColumnChartData, String>>[
+                      // PRIMA COLONNA / COLONNA BUDGET
+                      ColumnSeries<ColumnChartData, String>(
+                        dataSource: snapshot.data!,
+                        xValueMapper: (ColumnChartData data, _) => data.x,
+                        yValueMapper: (ColumnChartData data, _) =>
+                            data.colonna1,
+                        name: widget.nomePrimaColonna,
+                        color: const Color.fromRGBO(8, 142, 255, 1),
+                      ),
 
-                    // SECONDA COLONNA / COLONNA CONSUNTIVO
-                    ColumnSeries<ColumnChartData, String>(
-                      dataSource: snapshot.data!,
-                      xValueMapper: (ColumnChartData data, _) => data.x,
-                      yValueMapper: (ColumnChartData data, _) => data.colonna2,
-                      name: widget.nomeSecondaColonna,
-                      color: const Color.fromRGBO(100, 142, 255, 1),
-                    )
-                  ],
-                )
+                      // SECONDA COLONNA / COLONNA CONSUNTIVO
+                      ColumnSeries<ColumnChartData, String>(
+                        dataSource: snapshot.data!,
+                        xValueMapper: (ColumnChartData data, _) => data.x,
+                        yValueMapper: (ColumnChartData data, _) =>
+                            data.colonna2,
+                        name: widget.nomeSecondaColonna,
+                        color: const Color.fromRGBO(100, 142, 255, 1),
+                      )
+                    ],
+                  )
 
-              // GRAFICO A SINGOLA COLONNA
-              : SfCartesianChart(
-                  title: ChartTitle(text: widget.title),
-                  margin: EdgeInsets.zero,
-                  primaryXAxis: CategoryAxis(),
-                  tooltipBehavior: _tooltip,
-                  legend: Legend(isVisible: true),
-                  series: <ChartSeries<ColumnChartData, String>>[
-                    ColumnSeries<ColumnChartData, String>(
-                      dataSource: snapshot.data!,
-                      xValueMapper: (ColumnChartData data, _) => data.x,
-                      yValueMapper: (ColumnChartData data, _) => data.colonna1,
-                      name: widget.nomePrimaColonna,
-                      color: const Color.fromRGBO(8, 142, 255, 1),
-                    ),
-                  ],
-                ),
-        );
-      } else {
-        return const Center(
+                // GRAFICO A SINGOLA COLONNA
+                : SfCartesianChart(
+                    title: ChartTitle(text: widget.title),
+                    margin: EdgeInsets.zero,
+                    primaryXAxis: CategoryAxis(),
+                    tooltipBehavior: _tooltip,
+                    legend: Legend(isVisible: true),
+                    series: <ChartSeries<ColumnChartData, String>>[
+                      ColumnSeries<ColumnChartData, String>(
+                        dataSource: snapshot.data!,
+                        xValueMapper: (ColumnChartData data, _) => data.x,
+                        yValueMapper: (ColumnChartData data, _) =>
+                            data.colonna1,
+                        name: widget.nomePrimaColonna,
+                        color: const Color.fromRGBO(8, 142, 255, 1),
+                      ),
+                    ],
+                  ),
+          );
+        } else {
+          return const Center(
             child: SizedBox(
               height: 150,
               width: 150,
               child: CircularProgressIndicator(),
             ),
           );
-      }
-    });
+        }
+      },
+    );
   }
 }
 
 // Data model for the column chart
+// Colonna 1 = Budget, Colonna 2 = Consuntivo
 // "x" is the name of the scostamento
 class ColumnChartData {
   ColumnChartData({required this.x, required this.colonna1, this.colonna2});
