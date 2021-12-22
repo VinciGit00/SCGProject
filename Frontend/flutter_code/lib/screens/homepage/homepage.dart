@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontendscg/functions/data_graph_builder.dart';
+import 'package:frontendscg/database/data_graph_builder.dart';
 import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/homepage/blocco_sinistra_home.dart';
 import 'package:frontendscg/screens/homepage/parte_superiore_pagina_home.dart';
 import 'package:frontendscg/utils/data_notifier_home.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
-import 'package:frontendscg/widgets/pie_chart.dart';
 import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +27,7 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasData) {
               return Column(
                 children: [
+                  // PARTE SUPERIORE PAGINA
                   ParteSuperiorePaginaHome(
                     scostamentoTitolo: snapshot.data!["molScostamento"],
                   ),
@@ -80,7 +80,6 @@ class _HomePageState extends State<HomePage> {
                                                     .datiGraficoHomepageBudgetConsuntivo(),
                                               ),
                                   ),
-
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:

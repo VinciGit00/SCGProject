@@ -1,11 +1,12 @@
+import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
-import 'fetch_data.dart';
+import 'package:frontendscg/widgets/pie_chart.dart';
+import '../functions/fetch_data.dart';
 
 class DataGraphBuilder {
   // LISTA DATI PER GRAFICO SCOSTAMENTO MOL NELLA HOMEPAGE
   Future<List<ColumnChartData>> datiGraficoHomepageScostamento() async {
     dynamic data = await FetchData().getData();
-    print("ciao");
     return [
       ColumnChartData(x: 'Ricavi', colonna1: data["ricaviScostamento"]),
       ColumnChartData(
@@ -42,6 +43,18 @@ class DataGraphBuilder {
           x: 'Margine Op. Lordo',
           colonna1: data["molBudget"],
           colonna2: data["molConsuntivo"])
+    ];
+  }
+
+  // LISTA DATI PER GRAFICO A TORTA DEGLI SCOSTAMENTI NELLA HOMEPAGE
+  Future<List<PieChartData>> datiPieChartHomepage() async {
+    dynamic data = await FetchData().getData();
+    return [
+      PieChartData('Ricavi', data["ricaviScostamento"]),
+      PieChartData('Materie Prime', data["materiePrimeScostamento"]),
+      PieChartData(
+          'Lavorazioni Interne', data["lavorazioniInterneScostamento"]),
+      PieChartData('Costi Totali', data["costiScostamento"]),
     ];
   }
 }
