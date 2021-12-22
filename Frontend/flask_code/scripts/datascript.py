@@ -46,7 +46,7 @@ class Data:
     async def scr(self):
         print("inizio esecuzione script...")
 
-        self.molScostamento = 7738
+        self.molScostamento = 100092
         self.molBudget = 188827
         self.molConsuntivo = 1888200        
 
@@ -58,7 +58,7 @@ class Data:
         self.costiBudget = 1000011
         self.costiConsuntivo = 999199
 
-        self.materiePrimeScostamento = 76716273
+        self.materiePrimeScostamento = 767273
         self.materiePrimeBudget = 718278 
         self.materiePrimeConsuntivo = 1888829
 

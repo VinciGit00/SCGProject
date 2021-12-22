@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontendscg/database/database.dart';
 import 'package:frontendscg/functions/data_graph_builder.dart';
 import 'package:frontendscg/functions/fetch_data.dart';
-import 'package:frontendscg/functions/upload_dataset.dart';
 import 'package:frontendscg/screens/homepage/blocco_sinistra_home.dart';
 import 'package:frontendscg/screens/homepage/parte_superiore_pagina_home.dart';
 import 'package:frontendscg/utils/data_notifier_home.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:frontendscg/widgets/pie_chart.dart';
 import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,15 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Booleano che regola quando viene mostrato il grafico dello scostamento e quando quello di budget/consuntivo
-  late bool _isGraficoScostamento;
-
-  @override
-  void initState() {
-    _isGraficoScostamento = false;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
