@@ -1,0 +1,28 @@
+\documentclass{article}
+
+\usepackage[a4paper,left=18mm,right=18mm,top=20mm,bottom=18mm]{geometry}
+\usepackage[italian]{babel}
+
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
+
+\title{Considerazioni sul dataset di SCG }
+\author{Ianitchii Alin, Gabriele Marchesi, David Guzman Piedrahita e Marco Vinciguerra}
+\date{\today}    
+
+\begin{document}
+\maketitle
+
+\section{Partenza}
+Si parte dal volume delle vendite (tabella a consuntivo) per valutare l'impiego standard.
+\\Facendo un merge (join) succede che la tabella sdoppia troppo tanto.
+\\Facendo un group by si può trovare la differenza di volume corretta.
+\\Successivamente si può fare un merge per fare il calcolo dei volumi.
+\\La differenza è articolo per articolo $\rightarrow$ livello di granularità prodotto 
+per prodotto.
+\\La differenza ($\delta$) tra budget e consuntivo in termini di pezzi è di 2105
+
+
+\end{document}

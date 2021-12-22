@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1640104312 "/Users/marcovinciguerra/Github/SCGProject/Document/Info.tex" "/Users/marcovinciguerra/Github/SCGProject/Document/Info.pdf" "Info" 1640104312
-  "/Users/marcovinciguerra/Github/SCGProject/Document/Info.aux" 1640104312 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/marcovinciguerra/Github/SCGProject/Document/Info.tex" 1640104311 3356 526a96b86f7c08abdbad3c028103ce73 ""
+["pdflatex"] 1640189629 "/Users/marcovinciguerra/Github/SCGProject/Document/Info.tex" "/Users/marcovinciguerra/Github/SCGProject/Document/Info.pdf" "Info" 1640189649
+  "/Users/marcovinciguerra/Github/SCGProject/Document/Info.aux" 1640189630 681 d106c699efad662a4dbccfbff71a4cc9 ""
+  "/Users/marcovinciguerra/Github/SCGProject/Document/Info.tex" 1640189629 3361 3b133d2fc5522048cff129a53f7d6643 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -56,16 +56,16 @@
   "/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1616695603 5169178 a2ce6e2d73f603b690db6777d06dbccb ""
   "/usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1636498458 2724740 abddf1c0c308c18d42f363a86a112a35 ""
   "/usr/local/texlive/2021/texmf.cnf" 1616695596 577 4c1911a7228e554c6032256d3cf5567d ""
-  "Info.aux" 0 -1 0 "pdflatex"
-  "Info.tex" 1640104311 3356 526a96b86f7c08abdbad3c028103ce73 ""
+  "Info.aux" 1640189630 681 d106c699efad662a4dbccfbff71a4cc9 "pdflatex"
+  "Info.tex" 1640189629 3361 3b133d2fc5522048cff129a53f7d6643 ""
   "Lavagna1.jpg" 1639425365 72519 8ddcaa5bbac10ddc884fa83530c7c997 ""
   "Lavagna2.jpg" 1639425365 21991 1bda9f596e9cbaec29103f9934b420ad ""
   "Lavagnetta.jpg" 1638703496 69433 fe2046e995bc0b056fcac74a186a63a3 ""
   "Scostamenti1.jpg" 1638823429 147707 1a6f6a59b7fbd08a7390503ba4bf48c0 ""
   "Scostamenti2.jpg" 1638823410 157608 3d7f9f1b6142374fd9ff83f288be95f0 ""
   (generated)
+  "/Users/marcovinciguerra/Github/SCGProject/Document/Info.pdf"
+  "Info.pdf"
+  "Info.aux"
   "Info.log"
   "/Users/marcovinciguerra/Github/SCGProject/Document/Info.log"
-  "/Users/marcovinciguerra/Github/SCGProject/Document/Info.pdf"
-  "Info.aux"
-  "Info.pdf"
