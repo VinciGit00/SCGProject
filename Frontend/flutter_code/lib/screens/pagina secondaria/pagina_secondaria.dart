@@ -6,6 +6,7 @@ import 'package:frontendscg/screens/pagina%20secondaria/parte_superiore_pagina.d
 import 'package:frontendscg/utils/data_notifier.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Questa pagina mostra le informazioni relative al singolo tipo di scostamento
 // La pagina è raggiungibile tramite i pulsantiAltriScostamenti presenti sulla home
@@ -85,6 +86,27 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   // GRAFICO
+                                  SfCartesianChart(series: <ChartSeries>[
+                                    HistogramSeries<double, double>(
+                                      yValueMapper: (sales, _) => sales,
+                                      dataSource: <double>[
+                                        3,
+                                        4,
+                                        23,
+                                        42,
+                                        4,
+                                        234,
+                                        2,
+                                        4,
+                                        12,
+                                        3
+                                      ],
+                                      showNormalDistributionCurve: true,
+                                      curveColor: const Color.fromRGBO(
+                                          192, 108, 132, 1),
+                                      binInterval: 20,
+                                    )
+                                  ])
                                 ],
                               ),
                             ),
