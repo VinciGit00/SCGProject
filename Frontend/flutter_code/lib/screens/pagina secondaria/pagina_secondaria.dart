@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontendscg/database/database.dart';
+import 'package:frontendscg/database/data_graph_builder.dart';
 import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/blocco_sinistra.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/parte_superiore_pagina.dart';
@@ -26,6 +26,18 @@ class PaginaSecondaria extends StatefulWidget {
 }
 
 class _PaginaSecondariaState extends State<PaginaSecondaria> {
+  late Map<String, dynamic> getDataGraphBudgetConsuntivo;
+  late Map<String, dynamic> getDataGraphScostamento;
+
+  @override
+  void initState() {
+    getDataGraphBudgetConsuntivo = {
+      widget.dataPath: DataGraphBuilder().datiGraficoHomepageBudgetConsuntivo()
+    };
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,8 +52,6 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                   // PARTE SUPERIORE PAGINA
                   ParteSuperiorePagina(
                     titoloPagina: widget.titoloPagina,
-                    scostamentoTitolo:
-                        snapshot.data!["${widget.dataPath}Scostamento"]!,
                   ),
                   Expanded(
                     flex: 5,
@@ -52,6 +62,8 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                         children: <Widget>[
                           // BLOCCO DI SINISTRA
                           BloccoSinistra(
+                            scostamento: snapshot
+                                .data!["${widget.dataPath}Scostamento"]!,
                             titoloPagina: widget.titoloPagina,
                             budget: snapshot.data!["${widget.dataPath}Budget"]!,
                             consuntivo:
@@ -73,29 +85,10 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   // GRAFICO
-                                  Expanded(
-                                    child: Provider.of<DataNotifier>(context)
-                                            .isGraficoScostamentoPagSecondaria
-                                        ? ColumnChartDrawer(
-                                            nomePrimaColonna: "Scostamento",
-                                            title:
-                                                "Scostamento ${widget.titoloPagina}",
-                                            data: Database().scostamentoMolData,
-                                          )
-                                        : ColumnChartDrawer(
-                                            title:
-                                                "Overview Budget e Consuntivo",
-                                            nomePrimaColonna: "Budget",
-                                            nomeSecondaColonna: "Consuntivo",
-                                            secondaColonna: true,
-                                            data: Database()
-                                                .budgetConsuntivoMolData,
-                                          ),
-                                  ),
                                 ],
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

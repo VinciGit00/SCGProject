@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
-import 'package:intl/intl.dart';
 
 // Parte superiore della pagina home. Qui sono contenuti il titolo e il pulsante back
 
 class ParteSuperiorePaginaHome extends StatelessWidget {
-  const ParteSuperiorePaginaHome({Key? key, required this.scostamentoTitolo})
-      : super(key: key);
-
-  final int scostamentoTitolo;
+  const ParteSuperiorePaginaHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +25,16 @@ class ParteSuperiorePaginaHome extends StatelessWidget {
             children: <Widget>[
               // TITOLO
               Expanded(
-                flex: 10,
+                flex: 12,
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width - 500,
-                  child: FittedBox(
+                  child: const FittedBox(
                     fit: BoxFit.fitHeight,
-                    child: Text(
-                      "Scostamento Margine Operativo Lordo: ${NumberFormat.currency(name: "").format(scostamentoTitolo)} ",
-                    ),
+                    child: Text("Margine Operativo Lordo"),
                   ),
                 ),
               ),
+
               // PULSANTE UPLOAD DATASET
               Expanded(
                 flex: 2,

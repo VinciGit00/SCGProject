@@ -28,9 +28,7 @@ class _HomePageState extends State<HomePage> {
               return Column(
                 children: [
                   // PARTE SUPERIORE PAGINA
-                  ParteSuperiorePaginaHome(
-                    scostamentoTitolo: snapshot.data!["molScostamento"],
-                  ),
+                  const ParteSuperiorePaginaHome(),
                   Expanded(
                     flex: 5,
                     child: Container(
@@ -40,6 +38,7 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           // BLOCCO SINISTRA
                           BloccoSinistraHome(
+                            scostamento: snapshot.data!["molScostamento"],
                             budget: snapshot.data!["molBudget"],
                             consuntivo: snapshot.data!["molConsuntivo"],
                           ),
@@ -122,12 +121,13 @@ class _HomePageState extends State<HomePage> {
                                               .data!["ricaviScostamento"]!,
                                         ),
 
-                                        PulsanteAltriScostamenti(
+                                        /*   PulsanteAltriScostamenti(
                                           dataPath: "mol",
                                           nomeScostamento: "Margine Op. Lordo",
                                           valoreScostamento: snapshot
                                               .data!["ricaviScostamento"]!,
                                         ),
+ */
                                       ],
                                     ),
                                   )

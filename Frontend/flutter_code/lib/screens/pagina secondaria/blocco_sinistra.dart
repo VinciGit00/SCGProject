@@ -10,10 +10,12 @@ class BloccoSinistra extends StatefulWidget {
       {Key? key,
       required this.titoloPagina,
       required this.budget,
+      required this.scostamento,
       required this.consuntivo})
       : super(key: key);
 
   final String titoloPagina;
+  final int scostamento;
   final int budget;
   final int consuntivo;
 
@@ -22,6 +24,61 @@ class BloccoSinistra extends StatefulWidget {
 }
 
 class _BloccoSinistraState extends State<BloccoSinistra> {
+  List<DataColumn> dataC = [
+    DataColumn(
+      label: Text("Colonna1"),
+    ),
+    DataColumn(
+      label: Text("Colonna1"),
+    ),
+    DataColumn(
+      label: Text("Colonna1"),
+    ),
+    DataColumn(
+      label: Text("Colonna1"),
+    ),
+    DataColumn(
+      label: Text("Colonna1"),
+    )
+  ];
+
+  List<DataRow> dataR = [
+    DataRow(cells: [
+      DataCell(
+        Text("odaidiill"),
+      ),
+      DataCell(
+        Text("odaidiill"),
+      ),
+      DataCell(
+        Text("odaidiill"),
+      ),
+      DataCell(
+        Text("odaidiill"),
+      ),
+      DataCell(
+        Text("odaidiill"),
+      ),
+    ]),
+    DataRow(cells: [
+      DataCell(
+        Text("odaidiill"),
+      ),
+      DataCell(
+        Text("odaidiill"),
+      ),
+      DataCell(
+        Text("odaidiill"),
+      ),
+      DataCell(
+        Text("odaidiill"),
+      ),
+      DataCell(
+        Text("odaidiill"),
+      ),
+    ]),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -51,20 +108,32 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         SizedBox(
+                          height: 55,
                           width: double.infinity,
                           child: FittedBox(
-                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.centerLeft,
                             child: Text(
-                              "${widget.titoloPagina} Budget:    € ${NumberFormat.currency(name: "").format(widget.budget)} ",
+                              "Scostamento:    € ${NumberFormat.currency(name: "").format(widget.scostamento)} ",
                             ),
                           ),
                         ),
                         SizedBox(
+                          height: 55,
                           width: double.infinity,
                           child: FittedBox(
-                            fit: BoxFit.fitWidth,
+                            alignment: Alignment.centerLeft,
                             child: Text(
-                              "${widget.titoloPagina} Consuntivo:    € ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
+                              "Budget:    € ${NumberFormat.currency(name: "").format(widget.budget)} ",
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 55,
+                          width: double.infinity,
+                          child: FittedBox(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Consuntivo:    € ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
                             ),
                           ),
                         ),
@@ -84,7 +153,7 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                   Flexible(
                     child: Container(
                       margin: const EdgeInsets.only(top: 30, right: 20),
-                      height: 100,
+                      height: 55,
                       width: 200,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -105,7 +174,7 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                   Flexible(
                     child: Container(
                       margin: const EdgeInsets.only(top: 30, right: 20),
-                      height: 100,
+                      height: 55,
                       width: 200,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -121,6 +190,18 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                 ],
               ),
             ),
+
+            // TABELLA DATI
+            Flexible(
+              child: Container(
+                margin: const EdgeInsets.only(top: 30),
+                child: DataTable(
+                  border: TableBorder(borderRadius: BorderRadius.circular(8)),
+                  columns: dataC,
+                  rows: dataR,
+                ),
+              ),
+            )
           ],
         ),
       ),

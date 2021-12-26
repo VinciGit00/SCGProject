@@ -5,16 +5,33 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class BloccoSinistraHome extends StatefulWidget {
-  const BloccoSinistraHome(
-      {Key? key, required this.budget, required this.consuntivo})
-      : super(key: key);
+  const BloccoSinistraHome({
+    Key? key,
+    required this.budget,
+    required this.consuntivo,
+    required this.scostamento,
+  }) : super(key: key);
+
+  // Valore budget mol
   final int budget;
+  // Valore consuntivo mol
   final int consuntivo;
+  // Valore scostamento mol
+  final int scostamento;
+
   @override
   _BloccoSinistraHomeState createState() => _BloccoSinistraHomeState();
 }
 
 class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
+  late Size size;
+
+  @override
+  void didChangeDependencies() {
+    size = MediaQuery.of(context).size;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -26,43 +43,40 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
           ),
         ),
         margin: const EdgeInsets.only(right: 20),
-        padding: const EdgeInsets.all(25),
+        padding: const EdgeInsets.only(top: 25, bottom: 5, left: 25, right: 25),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Flexible(
-              child: Row(
+              flex: 5,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Expanded(
-                    flex: 8,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        // LABEL MOL BUDGET
-                        SizedBox(
-                          width: double.infinity,
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              "Margine Operativo Lordo Budget:    € ${NumberFormat.currency(name: "").format(widget.budget)} ",
-                            ),
-                          ),
-                        ),
+                  // LABEL SCOSTAMENTO MOL
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      "Scostamento:    € ${NumberFormat.currency(name: "").format(widget.scostamento)} ",
+                      style: TextStyle(fontSize: size.width / 40),
+                    ),
+                  ),
 
-                        // LABEL MOL CONSUNTIVO
-                        SizedBox(
-                          width: double.infinity,
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              "Margine Operativo Lordo Consuntivo:    € ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
-                            ),
-                          ),
-                        ),
-                      ],
+                  // LABEL MOL BUDGET
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      "Budget:    € ${NumberFormat.currency(name: "").format(widget.budget)} ",
+                      style: TextStyle(fontSize: size.width / 40),
+                    ),
+                  ),
+
+                  // LABEL MOL CONSUNTIVO
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      "Consuntivo:    € ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
+                      style: TextStyle(fontSize: size.width / 40),
                     ),
                   ),
                 ],
@@ -70,6 +84,7 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
             ),
 
             Flexible(
+              flex: 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -117,7 +132,7 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
 
             // PIE CHART
             const Expanded(
-              flex: 5,
+              flex: 9,
               child: PieChartDrawer(),
             )
           ],

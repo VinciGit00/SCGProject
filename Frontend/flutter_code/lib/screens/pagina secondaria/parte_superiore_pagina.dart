@@ -4,12 +4,12 @@ import 'package:intl/intl.dart';
 // Parte superiore della pagina secondaria. Qui sono contenuti il titolo e il pulsante back
 
 class ParteSuperiorePagina extends StatelessWidget {
-  const ParteSuperiorePagina(
-      {Key? key, required this.titoloPagina, required this.scostamentoTitolo})
-      : super(key: key);
+  const ParteSuperiorePagina({
+    Key? key,
+    required this.titoloPagina,
+  }) : super(key: key);
 
   final String titoloPagina;
-  final int scostamentoTitolo;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -49,7 +49,7 @@ class ParteSuperiorePagina extends StatelessWidget {
                   child: FittedBox(
                     fit: BoxFit.fitHeight,
                     child: Text(
-                      "Scostamento $titoloPagina: ${NumberFormat.currency(name: "").format(scostamentoTitolo)} ",
+                      titoloPagina,
                     ),
                   ),
                 ),

@@ -57,4 +57,31 @@ class DataGraphBuilder {
       PieChartData('Costi Totali', data["costiScostamento"]),
     ];
   }
+
+/* 
+  Future<List<ColumnChartData>> datiGraficoHomepageScostamento() async {
+    dynamic data = await FetchData().getData();
+    return [
+      ColumnChartData(x: 'Ricavi', colonna1: data["ricaviScostamento"]),
+      ColumnChartData(
+          x: 'Materie Prime', colonna1: data["materiePrimeScostamento"]),
+      ColumnChartData(
+          x: 'Lavorazioni Interne',
+          colonna1: data["lavorazioniInterneScostamento"]),
+      ColumnChartData(x: 'Costi Totali', colonna1: data["costiScostamento"]),
+      ColumnChartData(x: 'Margine Op. Lordo', colonna1: data["molScostamento"])
+    ];
+  }
+
+ */
+
+  Future<List<ColumnChartData>> budgetConsuntivoMolData =
+      Future.delayed(Duration(seconds: 2)).then((value) => [
+            ColumnChartData(x: 'Ricavi', colonna1: 12, colonna2: 20),
+            ColumnChartData(x: 'Materie Prime', colonna1: 15, colonna2: 50),
+            ColumnChartData(
+                x: 'Lavorazioni Interne', colonna1: 30, colonna2: 20),
+            ColumnChartData(x: 'Costi Totali', colonna1: 6.4, colonna2: 38),
+            ColumnChartData(x: 'Margine Op. Lordo', colonna1: 14, colonna2: 36)
+          ]);
 }
