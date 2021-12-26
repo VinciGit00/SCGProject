@@ -84,4 +84,36 @@ class DataGraphBuilder {
             ColumnChartData(x: 'Costi Totali', colonna1: 6.4, colonna2: 38),
             ColumnChartData(x: 'Margine Op. Lordo', colonna1: 14, colonna2: 36)
           ]);
+
+  ///
+  ///////////////////
+  // RICAVI
+  ///////////////////
+  ///
+
+  /// Grafico Scostamento Ricavi
+  Future<List<ColumnChartData>> ricaviScostamentoData() async {
+    dynamic data = await FetchData().getData();
+    return [
+      ColumnChartData(x: 'Ricavi', colonna1: data["ricaviScostamento"]),
+      ColumnChartData(x: 'Volume', colonna1: data["ricaviScostamentoVolume"]),
+      ColumnChartData(x: 'Mix', colonna1: data["ricaviScostamentoMix"]),
+      ColumnChartData(
+          x: 'Tasso Cambio', colonna1: data["ricaviScostamentoTassoCambio"]),
+    ];
+  }
+
+  /// Grafico Budget/Consuntivo Ricavi
+  Future<List<ColumnChartData>> ricaviBudgetConsuntivoData() async {
+    dynamic data = await FetchData().getData();
+    return [
+      ColumnChartData(x: 'Budget', colonna1: data["ricaviBudget"]),
+      ColumnChartData(x: 'Mix Consuntivo', colonna1: data["ricaviMixStandard"]),
+      ColumnChartData(x: 'Tasso Cambio', colonna1: data["ricaviMixConsuntivo"]),
+      ColumnChartData(
+          x: 'Volume Consuntivo',
+          colonna1: data["ricaviTassoCambioConsuntivo"]),
+      ColumnChartData(x: 'Consuntivo', colonna1: data["ricaviConsuntivo"])
+    ];
+  }
 }

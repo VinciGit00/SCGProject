@@ -13,7 +13,11 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class PaginaSecondaria extends StatefulWidget {
   const PaginaSecondaria(
-      {Key? key, required this.titoloPagina, required this.dataPath})
+      {Key? key,
+      required this.titoloPagina,
+      required this.dataPath,
+      required this.graficoScostamentoData,
+      required this.graficoBudgetConsuntivoData})
       : super(key: key);
 
   // Titolo presente in alto alla pagina
@@ -21,6 +25,12 @@ class PaginaSecondaria extends StatefulWidget {
 
   // Chiave per recuperare dati dal file json
   final String dataPath;
+
+  // Function that returns data for the column graph
+  final dynamic graficoScostamentoData;
+
+  // Function that returns data for the column graph
+  final dynamic graficoBudgetConsuntivoData;
 
   @override
   State<PaginaSecondaria> createState() => _PaginaSecondariaState();
@@ -76,9 +86,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.green[400],
-                                borderRadius: BorderRadius.circular(
-                                  10,
-                                ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               padding: const EdgeInsets.only(
                                   top: 20, left: 20, right: 20),
@@ -86,27 +94,44 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   // GRAFICO
-                                  SfCartesianChart(series: <ChartSeries>[
-                                    HistogramSeries<double, double>(
-                                      yValueMapper: (sales, _) => sales,
-                                      dataSource: <double>[
-                                        3,
-                                        4,
-                                        23,
-                                        42,
-                                        4,
-                                        234,
-                                        2,
-                                        4,
-                                        12,
-                                        3
-                                      ],
-                                      showNormalDistributionCurve: true,
-                                      curveColor: const Color.fromRGBO(
-                                          192, 108, 132, 1),
-                                      binInterval: 20,
-                                    )
-                                  ])
+                                  Provider.of<DataNotifier>(context)
+                                          .isGraficoScostamentoPagSecondaria
+                                      ? ColumnChartDrawer(
+                                          title: "Scostamenti Ricavi",
+                                          nomePrimaColonna: "Scostamento",
+                                          data: widget.graficoScostamentoData,
+                                        )
+                                      : ColumnChartDrawer(
+                                          title: "Budget & Consuntivo Ricavi",
+                                          nomePrimaColonna: "Value",
+                                          data:
+                                              widget.graficoBudgetConsuntivoData
+
+                                          /* SfCartesianChart(
+                                    series: <ChartSeries>[
+                                      HistogramSeries<double, double>(
+                                        yValueMapper: (sales, _) => sales,
+                                        dataSource: <double>[
+                                          3,
+                                          4,
+                                          23,
+                                          42,
+                                          4,
+                                          234,
+                                          2,
+                                          4,
+                                          12,
+                                          3
+                                        ],
+                                        showNormalDistributionCurve: true,
+                                        curveColor: const Color.fromRGBO(
+                                            192, 108, 132, 1),
+                                        binInterval: 20,
+                                      )
+                                    ],
+                                  )
+ */
+                                          )
                                 ],
                               ),
                             ),

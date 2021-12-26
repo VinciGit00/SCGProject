@@ -17,6 +17,7 @@ class ColumnChartDrawer extends StatefulWidget {
   final bool secondaColonna;
   final String nomePrimaColonna;
   final String nomeSecondaColonna;
+  // Future function that fetches data
   final dynamic data;
 
   @override

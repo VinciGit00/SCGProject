@@ -49,36 +49,55 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
           children: <Widget>[
             Flexible(
               flex: 5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  // LABEL SCOSTAMENTO MOL
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      "Scostamento:    € ${NumberFormat.currency(name: "").format(widget.scostamento)} ",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
-                  ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // LABEL SCOSTAMENTO MOL
+                      Text(
+                        "Scostamento:",
+                        style: TextStyle(fontSize: size.width / 40),
+                      ),
 
-                  // LABEL MOL BUDGET
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      "Budget:    € ${NumberFormat.currency(name: "").format(widget.budget)} ",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
-                  ),
+                      // LABEL MOL BUDGET
+                      Text(
+                        "Budget:",
+                        style: TextStyle(fontSize: size.width / 40),
+                      ),
 
-                  // LABEL MOL CONSUNTIVO
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      "Consuntivo:    € ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
+                      // LABEL MOL CONSUNTIVO
+                      Text(
+                        "Consuntivo:",
+                        style: TextStyle(fontSize: size.width / 40),
+                      ),
+                    ],
                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // LABEL SCOSTAMENTO MOL
+                      Text(
+                        "€ ${NumberFormat.currency(name: "").format(widget.scostamento)} ",
+                        style: TextStyle(fontSize: size.width / 40),
+                      ),
+
+                      // LABEL MOL BUDGET
+                      Text(
+                        "€ ${NumberFormat.currency(name: "").format(widget.budget)} ",
+                        style: TextStyle(fontSize: size.width / 40),
+                      ),
+
+                      // LABEL MOL CONSUNTIVO
+                      Text(
+                        "€ ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
+                        style: TextStyle(fontSize: size.width / 40),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),

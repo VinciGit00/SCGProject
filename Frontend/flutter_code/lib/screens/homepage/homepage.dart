@@ -92,14 +92,28 @@ class _HomePageState extends State<HomePage> {
                                           style: TextStyle(fontSize: 35),
                                         ),
 
+                                        // Ricavi
                                         PulsanteAltriScostamenti(
+                                          graficoScostamentoData:
+                                              DataGraphBuilder()
+                                                  .ricaviScostamentoData(),
+                                          graficoBudgetConsuntivoData:
+                                              DataGraphBuilder()
+                                                  .ricaviBudgetConsuntivoData(),
                                           dataPath: "ricavi",
                                           nomeScostamento: "Ricavi",
                                           valoreScostamento: snapshot
                                               .data!["ricaviScostamento"]!,
                                         ),
 
+                                        //Materie Prime
                                         PulsanteAltriScostamenti(
+                                          graficoScostamentoData:
+                                              DataGraphBuilder()
+                                                  .ricaviScostamentoData(),
+                                          graficoBudgetConsuntivoData:
+                                              DataGraphBuilder()
+                                                  .ricaviBudgetConsuntivoData(),
                                           dataPath: "materiePrime",
                                           nomeScostamento: "Materie Prime",
                                           valoreScostamento: snapshot
@@ -107,6 +121,12 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          graficoScostamentoData:
+                                              DataGraphBuilder()
+                                                  .ricaviScostamentoData(),
+                                          graficoBudgetConsuntivoData:
+                                              DataGraphBuilder()
+                                                  .ricaviBudgetConsuntivoData(),
                                           dataPath: "lavorazioniInterne",
                                           nomeScostamento:
                                               "Lavorazioni Interne",
@@ -115,6 +135,12 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          graficoScostamentoData:
+                                              DataGraphBuilder()
+                                                  .ricaviScostamentoData(),
+                                          graficoBudgetConsuntivoData:
+                                              DataGraphBuilder()
+                                                  .ricaviBudgetConsuntivoData(),
                                           dataPath: "costi",
                                           nomeScostamento: "Costi Totali",
                                           valoreScostamento: snapshot

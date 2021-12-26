@@ -26,6 +26,12 @@ class Data:
     ricaviScostamento = 0
     ricaviBudget = 0
     ricaviConsuntivo = 0
+    ricaviScostamentoVolume = 0
+    ricaviScostamentoMix = 0
+    ricaviScostamentoTassoCambio = 0
+    ricaviMixStandard = 0
+    ricaviMixConsuntivo = 0
+    ricaviTassoCambioConsuntivo = 0
     
     # COSTI
     costiScostamento = 0
@@ -53,6 +59,13 @@ class Data:
         self.ricaviScostamento = 1873378 
         self.ricaviBudget = 776276
         self.ricaviConsuntivo = 199999
+        self.ricaviScostamentoVolume = 19999
+        self.ricaviScostamentoMix = 11199 
+        self.ricaviScostamentoTassoCambio = 18800
+        self.ricaviMixStandard = 11999
+        self.ricaviMixConsuntivo = 3129 
+        self.ricaviTassoCambioConsuntivo = 1929
+
 
         self.costiScostamento = 1000000
         self.costiBudget = 1000011
