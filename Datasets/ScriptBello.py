@@ -134,10 +134,12 @@ if platform.system() == "Darwin":
 
     impiegoConsuntivo = sqldf(
         "SELECT DISTINCT * FROM dfImpiegoRisorse WHERE budgetConsuntivo = 'CONSUNTIVO' or budgetConsuntivo = 'Consuntivo'")
+
     #join con i costi orari
     impiegoConsuntivo = sqldf('''SELECT DISTINCT i.NrArticolo,i.budgetConsuntivo,i.NrOrdineProduzione,i.Descrizione,i.NrAreaProduzione,i.Risorsa,i.QuantitydiOutput,i.TempoRisorsa,c.CostoOrario
     FROM impiegoConsuntivo as i join dfCostoOrarioConsuntivo as c 
     on c.AreaProduzione = i.NrAreaProduzione and c.Risorsa = i.Risorsa''')
+
     # ci sono alcune quantità di output nulle, per gestire le sommiamo alle tuple con tutte le altre cose uguali
     impiegoConsuntivo = sqldf('''select NrArticolo,budgetConsuntivo,NrOrdineProduzione,Descrizione,NrAreaProduzione,Risorsa,sum(TempoRisorsa) as TempoRisorsa,CostoOrario, sum(QuantitydiOutput) as QuantitydiOutput
     from impiegoConsuntivo
@@ -147,10 +149,12 @@ if platform.system() == "Darwin":
 
     impiegoBudget = sqldf(
         "SELECT DISTINCT * FROM dfImpiegoRisorse WHERE budgetConsuntivo = 'BUDGET' or budgetConsuntivo = 'Budget'")
+
     #join con i costi orari
     impiegoBudget = sqldf('''SELECT DISTINCT i.NrArticolo,i.budgetConsuntivo,i.NrOrdineProduzione,i.Descrizione,i.NrAreaProduzione,i.Risorsa,i.QuantitydiOutput,i.TempoRisorsa,c.CostoOrario
     FROM impiegoBudget as i join dfCostoOrarioBudget as c 
     on c.AreaProduzione = i.NrAreaProduzione and c.Risorsa = i.Risorsa''')
+
     # righe a consuntivo sono di più che a budget e la somma dei 2 non corrisponde al numero di righe della tabella impiego risorse
 
     # ci sono alcune quantità di output nulle, per gestire le sommiamo alle tuple con tutte le altre cose uguali
