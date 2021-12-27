@@ -11,8 +11,8 @@ import openpyxl
 import asyncio
 
 
-class DatasetFormatting:
-    async def formatDatasets(self):
+class CalcoloScostamenti:
+    async def runCalcoloScostamenti():
         username = getpass.getuser()
 
         pathPart1 = "/Users/"
@@ -163,4 +163,5 @@ class DatasetFormatting:
             group by NrArticolo,budgetConsuntivo,NrOrdineProduzione,Descrizione,NrAreaProduzione,Risorsa,CostoOrario
             order by NrArticolo
             ''')
+        return "OK"
 

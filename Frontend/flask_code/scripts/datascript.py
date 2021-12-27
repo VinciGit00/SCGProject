@@ -7,10 +7,10 @@ class Datascript :
     async def getData():
 
         # Formatto i Dataset
-        print("inizio formattazione dataset...")
-        a = df.DatasetFormatting()
-        await a.formatDatasets()
-        print("fine formattazione dataset")
+        #print("inizio formattazione dataset...")
+        #a = df.DatasetFormatting()
+        #await a.formatDatasets()
+        #print("fine formattazione dataset")
 
         # Creo istanza classe        
         d = Data()
