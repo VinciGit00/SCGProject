@@ -12,7 +12,6 @@ class FetchData {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, OPTIONS"
     });
-    print(response.body);
 
     // Converto il json in una mappa
     Map<String, dynamic> data = json.decode(response.body);
