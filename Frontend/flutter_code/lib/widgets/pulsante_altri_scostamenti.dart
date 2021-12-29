@@ -10,6 +10,8 @@ class PulsanteAltriScostamenti extends StatelessWidget {
       {Key? key,
       required this.nomeScostamento,
       required this.dataPath,
+      required this.graficoScostamentoData,
+      required this.graficoBudgetConsuntivoData,
       required this.valoreScostamento})
       : super(key: key);
 
@@ -17,9 +19,14 @@ class PulsanteAltriScostamenti extends StatelessWidget {
   final String nomeScostamento;
   // Valore scostamento presente di fianco al pulsante
   final int valoreScostamento;
-
   // Nome chiave per accedere ai dati dentro la Map creata dall'api.
   final String dataPath;
+
+  // Function that returns data for the column graph
+  final dynamic graficoScostamentoData;
+
+  // Function that returns data for the column graph
+  final dynamic graficoBudgetConsuntivoData;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +47,9 @@ class PulsanteAltriScostamenti extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) {
                       return PaginaSecondaria(
+                        graficoBudgetConsuntivoData:
+                            graficoBudgetConsuntivoData,
+                        graficoScostamentoData: graficoScostamentoData,
                         dataPath: dataPath,
                         titoloPagina: nomeScostamento,
                       );

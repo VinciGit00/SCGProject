@@ -6,16 +6,9 @@ import 'package:frontendscg/widgets/pie_chart.dart';
 // DATABASE MOCKUP, DA QUI VENGONO PRESE LE LISTE DI GRAFICI PER NON INTASARE IL CODICE
 
 class Database {
-  /*  Database() {
-    scostamentoCostiTotali = 250021;
-    scostamentoRicavi = 200239;
-    scostamentoMateriePrime = 10002;
-    scostamentoLavorazioniInterne = 1000000;
-  }
- */
   // LISTA DATI PER GRAFICO COLONNE BUDGET/CONSUNTIVO NELLA HOMEPAGE
   // TODO: sostituire "colonna1", "colonna2" con il valore preso dall'api
-  Future<List<ColumnChartData>> budgetConsuntivoMolData =
+/*   Future<List<ColumnChartData>> budgetConsuntivoMolData =
       Future.delayed(Duration(seconds: 2)).then((value) => [
             ColumnChartData(x: 'Ricavi', colonna1: 12, colonna2: 20),
             ColumnChartData(x: 'Materie Prime', colonna1: 15, colonna2: 50),
@@ -25,7 +18,7 @@ class Database {
             ColumnChartData(x: 'Margine Op. Lordo', colonna1: 14, colonna2: 36)
           ]);
 
-  // LISTA DATI PER GRAFICO SCOSTAMENTO NELLA HOMEPAGE
+  */ // LISTA DATI PER GRAFICO SCOSTAMENTO NELLA HOMEPAGE
   // TODO: sostituire "colonna1"con il valore preso dall'api
   Future<List<ColumnChartData>> scostamentoMolData =
       Future.delayed(Duration(seconds: 2)).then((value) => [

@@ -32,18 +32,23 @@ class UploadDataset {
       // Aggiungo gli headers
       request.headers.addAll({"Content-type": "multipart/form-data"});
 
-      // Controllo se la richiesta http va a buon fine e concludo la funzione
-      request.send().then(
-        (response) {
+      // Controllo se la richiesta http va a buon fine formatto i nuovi dataset e concludo la funzione
+      return request.send().then(
+        (response) async {
           if (response.statusCode == 200) {
+            // Chiamo funzione per la formattazione dei dataset
+            await http.get(Uri.parse("http://127.0.0.1:5000/format-datasets"),
+                headers: {
+                  "Content-type": "multipart/form-data",
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Allow-Methods": "GET, OPTIONS"
+                });
             return true;
           } else {
             return false;
           }
         },
       );
-
-      return false;
     }
 
     // Se l'utente non seleziona nessun file da caricare ritorno false

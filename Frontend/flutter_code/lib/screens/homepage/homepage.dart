@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontendscg/functions/data_graph_builder.dart';
+import 'package:frontendscg/database/data_graph_builder.dart';
 import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/homepage/blocco_sinistra_home.dart';
 import 'package:frontendscg/screens/homepage/parte_superiore_pagina_home.dart';
 import 'package:frontendscg/utils/data_notifier_home.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
-import 'package:frontendscg/widgets/pie_chart.dart';
 import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
 import 'package:provider/provider.dart';
 
@@ -28,9 +27,8 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasData) {
               return Column(
                 children: [
-                  ParteSuperiorePaginaHome(
-                    scostamentoTitolo: snapshot.data!["molScostamento"],
-                  ),
+                  // PARTE SUPERIORE PAGINA
+                  const ParteSuperiorePaginaHome(),
                   Expanded(
                     flex: 5,
                     child: Container(
@@ -40,6 +38,7 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           // BLOCCO SINISTRA
                           BloccoSinistraHome(
+                            scostamento: snapshot.data!["molScostamento"],
                             budget: snapshot.data!["molBudget"],
                             consuntivo: snapshot.data!["molConsuntivo"],
                           ),
@@ -80,7 +79,6 @@ class _HomePageState extends State<HomePage> {
                                                     .datiGraficoHomepageBudgetConsuntivo(),
                                               ),
                                   ),
-
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -94,14 +92,28 @@ class _HomePageState extends State<HomePage> {
                                           style: TextStyle(fontSize: 35),
                                         ),
 
+                                        // Ricavi
                                         PulsanteAltriScostamenti(
+                                          graficoScostamentoData:
+                                              DataGraphBuilder()
+                                                  .ricaviScostamentoData(),
+                                          graficoBudgetConsuntivoData:
+                                              DataGraphBuilder()
+                                                  .ricaviBudgetConsuntivoData(),
                                           dataPath: "ricavi",
                                           nomeScostamento: "Ricavi",
                                           valoreScostamento: snapshot
                                               .data!["ricaviScostamento"]!,
                                         ),
 
+                                        //Materie Prime
                                         PulsanteAltriScostamenti(
+                                          graficoScostamentoData:
+                                              DataGraphBuilder()
+                                                  .ricaviScostamentoData(),
+                                          graficoBudgetConsuntivoData:
+                                              DataGraphBuilder()
+                                                  .ricaviBudgetConsuntivoData(),
                                           dataPath: "materiePrime",
                                           nomeScostamento: "Materie Prime",
                                           valoreScostamento: snapshot
@@ -109,6 +121,12 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          graficoScostamentoData:
+                                              DataGraphBuilder()
+                                                  .ricaviScostamentoData(),
+                                          graficoBudgetConsuntivoData:
+                                              DataGraphBuilder()
+                                                  .ricaviBudgetConsuntivoData(),
                                           dataPath: "lavorazioniInterne",
                                           nomeScostamento:
                                               "Lavorazioni Interne",
@@ -117,18 +135,25 @@ class _HomePageState extends State<HomePage> {
                                         ),
 
                                         PulsanteAltriScostamenti(
+                                          graficoScostamentoData:
+                                              DataGraphBuilder()
+                                                  .ricaviScostamentoData(),
+                                          graficoBudgetConsuntivoData:
+                                              DataGraphBuilder()
+                                                  .ricaviBudgetConsuntivoData(),
                                           dataPath: "costi",
                                           nomeScostamento: "Costi Totali",
                                           valoreScostamento: snapshot
                                               .data!["ricaviScostamento"]!,
                                         ),
 
-                                        PulsanteAltriScostamenti(
+                                        /*   PulsanteAltriScostamenti(
                                           dataPath: "mol",
                                           nomeScostamento: "Margine Op. Lordo",
                                           valoreScostamento: snapshot
                                               .data!["ricaviScostamento"]!,
                                         ),
+ */
                                       ],
                                     ),
                                   )

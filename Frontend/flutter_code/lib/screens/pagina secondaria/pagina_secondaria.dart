@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:frontendscg/database/database.dart';
+import 'package:frontendscg/database/data_graph_builder.dart';
 import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/blocco_sinistra.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/parte_superiore_pagina.dart';
 import 'package:frontendscg/utils/data_notifier.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Questa pagina mostra le informazioni relative al singolo tipo di scostamento
 // La pagina è raggiungibile tramite i pulsantiAltriScostamenti presenti sulla home
 
 class PaginaSecondaria extends StatefulWidget {
   const PaginaSecondaria(
-      {Key? key, required this.titoloPagina, required this.dataPath})
+      {Key? key,
+      required this.titoloPagina,
+      required this.dataPath,
+      required this.graficoScostamentoData,
+      required this.graficoBudgetConsuntivoData})
       : super(key: key);
 
   // Titolo presente in alto alla pagina
@@ -21,11 +26,29 @@ class PaginaSecondaria extends StatefulWidget {
   // Chiave per recuperare dati dal file json
   final String dataPath;
 
+  // Function that returns data for the column graph
+  final dynamic graficoScostamentoData;
+
+  // Function that returns data for the column graph
+  final dynamic graficoBudgetConsuntivoData;
+
   @override
   State<PaginaSecondaria> createState() => _PaginaSecondariaState();
 }
 
 class _PaginaSecondariaState extends State<PaginaSecondaria> {
+  late Map<String, dynamic> getDataGraphBudgetConsuntivo;
+  late Map<String, dynamic> getDataGraphScostamento;
+
+  @override
+  void initState() {
+    getDataGraphBudgetConsuntivo = {
+      widget.dataPath: DataGraphBuilder().datiGraficoHomepageBudgetConsuntivo()
+    };
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,8 +63,6 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                   // PARTE SUPERIORE PAGINA
                   ParteSuperiorePagina(
                     titoloPagina: widget.titoloPagina,
-                    scostamentoTitolo:
-                        snapshot.data!["${widget.dataPath}Scostamento"]!,
                   ),
                   Expanded(
                     flex: 5,
@@ -52,6 +73,8 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                         children: <Widget>[
                           // BLOCCO DI SINISTRA
                           BloccoSinistra(
+                            scostamento: snapshot
+                                .data!["${widget.dataPath}Scostamento"]!,
                             titoloPagina: widget.titoloPagina,
                             budget: snapshot.data!["${widget.dataPath}Budget"]!,
                             consuntivo:
@@ -63,9 +86,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.green[400],
-                                borderRadius: BorderRadius.circular(
-                                  10,
-                                ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               padding: const EdgeInsets.only(
                                   top: 20, left: 20, right: 20),
@@ -73,29 +94,48 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   // GRAFICO
-                                  Expanded(
-                                    child: Provider.of<DataNotifier>(context)
-                                            .isGraficoScostamentoPagSecondaria
-                                        ? ColumnChartDrawer(
-                                            nomePrimaColonna: "Scostamento",
-                                            title:
-                                                "Scostamento ${widget.titoloPagina}",
-                                            data: Database().scostamentoMolData,
+                                  Provider.of<DataNotifier>(context)
+                                          .isGraficoScostamentoPagSecondaria
+                                      ? ColumnChartDrawer(
+                                          title: "Scostamenti Ricavi",
+                                          nomePrimaColonna: "Scostamento",
+                                          data: widget.graficoScostamentoData,
+                                        )
+                                      : ColumnChartDrawer(
+                                          title: "Budget & Consuntivo Ricavi",
+                                          nomePrimaColonna: "Value",
+                                          data:
+                                              widget.graficoBudgetConsuntivoData
+
+                                          /* SfCartesianChart(
+                                    series: <ChartSeries>[
+                                      HistogramSeries<double, double>(
+                                        yValueMapper: (sales, _) => sales,
+                                        dataSource: <double>[
+                                          3,
+                                          4,
+                                          23,
+                                          42,
+                                          4,
+                                          234,
+                                          2,
+                                          4,
+                                          12,
+                                          3
+                                        ],
+                                        showNormalDistributionCurve: true,
+                                        curveColor: const Color.fromRGBO(
+                                            192, 108, 132, 1),
+                                        binInterval: 20,
+                                      )
+                                    ],
+                                  )
+ */
                                           )
-                                        : ColumnChartDrawer(
-                                            title:
-                                                "Overview Budget e Consuntivo",
-                                            nomePrimaColonna: "Budget",
-                                            nomeSecondaColonna: "Consuntivo",
-                                            secondaColonna: true,
-                                            data: Database()
-                                                .budgetConsuntivoMolData,
-                                          ),
-                                  ),
                                 ],
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
