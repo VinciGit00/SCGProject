@@ -54,24 +54,23 @@ def uploadDataset():
             flash('No file part')
             return "KO"
 
-        # accedo al file salvato 
-        file = request.files['file']
-        print(file)
+        # Predo i file selezionati dall'utente 
+        files = request.files.getlist('file')
+        print(files)
 
-        # Controllo che l'utente abbia selezionato un file da caricare
-        # Se non ha selezionato nulla, viene creato un file vuoto con filename = ""
-        if file.filename == '':
-            print('no file selezionato')
-            return "KO" 
+        # Itero i file selezionati e li carico nel filesystem uno ad uno
+        for f in files:
+            # Controllo che l'utente abbia selezionato almeno un file da caricare
+            if file.filename == '':
+                print('no file selezionato')
+                return "KO" 
 
-        # Controllo che il formato del file sia valido
-        if file and allowed_file(file.filename):
-            # Creo un nome del file che sia compatibile con il file system del server
-            filename = secure_filename(file.filename)
-            # Salvo il file nel file system
-            print("salvo file nel sistema")
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
-            return "OK" 
+            # Controllo che il formato del file sia valido
+            if file and allowed_file(file.filename):
+                # Salvo il file nel file system
+                file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+            return
+
     return "OK" 
 
 
