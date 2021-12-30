@@ -3,6 +3,7 @@ import 'package:frontendscg/screens/homepage/homepage.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/pagina_secondaria.dart';
 import 'package:frontendscg/utils/data_notifier.dart';
 import 'package:frontendscg/utils/data_notifier_home.dart';
+import 'package:frontendscg/utils/data_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -14,6 +15,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => DataNotifierHome(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DataProvider(),
         )
       ],
       child: const MyApp(),
@@ -30,14 +34,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false, title: 'SCGProject', home: HomePage()
-
-        /* PaginaSecondaria(
-        titoloPagina: "Ricavi",
-        dataPath: "ricavi",
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'SCGProject',
+      home: FutureBuilder(
+        // eseguo lo script quando il sito viene aperto ed aspetto che finisca
+        future: Provider.of<DataProvider>(context, listen: false).init(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomePage();
+          } else {
+            return Center(
+              child: Container(
+                child: const CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
       ),
- */
-        );
+    );
   }
 }

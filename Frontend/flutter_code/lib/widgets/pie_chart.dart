@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/database/data_graph_builder.dart';
+import 'package:frontendscg/utils/data_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 // Widget per disegnare il grafico a torta degli scostamenti dentro la homepage
@@ -16,51 +18,36 @@ class PieChartDrawerState extends State<PieChartDrawer> {
 
   @override
   void initState() {
-    _tooltip = TooltipBehavior(enable: true);
+    _tooltip = TooltipBehavior(enable: true, animationDuration: 2);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<PieChartData>>(
-      future: DataGraphBuilder().datiPieChartHomepage(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return SizedBox(
-            height: 500,
-            width: 1000,
-            child: SfCircularChart(
-              legend: Legend(
-                isVisible: true,
-                position: LegendPosition.left,
-                offset: const Offset(20, 100),
-              ),
-              // Enables the tooltip for all the series in chart
-              tooltipBehavior: _tooltip,
-              series: <CircularSeries>[
-                // Initialize line series
-                PieSeries<PieChartData, String>(
-                  // Enables the tooltip for individual series
-                  enableTooltip: true,
-                  dataSource: snapshot.data,
-                  xValueMapper: (PieChartData scost, _) =>
-                      scost.nomeScostamento,
-                  yValueMapper: (PieChartData scost, _) =>
-                      scost.valoreScostamento,
-                )
-              ],
-            ),
-          );
-        } else {
-          return const Center(
-            child: SizedBox(
-              height: 150,
-              width: 150,
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
+    dynamic data = DataGraphBuilder()
+        .molPieChartData(Provider.of<DataProvider>(context).data);
+    return SizedBox(
+      height: 500,
+      width: 1000,
+      child: SfCircularChart(
+        legend: Legend(
+          isVisible: true,
+          position: LegendPosition.left,
+          offset: const Offset(20, 100),
+        ),
+        // Enables the tooltip for all the series in chart
+        tooltipBehavior: _tooltip,
+        series: <CircularSeries>[
+          // Initialize line series
+          PieSeries<PieChartData, String>(
+            // Enables the tooltip for individual series
+            enableTooltip: true,
+            dataSource: data,
+            xValueMapper: (PieChartData scost, _) => scost.nomeScostamento,
+            yValueMapper: (PieChartData scost, _) => scost.valoreScostamento,
+          )
+        ],
+      ),
     );
   }
 }

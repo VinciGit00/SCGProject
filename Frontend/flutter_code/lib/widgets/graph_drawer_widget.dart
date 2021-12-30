@@ -67,22 +67,24 @@ class _GraphDrawerState extends State<GraphDrawer> {
             ),
 
             // LISTA NOMI DELLE COLONNE
-            Flexible(child: FutureBuilder(
-              future: FetchDatasets()
-                  .getDatasetColumnNames(widget.modelloGrafico.nomeGrafico),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      const Text("Colonne disponibili: "),
-                      Text(snapshot.data.toString())
-                    ],
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),)
+            Flexible(
+              child: FutureBuilder(
+                future: FetchDatasets()
+                    .getDatasetColumnNames(widget.modelloGrafico.nomeGrafico),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        const Text("Colonne disponibili: "),
+                        Text(snapshot.data.toString())
+                      ],
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            )
           ],
         ),
 
@@ -115,10 +117,9 @@ class _GraphDrawerState extends State<GraphDrawer> {
             if (snapshot!.hasData) {
               return Container(
                 margin: const EdgeInsets.all(50),
-                child: SfCartesianChart(     
-                  zoomPanBehavior: ZoomPanBehavior(
-                    enableSelectionZooming: true
-                  ),             
+                child: SfCartesianChart(
+                  zoomPanBehavior:
+                      ZoomPanBehavior(enableSelectionZooming: true),
                   primaryXAxis: CategoryAxis(),
                   // Chart title
                   title: ChartTitle(text: widget.modelloGrafico.nomeGrafico),
@@ -172,6 +173,3 @@ class _GraphDrawerState extends State<GraphDrawer> {
     );
   }
 }
-
-
-

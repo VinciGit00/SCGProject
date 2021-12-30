@@ -4,6 +4,7 @@ import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/blocco_sinistra.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/parte_superiore_pagina.dart';
 import 'package:frontendscg/utils/data_notifier.dart';
+import 'package:frontendscg/utils/data_provider.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -42,72 +43,68 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
 
   @override
   void initState() {
-    getDataGraphBudgetConsuntivo = {
-      widget.dataPath: DataGraphBuilder().datiGraficoHomepageBudgetConsuntivo()
-    };
-
+    /* WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      getDataGraphBudgetConsuntivo = {
+        widget.dataPath: DataGraphBuilder().datiGraficoHomepageBudgetConsuntivo(
+            Provider.of<DataProvider>(context, listen: false))
+      };
+    });
+ */
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    dynamic data = Provider.of<DataProvider>(context).data;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.green[200],
-        body: FutureBuilder<Map<String, dynamic>>(
-          future: FetchData().getData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                children: [
-                  // PARTE SUPERIORE PAGINA
-                  ParteSuperiorePagina(
-                    titoloPagina: widget.titoloPagina,
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: Container(
-                      margin: const EdgeInsets.all(20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // BLOCCO DI SINISTRA
-                          BloccoSinistra(
-                            scostamento: snapshot
-                                .data!["${widget.dataPath}Scostamento"]!,
-                            titoloPagina: widget.titoloPagina,
-                            budget: snapshot.data!["${widget.dataPath}Budget"]!,
-                            consuntivo:
-                                snapshot.data!["${widget.dataPath}Consuntivo"]!,
+          backgroundColor: Colors.green[200],
+          body: Column(
+            children: [
+              // PARTE SUPERIORE PAGINA
+              ParteSuperiorePagina(
+                titoloPagina: widget.titoloPagina,
+              ),
+              Expanded(
+                flex: 5,
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      // BLOCCO DI SINISTRA
+                      BloccoSinistra(
+                        scostamento: data["${widget.dataPath}Scostamento"]!,
+                        titoloPagina: widget.titoloPagina,
+                        budget: data!["${widget.dataPath}Budget"]!,
+                        consuntivo: data!["${widget.dataPath}Consuntivo"]!,
+                      ),
+
+                      // BLOCCO DI DESTRA
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green[400],
+                            borderRadius: BorderRadius.circular(10),
                           ),
+                          padding: const EdgeInsets.only(
+                              top: 20, left: 20, right: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              // GRAFICO
+                              Provider.of<DataNotifier>(context)
+                                      .isGraficoScostamentoPagSecondaria
+                                  ? ColumnChartDrawer(
+                                      title: "Scostamenti Ricavi",
+                                      nomePrimaColonna: "Scostamento",
+                                      data: widget.graficoBudgetConsuntivoData)
+                                  : ColumnChartDrawer(
+                                      title: "Budget & Consuntivo Ricavi",
+                                      nomePrimaColonna: "Value",
+                                      data: widget.graficoScostamentoData,
 
-                          // BLOCCO DI DESTRA
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.green[400],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.only(
-                                  top: 20, left: 20, right: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  // GRAFICO
-                                  Provider.of<DataNotifier>(context)
-                                          .isGraficoScostamentoPagSecondaria
-                                      ? ColumnChartDrawer(
-                                          title: "Scostamenti Ricavi",
-                                          nomePrimaColonna: "Scostamento",
-                                          data: widget.graficoScostamentoData,
-                                        )
-                                      : ColumnChartDrawer(
-                                          title: "Budget & Consuntivo Ricavi",
-                                          nomePrimaColonna: "Value",
-                                          data:
-                                              widget.graficoBudgetConsuntivoData
-
-                                          /* SfCartesianChart(
+                                      /* SfCartesianChart(
                                     series: <ChartSeries>[
                                       HistogramSeries<double, double>(
                                         yValueMapper: (sales, _) => sales,
@@ -131,23 +128,17 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                                     ],
                                   )
  */
-                                          )
-                                ],
-                              ),
-                            ),
+                                    )
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
-      ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }

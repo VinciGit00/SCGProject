@@ -59,7 +59,7 @@ def uploadDataset():
         print(files)
 
         # Itero i file selezionati e li carico nel filesystem uno ad uno
-        for f in files:
+        for file in files:
             # Controllo che l'utente abbia selezionato almeno un file da caricare
             if file.filename == '':
                 print('no file selezionato')
@@ -69,7 +69,6 @@ def uploadDataset():
             if file and allowed_file(file.filename):
                 # Salvo il file nel file system
                 file.save(os.path.join(UPLOAD_FOLDER, file.filename))
-            return
 
     return "OK" 
 

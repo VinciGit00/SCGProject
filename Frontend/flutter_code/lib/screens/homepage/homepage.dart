@@ -4,6 +4,7 @@ import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/homepage/blocco_sinistra_home.dart';
 import 'package:frontendscg/screens/homepage/parte_superiore_pagina_home.dart';
 import 'package:frontendscg/utils/data_notifier_home.dart';
+import 'package:frontendscg/utils/data_provider.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:frontendscg/widgets/pulsante_altri_scostamenti.dart';
 import 'package:provider/provider.dart';
@@ -18,159 +19,134 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    dynamic data = Provider.of<DataProvider>(context).data;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.green[200],
-        body: FutureBuilder<Map<String, dynamic>>(
-          future: FetchData().getData(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                children: [
-                  // PARTE SUPERIORE PAGINA
-                  const ParteSuperiorePaginaHome(),
-                  Expanded(
-                    flex: 5,
-                    child: Container(
-                      margin: const EdgeInsets.all(20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // BLOCCO SINISTRA
-                          BloccoSinistraHome(
-                            scostamento: snapshot.data!["molScostamento"],
-                            budget: snapshot.data!["molBudget"],
-                            consuntivo: snapshot.data!["molConsuntivo"],
-                          ),
+        body: Column(
+          children: [
+            // PARTE SUPERIORE PAGINA
+            const ParteSuperiorePaginaHome(),
+            Expanded(
+              flex: 5,
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // BLOCCO SINISTRA
+                    BloccoSinistraHome(
+                      scostamento: data!["molScostamento"],
+                      budget: data!["molBudget"],
+                      consuntivo: data!["molConsuntivo"],
+                    ),
 
-                          // BLOCCO DESTRA
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.green[400],
-                                borderRadius: BorderRadius.circular(
-                                  10,
-                                ),
-                              ),
-                              padding: const EdgeInsets.only(
-                                  top: 20, left: 20, right: 20),
+                    // BLOCCO DESTRA
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green[400],
+                          borderRadius: BorderRadius.circular(
+                            10,
+                          ),
+                        ),
+                        padding:
+                            const EdgeInsets.only(top: 20, left: 20, right: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // GRAFICO
+                            Expanded(
+                              child: Provider.of<DataNotifierHome>(context)
+                                      .isGraficoScostamentoHome
+                                  ? ColumnChartDrawer(
+                                      nomePrimaColonna: "Scostamento",
+                                      title: "Scostamento MOL",
+                                      data: DataGraphBuilder()
+                                          .molScostamentoData(data),
+                                    )
+                                  : ColumnChartDrawer(
+                                      title: "Overview Budget e Consuntivo",
+                                      nomePrimaColonna: "Budget",
+                                      nomeSecondaColonna: "Consuntivo",
+                                      secondaColonna: true,
+                                      data: DataGraphBuilder()
+                                          .molBudgetConsuntivoData(data),
+                                    ),
+                            ),
+                            Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  // GRAFICO
-                                  Expanded(
-                                    child:
-                                        Provider.of<DataNotifierHome>(context)
-                                                .isGraficoScostamentoHome
-                                            ? ColumnChartDrawer(
-                                                nomePrimaColonna: "Scostamento",
-                                                title: "Scostamento MOL",
-                                                data: DataGraphBuilder()
-                                                    .datiGraficoHomepageScostamento(),
-                                              )
-                                            : ColumnChartDrawer(
-                                                title:
-                                                    "Overview Budget e Consuntivo",
-                                                nomePrimaColonna: "Budget",
-                                                nomeSecondaColonna:
-                                                    "Consuntivo",
-                                                secondaColonna: true,
-                                                data: DataGraphBuilder()
-                                                    .datiGraficoHomepageBudgetConsuntivo(),
-                                              ),
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // PULSANTI PER GLI ALTRI SCOSTAMENTI
+                                  const Text(
+                                    "Altri Scostamenti: ",
+                                    style: TextStyle(fontSize: 35),
                                   ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        // PULSANTI PER GLI ALTRI SCOSTAMENTI
-                                        const Text(
-                                          "Altri Scostamenti: ",
-                                          style: TextStyle(fontSize: 35),
-                                        ),
 
-                                        // Ricavi
-                                        PulsanteAltriScostamenti(
-                                          graficoScostamentoData:
-                                              DataGraphBuilder()
-                                                  .ricaviScostamentoData(),
-                                          graficoBudgetConsuntivoData:
-                                              DataGraphBuilder()
-                                                  .ricaviBudgetConsuntivoData(),
-                                          dataPath: "ricavi",
-                                          nomeScostamento: "Ricavi",
-                                          valoreScostamento: snapshot
-                                              .data!["ricaviScostamento"]!,
-                                        ),
+                                  // Ricavi
+                                  PulsanteAltriScostamenti(
+                                    graficoScostamentoData: DataGraphBuilder()
+                                        .ricaviScostamentoData(data),
+                                    graficoBudgetConsuntivoData:
+                                        DataGraphBuilder()
+                                            .ricaviBudgetConsuntivoData(data),
+                                    dataPath: "ricavi",
+                                    nomeScostamento: "Ricavi",
+                                    valoreScostamento:
+                                        data!["ricaviScostamento"]!,
+                                  ),
 
-                                        //Materie Prime
-                                        PulsanteAltriScostamenti(
-                                          graficoScostamentoData:
-                                              DataGraphBuilder()
-                                                  .ricaviScostamentoData(),
-                                          graficoBudgetConsuntivoData:
-                                              DataGraphBuilder()
-                                                  .ricaviBudgetConsuntivoData(),
-                                          dataPath: "materiePrime",
-                                          nomeScostamento: "Materie Prime",
-                                          valoreScostamento: snapshot
-                                              .data!["ricaviScostamento"]!,
-                                        ),
+                                  //Materie Prime
+                                  PulsanteAltriScostamenti(
+                                    graficoScostamentoData: DataGraphBuilder()
+                                        .ricaviScostamentoData(data),
+                                    graficoBudgetConsuntivoData:
+                                        DataGraphBuilder()
+                                            .ricaviBudgetConsuntivoData(data),
+                                    dataPath: "materiePrime",
+                                    nomeScostamento: "Materie Prime",
+                                    valoreScostamento:
+                                        data!["ricaviScostamento"]!,
+                                  ),
 
-                                        PulsanteAltriScostamenti(
-                                          graficoScostamentoData:
-                                              DataGraphBuilder()
-                                                  .ricaviScostamentoData(),
-                                          graficoBudgetConsuntivoData:
-                                              DataGraphBuilder()
-                                                  .ricaviBudgetConsuntivoData(),
-                                          dataPath: "lavorazioniInterne",
-                                          nomeScostamento:
-                                              "Lavorazioni Interne",
-                                          valoreScostamento: snapshot
-                                              .data!["ricaviScostamento"]!,
-                                        ),
+                                  PulsanteAltriScostamenti(
+                                    graficoScostamentoData: DataGraphBuilder()
+                                        .ricaviScostamentoData(data),
+                                    graficoBudgetConsuntivoData:
+                                        DataGraphBuilder()
+                                            .ricaviBudgetConsuntivoData(data),
+                                    dataPath: "lavorazioniInterne",
+                                    nomeScostamento: "Lavorazioni Interne",
+                                    valoreScostamento:
+                                        data!["ricaviScostamento"]!,
+                                  ),
 
-                                        PulsanteAltriScostamenti(
-                                          graficoScostamentoData:
-                                              DataGraphBuilder()
-                                                  .ricaviScostamentoData(),
-                                          graficoBudgetConsuntivoData:
-                                              DataGraphBuilder()
-                                                  .ricaviBudgetConsuntivoData(),
-                                          dataPath: "costi",
-                                          nomeScostamento: "Costi Totali",
-                                          valoreScostamento: snapshot
-                                              .data!["ricaviScostamento"]!,
-                                        ),
-
-                                        /*   PulsanteAltriScostamenti(
-                                          dataPath: "mol",
-                                          nomeScostamento: "Margine Op. Lordo",
-                                          valoreScostamento: snapshot
-                                              .data!["ricaviScostamento"]!,
-                                        ),
- */
-                                      ],
-                                    ),
-                                  )
+                                  PulsanteAltriScostamenti(
+                                    graficoScostamentoData: DataGraphBuilder()
+                                        .ricaviScostamentoData(data),
+                                    graficoBudgetConsuntivoData:
+                                        DataGraphBuilder()
+                                            .ricaviBudgetConsuntivoData(data),
+                                    dataPath: "costi",
+                                    nomeScostamento: "Costi Totali",
+                                    valoreScostamento:
+                                        data!["ricaviScostamento"]!,
+                                  ),
                                 ],
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              );
-            } else {
-              return Container();
-            }
-          },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

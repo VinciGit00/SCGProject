@@ -56,19 +56,19 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // LABEL SCOSTAMENTO MOL
+                      // LABEL TITOLO SCOSTAMENTO MOL
                       Text(
                         "Scostamento:",
                         style: TextStyle(fontSize: size.width / 40),
                       ),
 
-                      // LABEL MOL BUDGET
+                      // LABEL TITOLO MOL BUDGET
                       Text(
                         "Budget:",
                         style: TextStyle(fontSize: size.width / 40),
                       ),
 
-                      // LABEL MOL CONSUNTIVO
+                      // LABEL TITOLO MOL CONSUNTIVO
                       Text(
                         "Consuntivo:",
                         style: TextStyle(fontSize: size.width / 40),
@@ -79,19 +79,19 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // LABEL SCOSTAMENTO MOL
+                      // LABEL VALORE SCOSTAMENTO MOL
                       Text(
                         "€ ${NumberFormat.currency(name: "").format(widget.scostamento)} ",
                         style: TextStyle(fontSize: size.width / 40),
                       ),
 
-                      // LABEL MOL BUDGET
+                      // LABEL VALORE MOL BUDGET
                       Text(
                         "€ ${NumberFormat.currency(name: "").format(widget.budget)} ",
                         style: TextStyle(fontSize: size.width / 40),
                       ),
 
-                      // LABEL MOL CONSUNTIVO
+                      // LABEL VALORE MOL CONSUNTIVO
                       Text(
                         "€ ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
                         style: TextStyle(fontSize: size.width / 40),
