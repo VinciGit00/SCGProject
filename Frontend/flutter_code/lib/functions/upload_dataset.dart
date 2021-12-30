@@ -1,13 +1,13 @@
 import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 // FUNZIONE PER IL CARICAMENTO DEL DATASET E DELLO STORAGE NEL FILE SYSTEM
 
 class UploadDataset {
-  Future<bool> upload() async {
+  Future<bool> upload(BuildContext context) async {
     // Prendo il file
     // NB: FilePickerResult può essere insieme di più file
     FilePickerResult? picked = await FilePicker.platform.pickFiles(

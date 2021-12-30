@@ -9,6 +9,8 @@ class DataProvider with ChangeNotifier {
   late Map<String, dynamic> data;
 
   // Funzione che esegue lo script, aggiorna la variabile data e avvisa i listeners
+  // NB: Questa funzione viene chiamata solamente quando il sito viene aperto e quando vengono caricati
+  // dei nuovi dataset!
   Future<Map<String, dynamic>> init() async {
     data = await FetchData().getData();
     notifyListeners();

@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
+import 'package:frontendscg/utils/data_provider.dart';
+import 'package:provider/provider.dart';
 
 // Parte superiore della pagina home. Qui sono contenuti il titolo e il pulsante back
 
-class ParteSuperiorePaginaHome extends StatelessWidget {
+class ParteSuperiorePaginaHome extends StatefulWidget {
   const ParteSuperiorePaginaHome({Key? key}) : super(key: key);
+
+  @override
+  State<ParteSuperiorePaginaHome> createState() =>
+      _ParteSuperiorePaginaHomeState();
+}
+
+class _ParteSuperiorePaginaHomeState extends State<ParteSuperiorePaginaHome> {
+  // Variabile che indica se al momento è in corso il caricamento/elaborazione di un dataset
+  late bool isDataLoading;
+
+  @override
+  void initState() {
+    isDataLoading = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +61,18 @@ class ParteSuperiorePaginaHome extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.green[700]),
                     onPressed: () async {
-                      // Snackbars
-                      if (await UploadDataset().upload() == true) {
+                      setState(() {
+                        isDataLoading = true;
+                      });
+                      // Funzione per il caricamento del dataset
+                      if (await UploadDataset().upload(context) == true) {
+                        // se il dataset viene caricato, eseguo l'elaborazione del dataset
+                        await Provider.of<DataProvider>(context, listen: false)
+                            .init();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Dataset caricato correttamente"),
+                            content: Text(
+                                "Dataset caricato ed elaborato correttamente"),
                           ),
                         );
                       } else {
@@ -58,22 +82,27 @@ class ParteSuperiorePaginaHome extends StatelessWidget {
                           ),
                         );
                       }
+                      setState(() {
+                        isDataLoading = false;
+                      });
                     },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const <Widget>[
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            "Upload a new dataset",
-                            textAlign: TextAlign.center,
+                    child: isDataLoading
+                        ? const CircularProgressIndicator()
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const <Widget>[
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  "Upload a new dataset",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Expanded(
+                                child: Icon(Icons.upload),
+                              )
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          child: Icon(Icons.upload),
-                        )
-                      ],
-                    ),
                   ),
                 ),
               )
