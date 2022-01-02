@@ -7,7 +7,10 @@ import getpass
 import platform
 from flask_cors import CORS
 from scripts.datascript import Datascript
-from scripts.fixDatas import FixDatas
+from scripts.CalcoloScostamentiConIntermedi import  CalcoloScostamentiConIntermedi 
+
+
+# This file contains all the apis required to upload the 
 
 
 # This file contains all the apis required to upload the datasets and to get the graph images that will be displayed in the flutter frontend
@@ -78,15 +81,16 @@ def uploadDataset():
 def get_csv_graph(filename):
     return send_from_directory(DATASET_FOLDER, filename)
 
+
 # Get test data from python scripts. It awaits data from the script
 @app.route('/get-scriptdata')
 async def get_script_data():
-    return await Datascript.getData()
+    return await CalcoloScostamentiConIntermedi.runCalcoloScostamenti()
 
 
 # Format Datasets Script
 @app.route('/format-datasets')
-async def fixDataset():
+async def fix_dataset():
     return await FixDatas.runFixDatas()
 
 

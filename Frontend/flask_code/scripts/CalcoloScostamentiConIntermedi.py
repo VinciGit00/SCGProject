@@ -8,17 +8,80 @@ import getpass
 import platform
 from pandasql import sqldf
 import openpyxl
+import asyncio
+
+class CalcoloScostamentiConIntermedi:
+    # MOL
+    molBudget = 0
+    molScostamentoVol = 0
+    molMixStandard = 0
+    molScostamentoMix = 0
+    molMixEffettivo = 0
+    molScostamentoPrezzo = 0
+    molMixValuta = 0
+    molScostamentoValuta = 0
+    molConsuntivo = 0
+    molScostamentoTot = 0
+
+    # RICAVI
+    ricaviBudget = 0
+    ricaviScostamentoVol = 0
+    ricaviMixStandard = 0
+    ricaviScostamentoMix = 0
+    ricaviMixEffettivo = 0
+    ricaviScostamentoPrezzo = 0
+    ricaviMixValuta = 0
+    ricaviScostamentoValuta = 0
+    ricaviConsuntivo = 0
+    ricaviScostamentoTot = 0
 
 
-class CalcoloScostamentiSenzaIntermedi:
+    # MATERIE PRIME
+    materiePrimeBudget = 0
+    materiePrimeScostamentoVol = 0
+    materiePrimeMixStandard = 0
+    materiePrimeScostamentoMix = 0
+    materiePrimeMixEffettivo = 0
+    materiePrimeScostamentoPrezzo = 0
+    materiePrimeMixValuta = 0
+    materiePrimeScostamentoValuta = 0
+    materiePrimeConsuntivo = 0
+    materiePrimeScostamentoTot = 0   
+
+    # LAVORAZIONI INTERNE
+    lavorazioniInterneiBudget = 0
+    lavorazioniInterneScostamentoVol = 0
+    lavorazioniInterneMixStandard = 0
+    lavorazioniInterneScostamentoMix = 0
+    lavorazioniInterneMixEffettivo = 0
+    lavorazioniInterneScostamentoPrezzo = 0
+    lavorazioniInterneMixValuta = 0
+    lavorazioniInterneScostamentoValuta = 0
+    lavorazioniInterneConsuntivo = 0
+    lavorazioniInterneScostamentoTot = 0
+
+    # COSTI TOTALI
+    costiTotaliBudget = 0
+    costiTotaliScostamentoVol = 0
+    costiTotaliMixStandard = 0
+    costiTotaliScostamentoMix = 0
+    costiTotaliMixEffettivo = 0
+    costiTotaliScostamentoPrezzo = 0
+    costiTotaliMixValuta = 0
+    costiTotaliScostamentoValuta = 0
+    costiTotaliConsuntivo = 0
+    costiTotaliScostamentoTot = 0   
+   
+
     async def runCalcoloScostamenti():
+        print("INIZIO ELABORAZIONE DATI...")
         username = getpass.getuser()
 
         #("Username: ", username)
         pathPart1 = "/Users/"
         pathPart2 = "/Github/SCGProject/Datasets/"
         complePath = pathPart1+username+pathPart2
-
+        
         if platform.system() == "Darwin":
             if(username == "marcovinciguerra"):
                 dfCambio = pd.read_csv(
@@ -105,28 +168,44 @@ class CalcoloScostamentiSenzaIntermedi:
             dfVendite = pd.read_csv(
                 complePath+"/CorrectedDatasets/dfVendite.csv")
 
+        else:
+            complePath = "C:/SCGProject/Datasets/"
+            
+            dfCambio = pd.read_csv(
+                complePath+"/CorrectedDatasets/dfCambio.csv")
+
+            dfClienti = pd.read_csv(
+                complePath+"/CorrectedDatasets/dfClienti.csv")
+
+            dfConsumi = pd.read_csv(
+                complePath + "/CorrectedDatasets/dfConsumi.csv")
+
+            dfCostoOrarioConsuntivo = pd.read_csv(
+                complePath+"/CorrectedDatasets/dfConsuntivo.csv")
+
+            dfCostoOrarioBudget = pd.read_csv(
+                complePath+"CorrectedDatasets/dfCostoOrario.csv")
+
+            dfImpiegoRisorse = pd.read_csv(
+                complePath+"/CorrectedDatasets/dfImpiegoRisorse.csv")
+
+            dftuttiClienti = pd.read_csv(
+                complePath+"/CorrectedDatasets/dftuttiClienti.csv")
+
+            dfVendite = pd.read_csv(
+                complePath+"/CorrectedDatasets/dfVendite.csv")
 
 
         dfCambio["TassoCambioMedio"] = dfCambio["TassoCambioMedio"].str.replace(',','.')
 
 
-        # # Ricavi
-
-        #[2]:
-
-
+        # Ricavi
         dfVendite.rename(columns = {'budget/cons':'budget'}, inplace = True)
         venditeConsuntivo = sqldf("SELECT DISTINCT * FROM dfVendite WHERE budget = 'CONSUNTIVO' or budget = 'Consuntivo'")
         venditeBudget = sqldf("SELECT DISTINCT * FROM dfVendite WHERE budget = 'BUDGET' or budget = 'Budget'")
 
 
-        #[3]:
-
-
         #(venditeConsuntivo.shape, venditeBudget.shape)
-
-
-        #[4]:
 
 
         # join with dfCambio and dfClienti
@@ -141,13 +220,11 @@ class CalcoloScostamentiSenzaIntermedi:
         ''')
 
 
-        #[5]:
 
 
         #(venditeConsuntivo.shape, venditeBudget.shape)
 
 
-        #[6]:
 
 
         sumVenditeConsuntivo = sqldf('select sum(TotaleEuro) as sumVenditaTotale from venditeConsuntivo')
@@ -161,7 +238,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # Materie prime
 
-        #[7]:
 
 
         dfConsumi.rename(columns = {'Budget/cons':'budget'}, inplace = True)
@@ -176,7 +252,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # Lavorazioni interne
 
-        #[8]:
 
 
         impiegoConsuntivo = sqldf("SELECT DISTINCT * FROM dfImpiegoRisorse WHERE budgetConsuntivo = 'CONSUNTIVO' or budgetConsuntivo = 'Consuntivo'")
@@ -196,7 +271,6 @@ class CalcoloScostamentiSenzaIntermedi:
         # ASSUNZIONE: la quantity di output maggiore tiene conto di tutte quelle inferiori.
 
 
-        #[9]:
 
 
         impiegoConsuntivoNew = sqldf('''select NrArticolo,budgetConsuntivo,NrOrdineProduzione,Descrizione,NrAreaProduzione,Risorsa,sum(TempoRisorsa) as TempoRisorsa,CostoOrario, max(QuantitydiOutput) as QuantitydiOutput
@@ -207,20 +281,17 @@ class CalcoloScostamentiSenzaIntermedi:
         impiegoConsuntivoNew
 
 
-        #[10]:
 
 
         #(sqldf('select sum(QuantitydiOutput) from impiegoConsuntivoOld'))
         #(sqldf('select sum(QuantitydiOutput) from impiegoConsuntivoNew'))
 
 
-        #[11]:
 
 
         sqldf('select NrArticolo, NrOrdineProduzione, count(*) as c from impiegoConsuntivoNew group by NrArticolo, NrOrdineProduzione order by c')
 
 
-        #[12]:
 
 
         impiegoBudget = sqldf("SELECT DISTINCT * FROM dfImpiegoRisorse WHERE budgetConsuntivo = 'BUDGET' or budgetConsuntivo = 'Budget'")
@@ -247,14 +318,12 @@ class CalcoloScostamentiSenzaIntermedi:
         ''')
 
 
-        #[13]:
 
 
         #(sqldf('select sum(QuantitydiOutput) from impiegoBudgetOld'))
         #(sqldf('select sum(QuantitydiOutput) from impiegoBudgetNew'))
 
 
-        #[14]:
 
 
         impiegoBudgetNew = sqldf('''select NrArticolo,budgetConsuntivo,NrOrdineProduzione,Descrizione,NrAreaProduzione,Risorsa,sum(TempoRisorsa) as TempoRisorsa,CostoOrario, sum(QuantitydiOutput) as QuantitydiOutput
@@ -264,7 +333,6 @@ class CalcoloScostamentiSenzaIntermedi:
         ''')
 
 
-        #[15]:
 
 
         impiegoBudgetNew
@@ -282,7 +350,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # # Scostamento totale
 
-        #[16]:
 
 
         sumImpiegoConsuntivo = sqldf(
@@ -294,7 +361,6 @@ class CalcoloScostamentiSenzaIntermedi:
         #(sumImpiegoConsuntivo-sumImpiegoBudget)
 
 
-        #[17]:
 
 
         #(sumVenditeConsuntivo.values[0][0])
@@ -309,7 +375,6 @@ class CalcoloScostamentiSenzaIntermedi:
         # 
         # **non cambia perché per ogni tempo negativo esiste un tempo positivo uguale in modulo che, al sommare i tempi delle stesse attività, si annullano a vicenda**
 
-        #[18]:
 
 
         sumImpiegoConsuntivo = sqldf(
@@ -321,7 +386,6 @@ class CalcoloScostamentiSenzaIntermedi:
         #(sumImpiegoConsuntivo-sumImpiegoBudget)
 
 
-        #[19]:
 
 
         #(sumVenditeConsuntivo.values[0][0])
@@ -336,7 +400,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # #### consuntivo
 
-        #[20]:
 
 
         # Creazione colonna ImpiegoUnitario
@@ -347,7 +410,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # Avg out the null values
 
-        #[21]:
 
 
         impiegoConsuntivoNew = sqldf(''' select NrArticolo, budgetConsuntivo, Descrizione, NrAreaProduzione, sum(TempoRisorsa) as TempoRisorsa, avg(CostoOrario) as CostoOrario, max(QuantitydiOutput) as QuantitydiOutput
@@ -360,13 +422,11 @@ class CalcoloScostamentiSenzaIntermedi:
         ''')
 
 
-        #[22]:
 
 
         sqldf('select sum(TempoRisorsa*CostoOrario) from impiegoConsuntivo') # si mantiene quasi uguale!!
 
 
-        #[23]:
 
 
         sqldf('select sum(ImpiegoUnitario*CostoOrario*QuantitydiOutput) from impiegoConsuntivo') 
@@ -374,7 +434,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # la piccola differenza è dovuta alla restante parte di righe con output nulle e senza altre righe con output non nullo da sommare
 
-        #[24]:
 
 
         sqldf('select * from impiegoConsuntivo where ImpiegoUnitario is null') 
@@ -382,7 +441,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # #### ripetiamo per budget
 
-        #[25]:
 
 
         impiegoBudgetNew = sqldf(''' select NrArticolo, budgetConsuntivo, Descrizione, NrAreaProduzione, sum(TempoRisorsa) as TempoRisorsa, avg(CostoOrario) as CostoOrario, max(QuantitydiOutput) as QuantitydiOutput
@@ -395,19 +453,16 @@ class CalcoloScostamentiSenzaIntermedi:
         ''')
 
 
-        #[26]:
 
 
         sqldf('select sum(TempoRisorsa*CostoOrario) from impiegoBudget') # si mantiene quasi uguale!!
 
 
-        #[27]:
 
 
         sqldf('select sum(ImpiegoUnitario*CostoOrario*QuantitydiOutput) from impiegoBudget') 
 
 
-        #[28]:
 
 
         sqldf('select * from impiegoBudget where ImpiegoUnitario is null') 
@@ -415,7 +470,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # #### Merge/Join
 
-        #[29]:
 
 
         impiegoConsuntivo.drop(['budgetConsuntivo'], axis=1, inplace=True)
@@ -424,7 +478,6 @@ class CalcoloScostamentiSenzaIntermedi:
         x
 
 
-        #[30]:
 
 
         c = sqldf('select sum(ImpiegoUnitario_x*CostoOrario_x*QuantitydiOutput_x) from x').iloc[0][0]
@@ -435,7 +488,6 @@ class CalcoloScostamentiSenzaIntermedi:
         # non altera i totali!!
 
 
-        #[31]:
 
 
         #Budget Standard
@@ -452,13 +504,11 @@ class CalcoloScostamentiSenzaIntermedi:
         #(BudgetEffettivoLav)
 
 
-        #[32]:
 
 
         sqldf('select ImpiegoUnitario_y,CostoOrario_y,QuantitydiOutput_x from x order by QuantitydiOutput_x desc')
 
 
-        #[33]:
 
 
         #Scostamenti
@@ -477,7 +527,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # se non facciamo qualche group by a priori si sdoppiano le righe, proviamo prima con CodiceMP
 
-        #[34]:
 
 
         consumiConsuntivoUnitByMP = sqldf('''select CodiceMP, NrArticolo, NrDocumento as NrOrdineProduzione, sum(QuantityMPImpiegata) as QuantityMPImpiegata, sum(ImportoCostoTOTALE) as ImportoCostoTOTALE
@@ -491,7 +540,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # ##### ritrovare volumi di produzione
 
-        #[35]:
 
 
         temp = sqldf('''select a.CodiceMP,a.NrArticolo,a.NrOrdineProduzione,a.QuantityMPImpiegata,a.ImportoCostoTOTALE,
@@ -502,7 +550,6 @@ class CalcoloScostamentiSenzaIntermedi:
         temp
 
 
-        #[37]:
 
 
         temp = sqldf('''select a.CodiceMP,a.NrArticolo,a.NrOrdineProduzione,a.QuantityMPImpiegata,a.ImportoCostoTOTALE,
@@ -524,14 +571,12 @@ class CalcoloScostamentiSenzaIntermedi:
         consumiConsuntivoVolProd
 
 
-        #[38]:
 
 
         #(consumiConsuntivoVolProd.shape, consumiConsuntivoUnitByMP.shape)
         #(consumiBudgetVolProd.shape, consumiBudgetVolProd.shape)
 
 
-        #[40]:
 
 
         #(sqldf('select * from consumiConsuntivoVolProd where CostoPerUnitaMis is null').shape)
@@ -539,7 +584,6 @@ class CalcoloScostamentiSenzaIntermedi:
         # TODO rimuovere la maggior parte di quanitity nulle possibile dalle lavorazioni continua a essere importante!
 
 
-        #[41]:
 
 
         #(sqldf('select sum(ImportoCostoTOTALE) from consumiConsuntivoUnitByMP'))
@@ -551,21 +595,18 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # ##### Scostamenti
 
-        #[407]:
 
 
         #consumiConsuntivoVolProd.drop(columns='NrOrdineProduzione',inplace=True)
         #consumiBudgetVolProd.drop(columns='NrOrdineProduzione',inplace=True)
 
 
-        #[42]:
 
 
         ConsumiUnit = pd.merge(consumiConsuntivoVolProd,consumiBudgetVolProd, on = ['CodiceMP','NrArticolo'], how = 'outer')
         ConsumiUnit
 
 
-        #[43]:
 
 
         BudgetEffettivoMP = sqldf('select sum(QuantitydiOutput_x*ImpiegoPerPezzo_x*CostoPerUnitaMis_x) from ConsumiUnit').iloc[0][0]
@@ -577,7 +618,6 @@ class CalcoloScostamentiSenzaIntermedi:
         ScostamentoPrezzoMP = BudgetEffettivoMP-ImpiegoEffettivoMP 
 
 
-        #[44]:
 
 
         #(BudgetEffettivoMP)
@@ -594,7 +634,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         #  group by NrArticolo dei ricavi
 
-        #[411]:
 
 
         venditeConsuntivoArt = sqldf('''select NrArticolo, sum(Quantity) as Quantity, sum(TotaleEuro) as TotaleEuro
@@ -603,7 +642,6 @@ class CalcoloScostamentiSenzaIntermedi:
         venditeConsuntivoArt
 
 
-        #[412]:
 
 
         venditeBudgetArt = sqldf('''select NrArticolo, sum(Quantity) as Quantity, sum(TotaleEuro) as TotaleEuro
@@ -614,7 +652,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # ##### calcolo del delta dei volumi 
 
-        #[413]:
 
 
 
@@ -622,19 +659,16 @@ class CalcoloScostamentiSenzaIntermedi:
         vendite
 
 
-        #[414]:
 
 
         sqldf('''select sum(TotaleEuro_x) from vendite''')
 
 
-        #[415]:
 
 
         sqldf('''select sum(TotaleEuro_y) from vendite''')
 
 
-        #[416]:
 
 
         sqldf('''select NrArticolo, Quantity_x-Quantity_y as DiffQuantity
@@ -643,7 +677,6 @@ class CalcoloScostamentiSenzaIntermedi:
                 ''')
 
 
-        #[417]:
 
 
         sqldf('''select sum(Quantity_x-Quantity_y) as DiffQuantity
@@ -653,7 +686,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # ##### creazione colonne mix, volume, prezzo unitario
 
-        #[418]:
 
 
         venditeBudgetS = sqldf('''select NrArticolo, (Quantity*100000000000/7224) as Mix, 7224 as VolumeTotale, TotaleEuro/Quantity as PrezzoUnitario
@@ -661,19 +693,16 @@ class CalcoloScostamentiSenzaIntermedi:
         venditeBudgetS
 
 
-        #[419]:
 
 
         sqldf('select sum(Mix*VolumeTotale*PrezzoUnitario)/100000000000 from venditeBudgetS')
 
 
-        #[420]:
 
 
         sqldf('select sum(Quantity) from venditeConsuntivo')
 
 
-        #[421]:
 
 
         venditeConsuntivoS = sqldf('''select NrArticolo, (Quantity*100000000000/9329) as Mix, 9329 as VolumeTotale, TotaleEuro/Quantity as PrezzoUnitario
@@ -681,7 +710,6 @@ class CalcoloScostamentiSenzaIntermedi:
         venditeConsuntivoS
 
 
-        #[422]:
 
 
         sqldf('select sum(Mix*VolumeTotale*PrezzoUnitario)/100000000000 from venditeConsuntivoS')
@@ -689,27 +717,23 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # ### Calcolo socostamenti di volume, mix e prezzo
 
-        #[423]:
 
 
         venditeS = pd.merge(venditeConsuntivoS, venditeBudgetS, on = ['NrArticolo'], how = 'outer')
         venditeS
 
 
-        #[424]:
 
 
         sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_x)/100000000000 from venditeS')
 
 
-        #[425]:
 
 
         x = sqldf('select NrArticolo,(Mix_y*VolumeTotale_y*PrezzoUnitario_y)/100000000000 as c from venditeS ')
         x
 
 
-        #[426]:
 
 
         BudgetStandardRic = sqldf('select sum(Mix_y*VolumeTotale_y*PrezzoUnitario_y)/100000000000 from venditeS ').iloc[0][0]
@@ -718,7 +742,6 @@ class CalcoloScostamentiSenzaIntermedi:
         BudgetEffettivoRic = sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_x)/100000000000 from venditeS ').iloc[0][0]
 
 
-        #[427]:
 
 
         #(BudgetStandardRic)
@@ -727,7 +750,6 @@ class CalcoloScostamentiSenzaIntermedi:
         #(BudgetEffettivoRic)
 
 
-        #[428]:
 
 
         ScostamentoVolumeRic = MixStandardRic-BudgetStandardRic
@@ -735,7 +757,6 @@ class CalcoloScostamentiSenzaIntermedi:
         ScostamentoPrezzoRic = BudgetEffettivoRic-MixEffettivoRic
 
 
-        #[429]:
 
 
         #(ScostamentoVolumeRic)
@@ -746,7 +767,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # # Vista globale degli scostamenti
 
-        #[430]:
 
 
         data = {'Index': ['Ricavi', 'CostiMP', 'CostiLav', 'Margine'], 
@@ -760,13 +780,11 @@ class CalcoloScostamentiSenzaIntermedi:
                 'ScostamentoTotale' : [BudgetEffettivoRic-BudgetStandardRic,BudgetEffettivoMP-BudgetStandardMP,BudgetEffettivoLav-BudgetStandardLav, (BudgetEffettivoRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))]}
 
 
-        #[431]:
 
 
         pd.DataFrame(data)
 
 
-        #[79]:
 
 
         #(-119959.519152+96308.420839-125320.243955)
@@ -774,7 +792,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # # Repeat ma tenendo conto della valuta
 
-        #[80]:
 
 
         venditeConsuntivoArt = sqldf('''select NrArticolo, sum(Quantity) as Quantity,  sum(ImportoVenditaValutaLocaleTOTALEVENDITA) as TotaleLocale, Valuta, TassoCambioMedio
@@ -785,7 +802,6 @@ class CalcoloScostamentiSenzaIntermedi:
                 group by NrArticolo, Valuta, TassoCambioMedio ''')
 
 
-        #[81]:
 
 
         venditeBudgetArt
@@ -793,7 +809,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # ##### creazione colonne mix, volume, prezzo unitario (locale)
 
-        #[82]:
 
 
         venditeConsuntivoS = sqldf('''select NrArticolo, (Quantity*100000000000/9329) as Mix, 9329 as VolumeTotale, TotaleLocale/Quantity as PrezzoUnitario, Valuta, TassoCambioMedio, (TotaleLocale/Quantity)/TassoCambioMedio as PrezzoUnitarioEuro
@@ -804,7 +819,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # ### Calcolo socostamenti di volume, mix, prezzo e valuta
 
-        #[83]:
 
 
         venditeS1 = pd.merge(venditeConsuntivoS, venditeBudgetS, on = ['NrArticolo', 'Valuta'], how = 'outer')
@@ -812,7 +826,6 @@ class CalcoloScostamentiSenzaIntermedi:
         #venditeS1.to_excel('venditeS1.xlsx')
 
 
-        #[84]:
 
 
         BudgetStandardRic = sqldf('select sum(Mix_y*VolumeTotale_y*PrezzoUnitario_y/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
@@ -822,7 +835,6 @@ class CalcoloScostamentiSenzaIntermedi:
         BudgetEffettivoValutaRic = sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_x/TassoCambioMedio_x)/100000000000 from venditeS1 ').iloc[0][0]
 
 
-        #[85]:
 
 
         #(BudgetStandardRic)
@@ -832,7 +844,6 @@ class CalcoloScostamentiSenzaIntermedi:
         #(BudgetEffettivoValutaRic)
 
 
-        #[86]:
 
 
         ScostamentoVolumeRic = MixStandardRic-BudgetStandardRic
@@ -841,7 +852,6 @@ class CalcoloScostamentiSenzaIntermedi:
         ScostamentoValutaRic = BudgetEffettivoValutaRic-BudgetEffettivoRic
 
 
-        #[87]:
 
 
         #(ScostamentoVolumeRic)
@@ -853,7 +863,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # # Vista globale degli scostamenti v2
 
-        #[88]:
 
 
         data = {'Index': ['Ricavi', 'CostiMP', 'CostiLav', 'Margine'], 
@@ -867,13 +876,70 @@ class CalcoloScostamentiSenzaIntermedi:
                 'ScostamentoValuta' : [ScostamentoValutaRic, 0, 0, (ScostamentoValutaRic - (0+0))],
                 'Consuntivo' : [BudgetEffettivoValutaRic, BudgetEffettivoMP, BudgetEffettivoLav, (BudgetEffettivoValutaRic - (BudgetEffettivoMP+BudgetEffettivoLav))],
                 'ScostamentoTotale' : [BudgetEffettivoValutaRic-BudgetStandardRic,BudgetEffettivoMP-BudgetStandardMP,BudgetEffettivoLav-BudgetStandardLav, (BudgetEffettivoValutaRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))]}
+        # MOL
+        molBudget = (BudgetStandardRic - (BudgetStandardMP+BudgetStandardLav))
+        molScostamentoVol = (ScostamentoVolumeRic - (ScostamentoVolumeMP+ScostamentoVolumeLav))
+        molMixStandard =  (MixStandardRic - (ImpiegoStandardMP+ImpiegoStandardLav))
+        molScostamentoMix = (ScostamentoMixRic - (ScostamentoImpiegoMP+ScostamentoImpiegoLav))
+        molMixEffettivo = (MixEffettivoRic - (ImpiegoEffettivoMP+ImpiegoEffettivoLav))
+        molScostamentoPrezzo = (ScostamentoPrezzoRic - (ScostamentoPrezzoMP+ScostamentoPrezzoLav))
+        molMixValuta = (BudgetEffettivoRic - (BudgetEffettivoMP+BudgetEffettivoLav))
+        molScostamentoValuta = (ScostamentoValutaRic - (0+0))
+        molConsuntivo = (BudgetEffettivoValutaRic - (BudgetEffettivoMP+BudgetEffettivoLav))
+        molScostamentoTot = (BudgetEffettivoValutaRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))
+
+        # RICAVI
+        ricaviBudget = BudgetStandardRic
+        ricaviScostamentoVol = ScostamentoVolumeRic
+        ricaviMixStandard = MixStandardRic
+        ricaviScostamentoMix = ScostamentoMixRic
+        ricaviMixEffettivo = ScostamentoMixRic
+        ricaviScostamentoPrezzo = ScostamentoPrezzoRic
+        ricaviMixValuta = BudgetEffettivoRic
+        ricaviScostamentoValuta = ScostamentoValutaRic
+        ricaviConsuntivo = BudgetEffettivoValutaRic
+        ricaviScostamentoTot = BudgetEffettivoValutaRic-BudgetStandardRic
 
 
-        #[89]:
+        # MATERIE PRIME
+        materiePrimeBudget = BudgetStandardMP
+        materiePrimeScostamentoVol = ScostamentoVolumeMP
+        materiePrimeMixStandard = ImpiegoStandardMP
+        materiePrimeScostamentoMix = ScostamentoImpiegoMP
+        materiePrimeMixEffettivo = ImpiegoEffettivoMP
+        materiePrimeScostamentoPrezzo = ScostamentoPrezzoMP
+        materiePrimeMixValuta = BudgetEffettivoMP
+        materiePrimeScostamentoValuta = 0
+        materiePrimeConsuntivo = BudgetEffettivoMP
+        materiePrimeScostamentoTot = BudgetEffettivoMP-BudgetStandardMP
 
+        # LAVORAZIONI INTERNE
+        lavorazioniInterneBudget = BudgetStandardLav
+        lavorazioniInterneScostamentoVol = ScostamentoVolumeLav
+        lavorazioniInterneMixStandard = ImpiegoStandardLav
+        lavorazioniInterneScostamentoMix = ScostamentoImpiegoLav
+        lavorazioniInterneMixEffettivo = ImpiegoEffettivoLav
+        lavorazioniInterneScostamentoPrezzo = ScostamentoPrezzoLav
+        lavorazioniInterneMixValuta = BudgetEffettivoLav
+        lavorazioniInterneScostamentoValuta = 0
+        lavorazioniInterneConsuntivo = BudgetEffettivoLav
+        lavorazioniInterneScostamentoTot = BudgetEffettivoLav-BudgetStandardLav
+
+        # COSTI TOTALI
+        costiTotaliBudget = BudgetStandardMP + BudgetStandardLav
+        costiTotaliScostamentoVol = ScostamentoVolumeMP + ScostamentoVolumeLav
+        costiTotaliMixStandard = ImpiegoStandardMP + ImpiegoStandardLav
+        costiTotaliScostamentoMix = ScostamentoImpiegoMP + ScostamentoImpiegoLav
+        costiTotaliMixEffettivo = ImpiegoEffettivoMP + ImpiegoEffettivoLav
+        costiTotaliScostamentoPrezzo = ScostamentoPrezzoMP + ScostamentoPrezzoLav
+        costiTotaliMixValuta = BudgetEffettivoMP + BudgetEffettivoLav
+        costiTotaliScostamentoValuta = 0
+        costiTotaliConsuntivo = BudgetEffettivoMP + BudgetEffettivoLav
+        costiTotaliScostamentoTot = (BudgetEffettivoMP-BudgetStandardMP) + (BudgetEffettivoLav-BudgetStandardLav) 
+    
+    
 
         pd.DataFrame(data)
-
 
         # come vedremo, i volumi di vendita non coincidono ai volumi di produzione, come negli esercizi fatti a lezione.
         # 
@@ -881,43 +947,36 @@ class CalcoloScostamentiSenzaIntermedi:
         # 
         # Questo ci porta alla conclusione che ci sono delle rimanenze, e non tutto cio che e prodotto nell'anno e venduto nello stesso anno.
 
-        #[90]:
 
 
         impiegoBudgetNew
 
 
-        #[91]:
 
 
         sqldf('select NrArticolo, QuantitydiOutput from impiegoBudgetNew group by NrArticolo,QuantitydiOutput order by NrArticolo')
 
 
-        #[92]:
 
 
         sqldf('select NrArticolo,Quantity from venditeBudget group by NrArticolo,Quantity order by NrArticolo')
 
 
-        #[93]:
 
 
         sqldf('select NrArticolo,sum(Quantity) as quantita from venditeBudget group by NrArticolo order by NrArticolo')
 
 
-        #[94]:
 
 
         sqldf("SELECT DISTINCT NrArticolo FROM dfImpiegoRisorse WHERE (budgetConsuntivo = 'BUDGET' or budgetConsuntivo = 'Budget')")
 
 
-        #[95]:
 
 
         sqldf("SELECT DISTINCT NrArticolo,QuantitydiOutput FROM dfImpiegoRisorse WHERE (budgetConsuntivo = 'BUDGET' or budgetConsuntivo = 'Budget') and Descrizione = 'Montaggio'")
 
 
-        #[96]:
 
 
         pd.merge(
@@ -926,7 +985,6 @@ class CalcoloScostamentiSenzaIntermedi:
             on='NrArticolo', how='outer')
 
 
-        #[97]:
 
 
         venditeConsuntivo.to_excel('venditeConsuntivo.xlsx')
@@ -934,7 +992,6 @@ class CalcoloScostamentiSenzaIntermedi:
 
         # # By Criterion
 
-        #[98]:
 
 
         def by_client(dfVendite, client):
@@ -1007,14 +1064,12 @@ class CalcoloScostamentiSenzaIntermedi:
 
 
 
-        #[99]:
 
 
         e = by_client(dfVendite, 'C00471')
         e
 
 
-        #[100]:
 
 
         def by_client(dfVendite,dfConsumi,impiegoConsuntivo1, impiegoBudget1, client):

@@ -66,8 +66,8 @@ class DataGraphBuilder {
           colonna2: data["lavorazioniInterneConsuntivo"]),
       ColumnChartData(
           x: 'Costi Totali',
-          colonna1: data["costiBudget"],
-          colonna2: data["costiConsuntivo"]),
+          colonna1: data["costiTotaliBudget"],
+          colonna2: data["costiTotaliConsuntivo"]),
     ];
   }
 
@@ -80,8 +80,10 @@ class DataGraphBuilder {
       ColumnChartData(
           x: 'Lavorazioni Interne',
           colonna1: data["lavorazioniInterneScostamento"]),
-      ColumnChartData(x: 'Costi Totali', colonna1: data["costiScostamento"]),
-      ColumnChartData(x: 'Margine Op. Lordo', colonna1: data["molScostamento"])
+      ColumnChartData(
+          x: 'Costi Totali', colonna1: data["costiTotaliScostamento"]),
+      ColumnChartData(
+          x: 'Margine Op. Lordo', colonna1: data["molTotaliScostamento"])
     ];
   }
 }
