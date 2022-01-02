@@ -9,6 +9,7 @@ class Datascript :
         # Eseguo lo script
         await d.scr()
         # Ritorno dati prodotti dallo script in formato json
+        print(d.toJSON())
         return d.toJSON()
 
 
@@ -90,7 +91,6 @@ class Data:
 
 if __name__ ==  "__main__":
     main()
-
 
 
 

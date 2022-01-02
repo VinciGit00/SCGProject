@@ -15,9 +15,9 @@ class BloccoSinistra extends StatefulWidget {
       : super(key: key);
 
   final String titoloPagina;
-  final int scostamento;
-  final int budget;
-  final int consuntivo;
+  final double scostamento;
+  final double budget;
+  final double consuntivo;
 
   @override
   _BloccoSinistraState createState() => _BloccoSinistraState();

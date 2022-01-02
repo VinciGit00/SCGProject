@@ -16,6 +16,8 @@ class FetchData {
     // Converto il json in una mappa
     Map<String, dynamic> data = json.decode(response.body);
 
+    print(data);
+
     return data;
   }
 }

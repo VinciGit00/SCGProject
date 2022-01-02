@@ -18,9 +18,9 @@ class PulsanteAltriScostamenti extends StatelessWidget {
   // Nome scostamento contenuto nel pulsante
   final String nomeScostamento;
   // Valore scostamento presente di fianco al pulsante
-  final int valoreScostamento;
+  final double valoreScostamento;
   // Nome chiave per accedere ai dati dentro la Map creata dall'api.
-  final String dataPath;
+  final List<String> dataPath;
 
   // Function that returns data for the column graph
   final dynamic graficoScostamentoData;

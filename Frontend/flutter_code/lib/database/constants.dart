@@ -1,26 +1,61 @@
 enum Names {
   //MOL
-  molScostamento,
   molBudget,
+  molScostamentoVol,
+  molMixStandard,
+  molScostamentoMix,
+  molMixEffettivo,
+  molScostamentoPrezzo,
+  molMixValuta,
+  molScostamentoValuta,
   molConsuntivo,
+  molScostamentoTot,
 
   //RICAVI
-  ricaviScostamento,
   ricaviBudget,
+  ricaviScostamentoVol,
+  ricaviMixStandard,
+  ricaviScostamentoMix,
+  ricaviMixEffettivo,
+  ricaviScostamentoPrezzo,
+  ricaviMixValuta,
+  ricaviScostamentoValuta,
   ricaviConsuntivo,
+  ricaviScostamentoTot,
 
-  // MATERIE PRIME
+  //MATERIE PRIME
   materiePrimeBudget,
+  materiePrimeScostamentoVol,
+  materiePrimeMixStandard,
+  materiePrimeScostamentoMix,
+  materiePrimeMixEffettivo,
+  materiePrimeScostamentoPrezzo,
+  materiePrimeMixValuta,
+  materiePrimeScostamentoValuta,
   materiePrimeConsuntivo,
-  materiePrimeScostamento,
+  materiePrimeScostamentoTot,
 
   //LAVORAZIONI INTERNE
   lavorazioniInterneBudget,
+  lavorazioniInterneScostamentoVol,
+  lavorazioniInterneMixStandard,
+  lavorazioniInterneScostamentoMix,
+  lavorazioniInterneMixEffettivo,
+  lavorazioniInterneScostamentoPrezzo,
+  lavorazioniInterneMixValuta,
+  lavorazioniInterneScostamentoValuta,
   lavorazioniInterneConsuntivo,
-  lavorazioniInterneScostamento,
+  lavorazioniInterneScostamentoTot,
 
   //COSTI TOTALI
   costiTotaliBudget,
+  costiTotaliScostamentoVol,
+  costiTotaliMixStandard,
+  costiTotaliScostamentoMix,
+  costiTotaliMixEffettivo,
+  costiTotaliScostamentoPrezzo,
+  costiTotaliMixValuta,
+  costiTotaliScostamentoValuta,
   costiTotaliConsuntivo,
-  costiTotaliScostamento
+  costiTotaliScostamentoTot,
 }

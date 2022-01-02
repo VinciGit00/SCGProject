@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/constants.dart';
 import 'package:frontendscg/database/data_graph_builder.dart';
-import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/homepage/blocco_sinistra_home.dart';
 import 'package:frontendscg/screens/homepage/parte_superiore_pagina_home.dart';
 import 'package:frontendscg/utils/data_notifier_home.dart';
@@ -36,9 +36,9 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     // BLOCCO SINISTRA
                     BloccoSinistraHome(
-                      scostamento: data!["molScostamento"],
-                      budget: data!["molBudget"],
-                      consuntivo: data!["molConsuntivo"],
+                      scostamento: data![Names.molScostamentoTot.name]!,
+                      budget: data![Names.molBudget.name]!,
+                      consuntivo: data![Names.molConsuntivo.name]!,
                     ),
 
                     // BLOCCO DESTRA
@@ -93,47 +93,70 @@ class _HomePageState extends State<HomePage> {
                                     graficoBudgetConsuntivoData:
                                         DataGraphBuilder()
                                             .ricaviBudgetConsuntivoData(data),
-                                    dataPath: "ricavi",
+                                    dataPath: [
+                                      Names.ricaviScostamentoTot.name,
+                                      Names.ricaviBudget.name,
+                                      Names.ricaviConsuntivo.name
+                                    ],
                                     nomeScostamento: "Ricavi",
                                     valoreScostamento:
-                                        data!["ricaviScostamento"]!,
+                                        data![Names.ricaviScostamentoTot.name]!,
                                   ),
 
                                   //Materie Prime
                                   PulsanteAltriScostamenti(
                                     graficoScostamentoData: DataGraphBuilder()
-                                        .ricaviScostamentoData(data),
+                                        .materiePrimeScostamentoData(data),
                                     graficoBudgetConsuntivoData:
                                         DataGraphBuilder()
-                                            .ricaviBudgetConsuntivoData(data),
-                                    dataPath: "materiePrime",
+                                            .materiePrimeBudgetConsuntivoData(
+                                                data),
+                                    dataPath: [
+                                      Names.materiePrimeScostamentoTot.name,
+                                      Names.materiePrimeBudget.name,
+                                      Names.materiePrimeConsuntivo.name
+                                    ],
                                     nomeScostamento: "Materie Prime",
-                                    valoreScostamento:
-                                        data!["ricaviScostamento"]!,
+                                    valoreScostamento: data![
+                                        Names.materiePrimeScostamentoTot.name]!,
                                   ),
 
+                                  // Lavorazioni Interne
                                   PulsanteAltriScostamenti(
                                     graficoScostamentoData: DataGraphBuilder()
-                                        .ricaviScostamentoData(data),
-                                    graficoBudgetConsuntivoData:
-                                        DataGraphBuilder()
-                                            .ricaviBudgetConsuntivoData(data),
-                                    dataPath: "lavorazioniInterne",
+                                        .lavorazioniInterneScostamentoData(
+                                            data),
+                                    graficoBudgetConsuntivoData: DataGraphBuilder()
+                                        .lavorazioniInterneBudgetConsuntivoData(
+                                            data),
+                                    dataPath: [
+                                      Names.lavorazioniInterneScostamentoTot
+                                          .name,
+                                      Names.lavorazioniInterneBudget.name,
+                                      Names.lavorazioniInterneConsuntivo.name
+                                    ],
                                     nomeScostamento: "Lavorazioni Interne",
-                                    valoreScostamento:
-                                        data!["ricaviScostamento"]!,
+                                    valoreScostamento: data![Names
+                                        .lavorazioniInterneScostamentoTot
+                                        .name]!,
                                   ),
 
+                                  // Costi Totali
                                   PulsanteAltriScostamenti(
                                     graficoScostamentoData: DataGraphBuilder()
-                                        .ricaviScostamentoData(data),
+                                        .costiTotaliScostamentoData(data),
                                     graficoBudgetConsuntivoData:
                                         DataGraphBuilder()
-                                            .ricaviBudgetConsuntivoData(data),
-                                    dataPath: "costi",
+                                            .costiTotaliBudgetConsuntivoData(
+                                                data),
+                                    dataPath: [
+                                      Names.costiTotaliScostamentoTot.name,
+                                      Names.costiTotaliBudget.name,
+                                      Names.costiTotaliConsuntivo.name
+                                    ],
                                     nomeScostamento: "Costi Totali",
-                                    valoreScostamento:
-                                        data!["ricaviScostamento"]!,
+                                    valoreScostamento: data![
+                                        Names.costiTotaliScostamentoTot.name]!,
                                   ),
                                 ],
                               ),

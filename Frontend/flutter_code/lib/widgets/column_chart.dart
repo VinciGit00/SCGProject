@@ -94,6 +94,6 @@ class ColumnChartDrawerState extends State<ColumnChartDrawer> {
 class ColumnChartData {
   ColumnChartData({required this.x, required this.colonna1, this.colonna2});
   final String x;
-  final double colonna1;
+  final double? colonna1;
   final double? colonna2;
 }

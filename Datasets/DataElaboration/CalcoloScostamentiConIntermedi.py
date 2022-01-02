@@ -9,17 +9,6 @@ import platform
 from pandasql import sqldf
 import openpyxl
 import asyncio
-import json
-
-class ScostamentiConIntermedi:
-    async def getData():
-        d = CalcoloScostamentiConIntermedi()
-        await d.runCalcoloScostamenti()
-        print(d.toJSON())
-        return d.toJSON()
-
-
-
 
 class CalcoloScostamentiConIntermedi:
     # MOL
@@ -83,12 +72,8 @@ class CalcoloScostamentiConIntermedi:
     costiTotaliConsuntivo = 0
     costiTotaliScostamentoTot = 0   
    
-    # Metodo per trasformare la classe in json
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
-
-    async def runCalcoloScostamenti(self):
+    async def runCalcoloScostamenti():
         print("INIZIO ELABORAZIONE DATI...")
         username = getpass.getuser()
 
@@ -212,7 +197,8 @@ class CalcoloScostamentiConIntermedi:
 
 
         dfCambio["TassoCambioMedio"] = dfCambio["TassoCambioMedio"].str.replace(',','.')
-     
+
+        print(dfClienti)
 
         # Ricavi
         dfVendite.rename(columns = {'budget/cons':'budget'}, inplace = True)
@@ -222,15 +208,15 @@ class CalcoloScostamentiConIntermedi:
 
         #(venditeConsuntivo.shape, venditeBudget.shape)
 
+
         # join with dfCambio and dfClienti
         venditeConsuntivo = sqldf('''SELECT DISTINCT v.NrMovimento, v.budget, v.NrArticolo, v.Quantity, v.ImportoVenditaValutaLocaleTOTALEVENDITA,k.TassoCambioMedio,v.ImportoVenditaValutaLocaleTOTALEVENDITA/k.TassoCambioMedio as TotaleEuro, v.NrOrigine, c.CodCondizioniPagam, c.FattCumulative, c.Valuta
-        FROM dfClienti as c join venditeConsuntivo as v on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
+        FROM venditeConsuntivo as v join dfClienti as c on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
         where k.Anno = 'Consuntivo' or k.Anno = 'CONSUNTIVO'
         ''')
 
-
         venditeBudget = sqldf('''SELECT DISTINCT v.NrMovimento, v.budget, v.NrArticolo, v.Quantity, v.ImportoVenditaValutaLocaleTOTALEVENDITA,k.TassoCambioMedio,v.ImportoVenditaValutaLocaleTOTALEVENDITA/k.TassoCambioMedio as TotaleEuro, v.NrOrigine, c.CodCondizioniPagam, c.FattCumulative, c.Valuta
-        FROM dfClienti as c join venditeBudget as v on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
+        FROM venditeBudget as v join dfClienti as c on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
         where k.Anno = 'Budget' or k.Anno = 'BUDGET'
         ''')
 
@@ -249,7 +235,7 @@ class CalcoloScostamentiConIntermedi:
         #(sumVenditeConsuntivo-sumVenditeBudget) #questo è lo scostamento totale dei ricavi
 
 
-        ## Costi
+        # # Costi
 
         # Materie prime
 
@@ -891,67 +877,66 @@ class CalcoloScostamentiConIntermedi:
                 'ScostamentoValuta' : [ScostamentoValutaRic, 0, 0, (ScostamentoValutaRic - (0+0))],
                 'Consuntivo' : [BudgetEffettivoValutaRic, BudgetEffettivoMP, BudgetEffettivoLav, (BudgetEffettivoValutaRic - (BudgetEffettivoMP+BudgetEffettivoLav))],
                 'ScostamentoTotale' : [BudgetEffettivoValutaRic-BudgetStandardRic,BudgetEffettivoMP-BudgetStandardMP,BudgetEffettivoLav-BudgetStandardLav, (BudgetEffettivoValutaRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))]}
-        
         # MOL
-        self.molBudget = (BudgetStandardRic - (BudgetStandardMP+BudgetStandardLav))
-        self.molScostamentoVol = (ScostamentoVolumeRic - (ScostamentoVolumeMP+ScostamentoVolumeLav))
-        self.molMixStandard =  (MixStandardRic - (ImpiegoStandardMP+ImpiegoStandardLav))
-        self.molScostamentoMix = (ScostamentoMixRic - (ScostamentoImpiegoMP+ScostamentoImpiegoLav))
-        self.molMixEffettivo = (MixEffettivoRic - (ImpiegoEffettivoMP+ImpiegoEffettivoLav))
-        self.molScostamentoPrezzo = (ScostamentoPrezzoRic - (ScostamentoPrezzoMP+ScostamentoPrezzoLav))
-        self.molMixValuta = (BudgetEffettivoRic - (BudgetEffettivoMP+BudgetEffettivoLav))
-        self.molScostamentoValuta = (ScostamentoValutaRic - (0+0))
-        self.molConsuntivo = (BudgetEffettivoValutaRic - (BudgetEffettivoMP+BudgetEffettivoLav))
-        self.molScostamentoTot = (BudgetEffettivoValutaRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))
+        molBudget = (BudgetStandardRic - (BudgetStandardMP+BudgetStandardLav))
+        molScostamentoVol = (ScostamentoVolumeRic - (ScostamentoVolumeMP+ScostamentoVolumeLav))
+        molMixStandard =  (MixStandardRic - (ImpiegoStandardMP+ImpiegoStandardLav))
+        molScostamentoMix = (ScostamentoMixRic - (ScostamentoImpiegoMP+ScostamentoImpiegoLav))
+        molMixEffettivo = (MixEffettivoRic - (ImpiegoEffettivoMP+ImpiegoEffettivoLav))
+        molScostamentoPrezzo = (ScostamentoPrezzoRic - (ScostamentoPrezzoMP+ScostamentoPrezzoLav))
+        molMixValuta = (BudgetEffettivoRic - (BudgetEffettivoMP+BudgetEffettivoLav))
+        molScostamentoValuta = (ScostamentoValutaRic - (0+0))
+        molConsuntivo = (BudgetEffettivoValutaRic - (BudgetEffettivoMP+BudgetEffettivoLav))
+        molScostamentoTot = (BudgetEffettivoValutaRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))
 
         # RICAVI
-        self.ricaviBudget = BudgetStandardRic
-        self.ricaviScostamentoVol = ScostamentoVolumeRic
-        self.ricaviMixStandard = MixStandardRic
-        self.ricaviScostamentoMix = ScostamentoMixRic
-        self.ricaviMixEffettivo = MixEffettivoRicavi 
-        self.ricaviScostamentoPrezzo = ScostamentoPrezzoRic
-        self.ricaviMixValuta = BudgetEffettivoRic
-        self.ricaviScostamentoValuta = ScostamentoValutaRic
-        self.ricaviConsuntivo = BudgetEffettivoValutaRic
-        self.ricaviScostamentoTot = BudgetEffettivoValutaRic-BudgetStandardRic
+        ricaviBudget = BudgetStandardRic
+        ricaviScostamentoVol = ScostamentoVolumeRic
+        ricaviMixStandard = MixStandardRic
+        ricaviScostamentoMix = ScostamentoMixRic
+        ricaviMixEffettivo = ScostamentoMixRic
+        ricaviScostamentoPrezzo = ScostamentoPrezzoRic
+        ricaviMixValuta = BudgetEffettivoRic
+        ricaviScostamentoValuta = ScostamentoValutaRic
+        ricaviConsuntivo = BudgetEffettivoValutaRic
+        ricaviScostamentoTot = BudgetEffettivoValutaRic-BudgetStandardRic
 
 
         # MATERIE PRIME
-        self.materiePrimeBudget = BudgetStandardMP
-        self.materiePrimeScostamentoVol = ScostamentoVolumeMP
-        self.materiePrimeMixStandard = ImpiegoStandardMP
-        self.materiePrimeScostamentoMix = ScostamentoImpiegoMP
-        self.materiePrimeMixEffettivo = ImpiegoEffettivoMP
-        self.materiePrimeScostamentoPrezzo = ScostamentoPrezzoMP
-        self.materiePrimeMixValuta = BudgetEffettivoMP
-        self.materiePrimeScostamentoValuta = 0
-        self.materiePrimeConsuntivo = BudgetEffettivoMP
-        self.materiePrimeScostamentoTot = BudgetEffettivoMP-BudgetStandardMP
+        materiePrimeBudget = BudgetStandardMP
+        materiePrimeScostamentoVol = ScostamentoVolumeMP
+        materiePrimeMixStandard = ImpiegoStandardMP
+        materiePrimeScostamentoMix = ScostamentoImpiegoMP
+        materiePrimeMixEffettivo = ImpiegoEffettivoMP
+        materiePrimeScostamentoPrezzo = ScostamentoPrezzoMP
+        materiePrimeMixValuta = BudgetEffettivoMP
+        materiePrimeScostamentoValuta = 0
+        materiePrimeConsuntivo = BudgetEffettivoMP
+        materiePrimeScostamentoTot = BudgetEffettivoMP-BudgetStandardMP
 
         # LAVORAZIONI INTERNE
-        self.lavorazioniInterneBudget = BudgetStandardLav
-        self.lavorazioniInterneScostamentoVol = ScostamentoVolumeLav
-        self.lavorazioniInterneMixStandard = ImpiegoStandardLav
-        self.lavorazioniInterneScostamentoMix = ScostamentoImpiegoLav
-        self.lavorazioniInterneMixEffettivo = ImpiegoEffettivoLav
-        self.lavorazioniInterneScostamentoPrezzo = ScostamentoPrezzoLav
-        self.lavorazioniInterneMixValuta = BudgetEffettivoLav
-        self.lavorazioniInterneScostamentoValuta = 0
-        self.lavorazioniInterneConsuntivo = BudgetEffettivoLav
-        self.lavorazioniInterneScostamentoTot = BudgetEffettivoLav-BudgetStandardLav
+        lavorazioniInterneBudget = BudgetStandardLav
+        lavorazioniInterneScostamentoVol = ScostamentoVolumeLav
+        lavorazioniInterneMixStandard = ImpiegoStandardLav
+        lavorazioniInterneScostamentoMix = ScostamentoImpiegoLav
+        lavorazioniInterneMixEffettivo = ImpiegoEffettivoLav
+        lavorazioniInterneScostamentoPrezzo = ScostamentoPrezzoLav
+        lavorazioniInterneMixValuta = BudgetEffettivoLav
+        lavorazioniInterneScostamentoValuta = 0
+        lavorazioniInterneConsuntivo = BudgetEffettivoLav
+        lavorazioniInterneScostamentoTot = BudgetEffettivoLav-BudgetStandardLav
 
         # COSTI TOTALI
-        self.costiTotaliBudget = BudgetStandardMP + BudgetStandardLav
-        self.costiTotaliScostamentoVol = ScostamentoVolumeMP + ScostamentoVolumeLav
-        self.costiTotaliMixStandard = ImpiegoStandardMP + ImpiegoStandardLav
-        self.costiTotaliScostamentoMix = ScostamentoImpiegoMP + ScostamentoImpiegoLav
-        self.costiTotaliMixEffettivo = ImpiegoEffettivoMP + ImpiegoEffettivoLav
-        self.costiTotaliScostamentoPrezzo = ScostamentoPrezzoMP + ScostamentoPrezzoLav
-        self.costiTotaliMixValuta = BudgetEffettivoMP + BudgetEffettivoLav
-        self.costiTotaliScostamentoValuta = 0
-        self.costiTotaliConsuntivo = BudgetEffettivoMP + BudgetEffettivoLav
-        self.costiTotaliScostamentoTot = (BudgetEffettivoMP-BudgetStandardMP) + (BudgetEffettivoLav-BudgetStandardLav) 
+        costiTotaliBudget = BudgetStandardMP + BudgetStandardLav
+        costiTotaliScostamentoVol = ScostamentoVolumeMP + ScostamentoVolumeLav
+        costiTotaliMixStandard = ImpiegoStandardMP + ImpiegoStandardLav
+        costiTotaliScostamentoMix = ScostamentoImpiegoMP + ScostamentoImpiegoLav
+        costiTotaliMixEffettivo = ImpiegoEffettivoMP + ImpiegoEffettivoLav
+        costiTotaliScostamentoPrezzo = ScostamentoPrezzoMP + ScostamentoPrezzoLav
+        costiTotaliMixValuta = BudgetEffettivoMP + BudgetEffettivoLav
+        costiTotaliScostamentoValuta = 0
+        costiTotaliConsuntivo = BudgetEffettivoMP + BudgetEffettivoLav
+        costiTotaliScostamentoTot = (BudgetEffettivoMP-BudgetStandardMP) + (BudgetEffettivoLav-BudgetStandardLav) 
     
     
 
@@ -1000,6 +985,260 @@ class CalcoloScostamentiConIntermedi:
             sqldf("SELECT DISTINCT NrArticolo,QuantitydiOutput FROM dfImpiegoRisorse WHERE (budgetConsuntivo = 'BUDGET' or budgetConsuntivo = 'Budget') and Descrizione = 'Montaggio'"), 
             on='NrArticolo', how='outer')
 
-        print("FINE ELABORAZIONE")
 
-        return
+
+
+        venditeConsuntivo.to_excel('venditeConsuntivo.xlsx')
+
+
+        # # By Criterion
+
+
+
+        def by_client(dfVendite, client):
+                dfVendite.rename(columns = {'budget/cons':'budget'}, inplace = True)
+                venditeConsuntivo = sqldf("SELECT DISTINCT * FROM dfVendite WHERE budget = 'CONSUNTIVO' or budget = 'Consuntivo'")
+                venditeBudget = sqldf("SELECT DISTINCT * FROM dfVendite WHERE budget = 'BUDGET' or budget = 'Budget'")
+
+                venditeConsuntivo = sqldf('''SELECT DISTINCT v.NrMovimento, v.budget, v.NrArticolo, v.Quantity, v.ImportoVenditaValutaLocaleTOTALEVENDITA,k.TassoCambioMedio,v.ImportoVenditaValutaLocaleTOTALEVENDITA/k.TassoCambioMedio as TotaleEuro, v.NrOrigine, c.CodCondizioniPagam, c.FattCumulative, c.Valuta
+                FROM venditeConsuntivo as v join dfClienti as c on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
+                where k.Anno = 'Consuntivo' or k.Anno = 'CONSUNTIVO'
+                ''')
+
+                venditeBudget = sqldf('''SELECT DISTINCT v.NrMovimento, v.budget, v.NrArticolo, v.Quantity, v.ImportoVenditaValutaLocaleTOTALEVENDITA,k.TassoCambioMedio,v.ImportoVenditaValutaLocaleTOTALEVENDITA/k.TassoCambioMedio as TotaleEuro, v.NrOrigine, c.CodCondizioniPagam, c.FattCumulative, c.Valuta
+                FROM venditeBudget as v join dfClienti as c on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
+                where k.Anno = 'Budget' or k.Anno = 'BUDGET'
+                ''')
+
+                venditeConsuntivo = sqldf('select * from venditeConsuntivo where NrOrigine = "'+client+'"')
+
+                venditeBudget = sqldf('select * from venditeBudget where NrOrigine = "'+client+'"')
+
+                venditeConsuntivoArt = sqldf('''select NrArticolo, sum(Quantity) as Quantity,  sum(ImportoVenditaValutaLocaleTOTALEVENDITA) as TotaleLocale, Valuta, TassoCambioMedio
+                        from venditeConsuntivo
+                        group by NrArticolo, Valuta, TassoCambioMedio''')
+                venditeBudgetArt = sqldf('''select NrArticolo, sum(Quantity) as Quantity, sum(ImportoVenditaValutaLocaleTOTALEVENDITA) as TotaleLocale, Valuta, TassoCambioMedio
+                        from venditeBudget
+                        group by NrArticolo, Valuta, TassoCambioMedio ''')
+
+                venditeConsuntivoS = sqldf('''select NrArticolo, (Quantity*100000000000/9329) as Mix, 9329 as VolumeTotale, TotaleLocale/Quantity as PrezzoUnitario, Valuta, TassoCambioMedio, (TotaleLocale/Quantity)/TassoCambioMedio as PrezzoUnitarioEuro
+                        from venditeConsuntivoArt''')
+                venditeBudgetS = sqldf('''select NrArticolo, (Quantity*100000000000/7224) as Mix, 7224 as VolumeTotale, TotaleLocale/Quantity as PrezzoUnitario, Valuta, TassoCambioMedio, (TotaleLocale/Quantity)/TassoCambioMedio as PrezzoUnitarioEuro
+                        from venditeBudgetArt''')
+
+                venditeS1 = pd.merge(venditeConsuntivoS, venditeBudgetS, on = ['NrArticolo', 'Valuta'], how = 'outer')
+                venditeS1.fillna(0, inplace = True)
+                venditeS1
+
+
+                BudgetStandardRic = sqldf('select sum(Mix_y*VolumeTotale_y*PrezzoUnitario_y/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
+                MixStandardRic = sqldf('select sum(Mix_y*VolumeTotale_x*PrezzoUnitario_y/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
+                MixEffettivoRic = sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_y/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
+                BudgetEffettivoRic = sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_x/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
+                BudgetEffettivoValutaRic = sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_x/TassoCambioMedio_x)/100000000000 from venditeS1 ').iloc[0][0]
+
+                if(BudgetStandardRic is None):
+                    BudgetStandardRic = 0
+
+                if(BudgetEffettivoValutaRic is None):
+                    BudgetEffettivoValutaRic = 0
+
+                ScostamentoVolumeRic = MixStandardRic-BudgetStandardRic
+                ScostamentoMixRic = MixEffettivoRic-MixStandardRic
+                ScostamentoPrezzoRic = BudgetEffettivoRic-MixEffettivoRic
+                ScostamentoValutaRic = BudgetEffettivoValutaRic-BudgetEffettivoRic
+
+                dicResult = {
+                'BudgetStandardRic':BudgetStandardRic,
+                'MixStandardRic':MixStandardRic,
+                'MixEffettivoRic':MixEffettivoRic,
+                'BudgetEffettivoRic':BudgetEffettivoRic,
+                'BudgetEffettivoValutaRic':BudgetEffettivoValutaRic,
+                'ScostamentoVolumeRic':ScostamentoVolumeRic,
+                'ScostamentoMixRic':ScostamentoMixRic,
+                'ScostamentoPrezzoRic':ScostamentoPrezzoRic,
+                'ScostamentoValutaRic':ScostamentoValutaRic,
+                'ScostamentoTotaleRic' : ScostamentoVolumeRic+ScostamentoMixRic+ScostamentoPrezzoRic+ScostamentoValutaRic
+                }
+
+                return dicResult
+
+
+
+
+
+        e = by_client(dfVendite, 'C00471')
+        e
+
+
+
+
+        def by_client(dfVendite,dfConsumi,impiegoConsuntivo1, impiegoBudget1, client):
+
+            dfVendite.rename(columns = {'budget/cons':'budget'}, inplace = True)
+            venditeConsuntivo = sqldf("SELECT DISTINCT * FROM dfVendite WHERE budget = 'CONSUNTIVO' or budget = 'Consuntivo'")
+            venditeBudget = sqldf("SELECT DISTINCT * FROM dfVendite WHERE budget = 'BUDGET' or budget = 'Budget'")
+
+            venditeConsuntivo = sqldf('''SELECT DISTINCT v.NrMovimento, v.budget, v.NrArticolo, v.Quantity, v.ImportoVenditaValutaLocaleTOTALEVENDITA,k.TassoCambioMedio,v.ImportoVenditaValutaLocaleTOTALEVENDITA/k.TassoCambioMedio as TotaleEuro, v.NrOrigine, c.CodCondizioniPagam, c.FattCumulative, c.Valuta
+            FROM venditeConsuntivo as v join dfClienti as c on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
+            where k.Anno = 'Consuntivo' or k.Anno = 'CONSUNTIVO'
+            ''')
+
+            venditeBudget = sqldf('''SELECT DISTINCT v.NrMovimento, v.budget, v.NrArticolo, v.Quantity, v.ImportoVenditaValutaLocaleTOTALEVENDITA,k.TassoCambioMedio,v.ImportoVenditaValutaLocaleTOTALEVENDITA/k.TassoCambioMedio as TotaleEuro, v.NrOrigine, c.CodCondizioniPagam, c.FattCumulative, c.Valuta
+            FROM venditeBudget as v join dfClienti as c on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
+            where k.Anno = 'Budget' or k.Anno = 'BUDGET'
+            ''')
+
+            venditeConsuntivo = sqldf('select * from venditeConsuntivo where NrOrigine = "'+client+'"')
+
+            venditeBudget = sqldf('select * from venditeBudget where NrOrigine = "'+client+'"')
+
+            venditeConsuntivoArt = sqldf('''select NrArticolo, sum(Quantity) as Quantity,  sum(ImportoVenditaValutaLocaleTOTALEVENDITA) as TotaleLocale, Valuta, TassoCambioMedio
+            from venditeConsuntivo
+            group by NrArticolo, Valuta, TassoCambioMedio''')
+            venditeBudgetArt = sqldf('''select NrArticolo, sum(Quantity) as Quantity, sum(ImportoVenditaValutaLocaleTOTALEVENDITA) as TotaleLocale, Valuta, TassoCambioMedio
+            from venditeBudget
+            group by NrArticolo, Valuta, TassoCambioMedio ''')
+
+            venditeConsuntivoS = sqldf('''select NrArticolo, (Quantity*100000000000/9329) as Mix, 9329 as VolumeTotale, TotaleLocale/Quantity as PrezzoUnitario, Valuta, TassoCambioMedio, (TotaleLocale/Quantity)/TassoCambioMedio as PrezzoUnitarioEuro
+            from venditeConsuntivoArt''')
+            venditeBudgetS = sqldf('''select NrArticolo, (Quantity*100000000000/7224) as Mix, 7224 as VolumeTotale, TotaleLocale/Quantity as PrezzoUnitario, Valuta, TassoCambioMedio, (TotaleLocale/Quantity)/TassoCambioMedio as PrezzoUnitarioEuro
+            from venditeBudgetArt''')
+
+            venditeS1 = pd.merge(venditeConsuntivoS, venditeBudgetS, on = ['NrArticolo', 'Valuta'], how = 'outer')
+            venditeS1.fillna(0, inplace = True)
+            venditeS1
+
+
+            BudgetStandardRic = sqldf('select sum(Mix_y*VolumeTotale_y*PrezzoUnitario_y/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
+            MixStandardRic = sqldf('select sum(Mix_y*VolumeTotale_x*PrezzoUnitario_y/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
+            MixEffettivoRic = sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_y/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
+            BudgetEffettivoRic = sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_x/TassoCambioMedio_y)/100000000000 from venditeS1 ').iloc[0][0]
+            BudgetEffettivoValutaRic = sqldf('select sum(Mix_x*VolumeTotale_x*PrezzoUnitario_x/TassoCambioMedio_x)/100000000000 from venditeS1 ').iloc[0][0]
+
+            if(BudgetStandardRic is None):
+                BudgetStandardRic = 0
+
+            if(MixStandardRic is None):
+                    MixStandardRic = 0
+            
+            if(MixEffettivoRic is None):
+                    MixEffettivoRic = 0
+            
+            if(BudgetEffettivoRic is None):
+                    BudgetEffettivoRic = 0
+
+            if(BudgetEffettivoValutaRic is None):
+                BudgetEffettivoValutaRic = 0
+
+            ScostamentoVolumeRic = MixStandardRic-BudgetStandardRic
+            ScostamentoMixRic = MixEffettivoRic-MixStandardRic
+            ScostamentoPrezzoRic = BudgetEffettivoRic-MixEffettivoRic
+            ScostamentoValutaRic = BudgetEffettivoValutaRic-BudgetEffettivoRic
+
+            
+
+            # materia prima
+
+            articoli = sqldf('select distinct NrArticolo from venditeS1')
+
+            dfConsumi.rename(columns = {'Budget/cons':'budget'}, inplace = True)
+            consumiConsuntivo = sqldf("SELECT DISTINCT * FROM dfConsumi WHERE budget = 'CONSUNTIVO' and NrArticolo in (select * from articoli)")
+            consumiBudget = sqldf("SELECT DISTINCT * FROM dfConsumi WHERE budget = 'BUDGET' and NrArticolo in (select * from articoli)") 
+
+            consumiConsuntivoUnit = sqldf('''select distinct NrMovimento, CodiceMP, NrArticolo, QuantityMPImpiegata, ImportoCostoTOTALE/QuantityMPImpiegata as CostoUnitario, ImportoCostoTOTALE 
+            from consumiConsuntivo
+            order by CodiceMP''')
+            consumiBudgetUnit = sqldf('''select distinct NrMovimento, CodiceMP, NrArticolo, QuantityMPImpiegata, ImportoCostoTOTALE/QuantityMPImpiegata as CostoUnitario, ImportoCostoTOTALE 
+            from consumiBudget
+            order by CodiceMP''')
+
+            consumiConsuntivoUnitByMP = sqldf('''select CodiceMP, NrArticolo,938999.16 as Volume, sum(QuantityMPImpiegata) as QuantityMPImpiegata,sum(ImportoCostoTOTALE)/sum(QuantityMPImpiegata) as CostoUnitario , sum(ImportoCostoTOTALE) as ImportoCostoTOTALE
+            from consumiConsuntivoUnit      
+            group by CodiceMP, NrArticolo''')
+            consumiBudgetUnitByMP = sqldf('''select CodiceMP, NrArticolo,550834.0 as Volume, sum(QuantityMPImpiegata) as QuantityMPImpiegata,sum(ImportoCostoTOTALE)/sum(QuantityMPImpiegata) as CostoUnitario , sum(ImportoCostoTOTALE) as ImportoCostoTOTALE
+            from consumiBudgetUnit      
+            group by CodiceMP, NrArticolo''')
+
+            conVol = sqldf('select CodiceMP, sum(QuantityMPImpiegata) as VolumeByMP from consumiConsuntivoUnitByMP group by CodiceMP')
+            buVol = sqldf('select CodiceMP, sum(QuantityMPImpiegata) as VolumeByMP from consumiBudgetUnitByMP group by CodiceMP')
+
+            consumiConsuntivoUnitByMP = sqldf('''select CodiceMP, NrArticolo, VolumeByMP, (QuantityMPImpiegata/VolumeByMP) as Impiego, CostoUnitario, ImportoCostoTOTALE
+            from consumiConsuntivoUnitByMP natural join conVol ''')
+            consumiBudgetUnitByMP = sqldf('''select CodiceMP, NrArticolo, VolumeByMP, (QuantityMPImpiegata/VolumeByMP) as Impiego, CostoUnitario, ImportoCostoTOTALE
+            from consumiBudgetUnitByMP natural join buVol''')
+
+            ConsumiUnit = pd.merge(consumiConsuntivoUnitByMP,consumiBudgetUnitByMP, on = ['CodiceMP','NrArticolo'], how = 'outer')
+
+            BudgetEffettivoMP = sqldf('select sum(VolumeByMP_x*Impiego_x*CostoUnitario_x) from ConsumiUnit').iloc[0][0]
+            ImpiegoEffettivoMP = sqldf('select sum(VolumeByMP_x*Impiego_x*CostoUnitario_y) from ConsumiUnit').iloc[0][0]
+            ImpiegoStandardMP = sqldf('select sum(VolumeByMP_x*Impiego_y*CostoUnitario_y) from ConsumiUnit').iloc[0][0]
+            BudgetStandardMP = sqldf('select sum(VolumeByMP_y*Impiego_y*CostoUnitario_y) from ConsumiUnit').iloc[0][0]
+            ScostamentoVolumeMP =  ImpiegoStandardMP - BudgetStandardMP
+            ScostamentoImpiegoMP = ImpiegoEffettivoMP-ImpiegoStandardMP
+            ScostamentoPrezzoMP = BudgetEffettivoMP-ImpiegoEffettivoMP 
+
+            # lavorazioni
+
+            impiegoConsuntivoNew = sqldf(''' select NrArticolo, budgetConsuntivo, NrOrdineProduzione, Descrizione, NrAreaProduzione, Risorsa, TempoRisorsa, TempoRisorsa/QuantitydiOutput as ImpiegoUnitario, CostoOrario ,QuantitydiOutput
+            from impiegoConsuntivo1
+            where NrArticolo in (select * from articoli)''')
+            impiegoConsuntivoNew.drop(['NrOrdineProduzione'], axis=1, inplace=True)
+
+            impiegoConsuntivoNew = sqldf(''' select NrArticolo, budgetConsuntivo, Descrizione, NrAreaProduzione, sum(TempoRisorsa) as TempoRisorsa, avg(CostoOrario) as CostoOrario, sum(QuantitydiOutput) as QuantitydiOutput
+            from impiegoConsuntivoNew
+            group by NrArticolo, budgetConsuntivo, Descrizione, NrAreaProduzione
+            ''')
+
+            vol = sqldf('select NrArticolo, sum(QuantitydiOutput) as Volume from impiegoConsuntivoNew group by NrArticolo')
+
+            impiegoConsuntivoNew = sqldf(''' select NrArticolo, budgetConsuntivo, Descrizione, NrAreaProduzione, TempoRisorsa, (TempoRisorsa/Volume) as ImpiegoUnitario, CostoOrario, Volume ,QuantitydiOutput
+            from impiegoConsuntivoNew natural join vol
+            ''')
+
+            impiegoBudgetNew = sqldf(''' select NrArticolo, budgetConsuntivo, Descrizione, NrAreaProduzione, sum(TempoRisorsa) as TempoRisorsa, avg(CostoOrario) as CostoOrario, sum(QuantitydiOutput) as QuantitydiOutput
+            from impiegoBudget1
+            where NrArticolo in (select * from articoli)
+            group by NrArticolo, budgetConsuntivo, Descrizione, NrAreaProduzione
+            ''')
+            vol = sqldf('select NrArticolo, sum(QuantitydiOutput) as Volume from impiegoBudgetNew group by NrArticolo')
+
+            impiegoBudgetNew = sqldf(''' select NrArticolo, budgetConsuntivo, Descrizione, NrAreaProduzione, TempoRisorsa, (TempoRisorsa/Volume) as ImpiegoUnitario, CostoOrario, Volume ,QuantitydiOutput
+            from impiegoBudgetNew natural join vol
+            ''')
+
+            impiegoConsuntivoNew.drop(['budgetConsuntivo'], axis=1, inplace=True)
+            impiegoBudgetNew.drop(['budgetConsuntivo'], axis=1, inplace=True)
+            x = pd.merge(impiegoConsuntivoNew, impiegoBudgetNew, on=['NrArticolo', 'Descrizione', 'NrAreaProduzione'], how='outer')
+
+            #Budget Standard
+            BudgetStandardLav = sqldf('select sum(ImpiegoUnitario_y*CostoOrario_y*QuantitydiOutput_y	) from x').iloc[0][0]
+            # Impiego Standard (volume a consuntivo)
+            ImpiegoStandardLav = sqldf('select sum(ImpiegoUnitario_y*CostoOrario_y*QuantitydiOutput_x	) from x').iloc[0][0]
+            # Impiego Effettivo (volume e impiego a consuntivo)
+            ImpiegoEffettivoLav=sqldf('select sum(ImpiegoUnitario_x*CostoOrario_y*QuantitydiOutput_x	) from x').iloc[0][0]
+            # Budget Effettivo (tutto a consuntivo)
+            BudgetEffettivoLav=sqldf('select sum(ImpiegoUnitario_x*CostoOrario_x*QuantitydiOutput_x	) from x').iloc[0][0]
+
+            ScostamentoVolumeLav = ImpiegoStandardLav-b
+            ScostamentoImpiegoLav = ImpiegoEffettivoLav-ImpiegoStandardLav
+            ScostamentoPrezzoLav = BudgetEffettivoLav-ImpiegoEffettivoLav
+
+            data = {client: ['Ricavi', 'CostiMP', 'CostiLav', 'Margine'], 
+            'Budget' : [BudgetStandardRic, BudgetStandardMP,BudgetStandardLav, (BudgetStandardRic - (BudgetStandardMP+BudgetStandardLav))],
+            'ScostamentoVolume' : [ScostamentoVolumeRic,ScostamentoVolumeMP,ScostamentoVolumeLav, (ScostamentoVolumeRic - (ScostamentoVolumeMP+ScostamentoVolumeLav))], 
+            'MixStandard' : [MixStandardRic, ImpiegoStandardMP,ImpiegoStandardLav, (MixStandardRic - (ImpiegoStandardMP+ImpiegoStandardLav))],
+            'ScostamentoMix' : [ScostamentoMixRic,ScostamentoImpiegoMP,ScostamentoImpiegoLav, (ScostamentoMixRic - (ScostamentoImpiegoMP+ScostamentoImpiegoLav))],
+            'MixEffettivo' : [MixEffettivoRic, ImpiegoEffettivoMP,ImpiegoEffettivoLav, (MixEffettivoRic - (ImpiegoEffettivoMP+ImpiegoEffettivoLav))],
+            'ScostamentoPrezzo' : [ScostamentoPrezzoRic,ScostamentoPrezzoMP,ScostamentoPrezzoLav, (ScostamentoPrezzoRic - (ScostamentoPrezzoMP+ScostamentoPrezzoLav))], 
+            'MixValuta' : [BudgetEffettivoRic, BudgetEffettivoMP,BudgetEffettivoLav, (BudgetEffettivoRic - (BudgetEffettivoMP+BudgetEffettivoLav))],
+            'ScostamentoValuta' : [ScostamentoValutaRic, 0, 0, (ScostamentoValutaRic - (0+0))],
+            'Consuntivo' : [BudgetEffettivoValutaRic, BudgetEffettivoMP, BudgetEffettivoLav, (BudgetEffettivoValutaRic - (BudgetEffettivoMP+BudgetEffettivoLav))],
+            'ScostamentoTotale' : [BudgetEffettivoValutaRic-BudgetStandardRic,BudgetEffettivoMP-BudgetStandardMP,BudgetEffettivoLav-BudgetStandardLav, (BudgetEffettivoValutaRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))]}
+
+            data = pd.DataFrame(data)
+
+            return data
+
+
+        return "OK"

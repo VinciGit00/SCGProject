@@ -25,7 +25,7 @@ class PaginaSecondaria extends StatefulWidget {
   final String titoloPagina;
 
   // Chiave per recuperare dati dal file json
-  final String dataPath;
+  final List<String> dataPath;
 
   // Function that returns data for the column graph
   final dynamic graficoScostamentoData;
@@ -58,87 +58,80 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
     dynamic data = Provider.of<DataProvider>(context).data;
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.green[200],
-          body: Column(
-            children: [
-              // PARTE SUPERIORE PAGINA
-              ParteSuperiorePagina(
-                titoloPagina: widget.titoloPagina,
-              ),
-              Expanded(
-                flex: 5,
-                child: Container(
-                  margin: const EdgeInsets.all(20),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      // BLOCCO DI SINISTRA
-                      BloccoSinistra(
-                        scostamento: data["${widget.dataPath}Scostamento"]!,
-                        titoloPagina: widget.titoloPagina,
-                        budget: data!["${widget.dataPath}Budget"]!,
-                        consuntivo: data!["${widget.dataPath}Consuntivo"]!,
-                      ),
+        backgroundColor: Colors.green[200],
+        body: Column(
+          children: [
+            // PARTE SUPERIORE PAGINA
+            ParteSuperiorePagina(
+              titoloPagina: widget.titoloPagina,
+            ),
+            Expanded(
+              flex: 5,
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // BLOCCO DI SINISTRA
+                    BloccoSinistra(
+                      scostamento: data[widget.dataPath[0]]!,
+                      titoloPagina: widget.titoloPagina,
+                      budget: data![widget.dataPath[1]]!,
+                      consuntivo: data![widget.dataPath[2]]!,
+                    ),
 
-                      // BLOCCO DI DESTRA
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.green[400],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: const EdgeInsets.only(
-                              top: 20, left: 20, right: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // GRAFICO
-                              Provider.of<DataNotifier>(context)
-                                      .isGraficoScostamentoPagSecondaria
-                                  ? ColumnChartDrawer(
-                                      title: "Scostamenti Ricavi",
-                                      nomePrimaColonna: "Scostamento",
-                                      data: widget.graficoBudgetConsuntivoData)
-                                  : ColumnChartDrawer(
-                                      title: "Budget & Consuntivo Ricavi",
-                                      nomePrimaColonna: "Value",
-                                      data: widget.graficoScostamentoData,
+                    // BLOCCO DI DESTRA
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.green[400],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding:
+                            const EdgeInsets.only(top: 20, left: 20, right: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // GRAFICO SCOSTAMENTI
+                            ColumnChartDrawer(
+                                title: "Scostamenti ${widget.titoloPagina}",
+                                nomePrimaColonna: "Scostamento",
+                                data: widget.graficoBudgetConsuntivoData),
 
-                                      /* SfCartesianChart(
-                                    series: <ChartSeries>[
-                                      HistogramSeries<double, double>(
-                                        yValueMapper: (sales, _) => sales,
-                                        dataSource: <double>[
-                                          3,
-                                          4,
-                                          23,
-                                          42,
-                                          4,
-                                          234,
-                                          2,
-                                          4,
-                                          12,
-                                          3
-                                        ],
-                                        showNormalDistributionCurve: true,
-                                        curveColor: const Color.fromRGBO(
-                                            192, 108, 132, 1),
-                                        binInterval: 20,
-                                      )
-                                    ],
-                                  )
- */
-                                    )
-                            ],
-                          ),
+                            const Spacer(),
+
+                            // GRAFICO VALORE
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 50),
+                              child: ColumnChartDrawer(
+                                title: "Valori ${widget.titoloPagina}",
+                                nomePrimaColonna: "Value",
+                                data: widget.graficoScostamentoData,
+                              ),
+                            )
+
+                            /*  Provider.of<DataNotifier>(context)
+                                    .isGraficoScostamentoPagSecondaria
+                                ? ColumnChartDrawer(
+                                    title: "Scostamenti Ricavi",
+                                    nomePrimaColonna: "Scostamento",
+                                    data: widget.graficoBudgetConsuntivoData)
+                                : ColumnChartDrawer(
+                                    title: "Budget & Consuntivo Ricavi",
+                                    nomePrimaColonna: "Value",
+                                    data: widget.graficoScostamentoData,
+                                  ) */
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

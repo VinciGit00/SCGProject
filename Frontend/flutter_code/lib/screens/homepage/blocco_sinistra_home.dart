@@ -13,11 +13,11 @@ class BloccoSinistraHome extends StatefulWidget {
   }) : super(key: key);
 
   // Valore budget mol
-  final int budget;
+  final double budget;
   // Valore consuntivo mol
-  final int consuntivo;
+  final double consuntivo;
   // Valore scostamento mol
-  final int scostamento;
+  final double scostamento;
 
   @override
   _BloccoSinistraHomeState createState() => _BloccoSinistraHomeState();
