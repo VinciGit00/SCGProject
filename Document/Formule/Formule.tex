@@ -13,7 +13,40 @@
  
 \begin{document}
 \maketitle
-\section{Mix Standard}
-$\Sigma$$\frac{Quantity B_{i}}{sum(Quantity B)}$*$\frac{Totale Vendita B_{i}}{Quantity B_{i}}$
- 
+\section{Formula completa per i ricavi}
+\subsection{a}
+[$\sum_{i=1} ^{n}$$\frac{Quantity_{i}}{sum(Quantity)}$$\cdot$sum(Quantity)$\cdot$$\frac{Totale Vendita _{i}}{Quantity _{i}}$]/TassoCambioMedio
+\subsection{b}
+$\sum_{i=1} ^{n} Mix_{i}\cdot VolumeTotale \cdot $$\frac{PrezzoUnitario_{i}}{TassoCambioMedio_{i}}$
+\\$\frac{Quantity}{VolumeTotale}$, as Mix\\
+\bigskip
+\\VolumeTotale, 
+\bigskip
+\\$\frac{TotaleLocale}{Quantity}$ as PrezzoUnitario
+
+\section{Mix Standard per i ricavi}
+$\sum_{i=1} ^{n}$$\frac{Quantityb_{i}}{sum(Quantity b)}$$\cdot$sum(Quantity c)$\cdot$$\frac{Totale Vendita b_{i}}{Quantity b_{i}}$
+
+\section{Lavorazione}
+$\sum_{i=1} ^{n} ImpiegoUnitario_i \cdot CostoOrario_i \cdot QuantitydiOutput_i$
+\bigskip
+\\$\frac{TempoRisorsa}{QuantitydiOutput}$as ImpiegoUnitario
+\bigskip
+\bigskip
+\\CostoOrario
+\bigskip
+\bigskip
+\\QuantitydiOutput
+
+\section{Materia prima}
+$\sum_{i=1} ^{n}QuantityOutput_i \cdot ImpiegoPerPezzo_i\cdot CostoPerUnitaMis_i$
+\bigskip
+\\$\frac{QuantityMPImpiegata}{QuantitydiOutput} as ImpiegoPerPezzo$
+\bigskip
+\bigskip
+\\$\frac {ImportoCostoTOTALE}{QuantityMPImpiegata} as CostoPerUnitaMis$
+\bigskip
+\bigskip
+\\QuantitydiOutput
+
 \end{document}
