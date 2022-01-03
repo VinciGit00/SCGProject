@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontendscg/screens/homepage/homepage.dart';
-import 'package:frontendscg/screens/pagina%20secondaria/pagina_secondaria.dart';
+import 'package:frontendscg/screens/pagina%20scostamenti%20articoli/pagina_scostamenti_articoli.dart';
 import 'package:frontendscg/utils/data_notifier.dart';
 import 'package:frontendscg/utils/data_notifier_home.dart';
 import 'package:frontendscg/utils/data_provider.dart';

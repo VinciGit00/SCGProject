@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:frontendscg/database/constants.dart';
 import 'package:frontendscg/widgets/column_chart.dart';
 import 'package:frontendscg/widgets/pie_chart.dart';
+import 'package:intl/intl.dart';
 
 class DataGraphBuilder {
   ///
@@ -13,16 +15,16 @@ class DataGraphBuilder {
   List<ColumnChartData> ricaviScostamentoData(dynamic data) {
     return [
       ColumnChartData(
-          x: 'Scostamento Volume',
+          x: 'Scostamento \nVolume',
           colonna1: data[Names.ricaviScostamentoVol.name]),
       ColumnChartData(
-          x: 'Scostamento Mix',
+          x: 'Scostamento \nMix',
           colonna1: data[Names.ricaviScostamentoMix.name]),
       ColumnChartData(
-          x: 'Scostamento Prezzo',
+          x: 'Scostamento \nPrezzo',
           colonna1: data[Names.ricaviScostamentoPrezzo.name]),
       ColumnChartData(
-          x: 'Scostamento Valuta',
+          x: 'Scostamento \nValuta',
           colonna1: data[Names.ricaviScostamentoValuta.name]),
     ];
   }
@@ -39,6 +41,62 @@ class DataGraphBuilder {
           x: 'Mix Valuta', colonna1: data[Names.ricaviMixValuta.name]),
       ColumnChartData(
           x: 'Consuntivo', colonna1: data[Names.ricaviConsuntivo.name])
+    ];
+  }
+
+  /// Table valori Ricavi
+  List<DataRow> valoriColumnRicavi(dynamic data) {
+    return [
+      DataRow(
+        cells: [
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviBudget.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviMixStandard.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviMixEffettivo.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviMixValuta.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviConsuntivo.name])} "),
+          ),
+        ],
+      )
+    ];
+  }
+
+  // Table scostamenti ricavi
+  List<DataRow> scostamentiColumnRicavi(dynamic data) {
+    return [
+      DataRow(
+        cells: [
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviScostamentoVol.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviScostamentoMix.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviScostamentoPrezzo.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.ricaviScostamentoValuta.name])} "),
+          ),
+        ],
+      )
     ];
   }
 
@@ -105,25 +163,25 @@ class DataGraphBuilder {
   ///////////////////
   ///
 
-  /// Grafico Scostamento Ricavi
+  /// Grafico Scostamento Materie Prime
   List<ColumnChartData> materiePrimeScostamentoData(dynamic data) {
     return [
       ColumnChartData(
-          x: 'Scostamento Volume',
+          x: 'Scostamento \nVolume',
           colonna1: data[Names.materiePrimeScostamentoVol.name]),
       ColumnChartData(
-          x: 'Scostamento Mix',
+          x: 'Scostamento \nMix',
           colonna1: data[Names.materiePrimeScostamentoMix.name]),
       ColumnChartData(
-          x: 'Scostamento Prezzo',
+          x: 'Scostamento \nPrezzo',
           colonna1: data[Names.materiePrimeScostamentoPrezzo.name]),
       ColumnChartData(
-          x: 'Scostamento Valuta',
+          x: 'Scostamento \nValuta',
           colonna1: data[Names.materiePrimeScostamentoValuta.name]),
     ];
   }
 
-  /// Grafico Budget/Consuntivo Ricavi
+  /// Grafico Budget/Consuntivo Materie Prime
   List<ColumnChartData> materiePrimeBudgetConsuntivoData(dynamic data) {
     return [
       ColumnChartData(
@@ -141,6 +199,62 @@ class DataGraphBuilder {
     ];
   }
 
+  /// Table valori Materie Prime
+  List<DataRow> valoriColumnMateriePrime(dynamic data) {
+    return [
+      DataRow(
+        cells: [
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeBudget.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeMixStandard.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeMixEffettivo.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeMixValuta.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeConsuntivo.name])} "),
+          ),
+        ],
+      )
+    ];
+  }
+
+  // Table scostamenti Materie Prime
+  List<DataRow> scostamentiColumnMateriePrime(dynamic data) {
+    return [
+      DataRow(
+        cells: [
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeScostamentoVol.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeScostamentoMix.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeScostamentoPrezzo.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.materiePrimeScostamentoValuta.name])} "),
+          ),
+        ],
+      )
+    ];
+  }
+
   ///
   ///////////////////
   // LAVORAZIONI INTERNE
@@ -151,16 +265,16 @@ class DataGraphBuilder {
   List<ColumnChartData> lavorazioniInterneScostamentoData(dynamic data) {
     return [
       ColumnChartData(
-          x: 'Scostamento Volume',
+          x: 'Scostamento \nVolume',
           colonna1: data[Names.lavorazioniInterneScostamentoVol.name]),
       ColumnChartData(
-          x: 'Scostamento Mix',
+          x: 'Scostamento \nMix',
           colonna1: data[Names.lavorazioniInterneScostamentoMix.name]),
       ColumnChartData(
-          x: 'Scostamento Prezzo',
+          x: 'Scostamento \nPrezzo',
           colonna1: data[Names.lavorazioniInterneScostamentoPrezzo.name]),
       ColumnChartData(
-          x: 'Scostamento Valuta',
+          x: 'Scostamento \nValuta',
           colonna1: data[Names.lavorazioniInterneScostamentoValuta.name]),
     ];
   }
@@ -185,6 +299,62 @@ class DataGraphBuilder {
     ];
   }
 
+  /// Table valori Lavorazioni Interne
+  List<DataRow> valoriColumnLavorazioniInterne(dynamic data) {
+    return [
+      DataRow(
+        cells: [
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneBudget.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneMixStandard.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneMixEffettivo.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneMixValuta.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneConsuntivo.name])} "),
+          ),
+        ],
+      )
+    ];
+  }
+
+  // Table scostamenti Lavorazioni Interne
+  List<DataRow> scostamentiColumnLavorazioniInterne(dynamic data) {
+    return [
+      DataRow(
+        cells: [
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneScostamentoVol.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneScostamentoMix.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneScostamentoPrezzo.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.lavorazioniInterneScostamentoValuta.name])} "),
+          ),
+        ],
+      )
+    ];
+  }
+
   ///
   ///////////////////
   // COSTI TOTALI
@@ -195,16 +365,16 @@ class DataGraphBuilder {
   List<ColumnChartData> costiTotaliScostamentoData(dynamic data) {
     return [
       ColumnChartData(
-          x: 'Scostamento Volume',
+          x: 'Scostamento \nVolume',
           colonna1: data[Names.costiTotaliScostamentoVol.name]),
       ColumnChartData(
-          x: 'Scostamento Mix',
+          x: 'Scostamento \nMix',
           colonna1: data[Names.costiTotaliScostamentoMix.name]),
       ColumnChartData(
-          x: 'Scostamento Prezzo',
+          x: 'Scostamento \nPrezzo',
           colonna1: data[Names.costiTotaliScostamentoPrezzo.name]),
       ColumnChartData(
-          x: 'Scostamento Valuta',
+          x: 'Scostamento \nValuta',
           colonna1: data[Names.costiTotaliScostamentoValuta.name]),
     ];
   }
@@ -223,6 +393,62 @@ class DataGraphBuilder {
           x: 'Mix Valuta', colonna1: data[Names.costiTotaliMixValuta.name]),
       ColumnChartData(
           x: 'Consuntivo', colonna1: data[Names.costiTotaliConsuntivo.name])
+    ];
+  }
+
+  /// Table valori Costi Totali
+  List<DataRow> valoriColumnCostiTotali(dynamic data) {
+    return [
+      DataRow(
+        cells: [
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliBudget.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliMixStandard.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliMixEffettivo.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliMixValuta.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliConsuntivo.name])} "),
+          ),
+        ],
+      )
+    ];
+  }
+
+  // Table scostamenti Costi Totali
+  List<DataRow> scostamentiColumnCostiTotali(dynamic data) {
+    return [
+      DataRow(
+        cells: [
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliScostamentoVol.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliScostamentoMix.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliScostamentoPrezzo.name])} "),
+          ),
+          DataCell(
+            Text(
+                "€ ${NumberFormat.currency(name: "", decimalDigits: 0).format(data[Names.costiTotaliScostamentoValuta.name])} "),
+          ),
+        ],
+      )
     ];
   }
 }

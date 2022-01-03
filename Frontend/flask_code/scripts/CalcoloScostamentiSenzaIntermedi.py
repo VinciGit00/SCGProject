@@ -8,11 +8,85 @@ import os.path
 import getpass
 import platform
 from pandasql import sqldf
+import asyncio
+import json
 import openpyxl
 
+class ScostamentiSenzaIntermedi:
+    async def getData():
+        d = CalcoloScostamentiSenzaIntermedi()
+        await d.runCalcoloScostamenti()
+        print(d.toJSON())
+        return d.toJSON()
 
-class CalcoloScostamentiSenzaIntermedi:
-    async def runCalcoloScostamenti():
+
+class CalcoloScostamentiSenzaIntermedi:# MOL
+    molBudget = 0
+    molScostamentoVol = 0
+    molMixStandard = 0
+    molScostamentoMix = 0
+    molMixEffettivo = 0
+    molScostamentoPrezzo = 0
+    molMixValuta = 0
+    molScostamentoValuta = 0
+    molConsuntivo = 0
+    molScostamentoTot = 0
+
+    # RICAVI
+    ricaviBudget = 0
+    ricaviScostamentoVol = 0
+    ricaviMixStandard = 0
+    ricaviScostamentoMix = 0
+    ricaviMixEffettivo = 0
+    ricaviScostamentoPrezzo = 0
+    ricaviMixValuta = 0
+    ricaviScostamentoValuta = 0
+    ricaviConsuntivo = 0
+    ricaviScostamentoTot = 0
+
+
+    # MATERIE PRIME
+    materiePrimeBudget = 0
+    materiePrimeScostamentoVol = 0
+    materiePrimeMixStandard = 0
+    materiePrimeScostamentoMix = 0
+    materiePrimeMixEffettivo = 0
+    materiePrimeScostamentoPrezzo = 0
+    materiePrimeMixValuta = 0
+    materiePrimeScostamentoValuta = 0
+    materiePrimeConsuntivo = 0
+    materiePrimeScostamentoTot = 0   
+
+    # LAVORAZIONI INTERNE
+    lavorazioniInterneiBudget = 0
+    lavorazioniInterneScostamentoVol = 0
+    lavorazioniInterneMixStandard = 0
+    lavorazioniInterneScostamentoMix = 0
+    lavorazioniInterneMixEffettivo = 0
+    lavorazioniInterneScostamentoPrezzo = 0
+    lavorazioniInterneMixValuta = 0
+    lavorazioniInterneScostamentoValuta = 0
+    lavorazioniInterneConsuntivo = 0
+    lavorazioniInterneScostamentoTot = 0
+
+    # COSTI TOTALI
+    costiTotaliBudget = 0
+    costiTotaliScostamentoVol = 0
+    costiTotaliMixStandard = 0
+    costiTotaliScostamentoMix = 0
+    costiTotaliMixEffettivo = 0
+    costiTotaliScostamentoPrezzo = 0
+    costiTotaliMixValuta = 0
+    costiTotaliScostamentoValuta = 0
+    costiTotaliConsuntivo = 0
+    costiTotaliScostamentoTot = 0   
+   
+    # Metodo per trasformare la classe in json
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+
+    async def runCalcoloScostamenti(self):
         username = getpass.getuser()
 
         pathPart1 = "/Users/"
@@ -105,6 +179,33 @@ class CalcoloScostamentiSenzaIntermedi:
                 dfVendite = pd.read_csv(
                         complePath+"/CorrectedDatasets/dfVendite.csv")
 
+        else:
+                complePath = "C:/SCGProject/Datasets/"
+                
+                dfCambio = pd.read_csv(
+                        complePath+"/CorrectedDatasets/dfCambio.csv")
+
+                dfClienti = pd.read_csv(
+                        complePath+"/CorrectedDatasets/dfClienti.csv")
+
+                dfConsumi = pd.read_csv(
+                        complePath + "/CorrectedDatasets/dfConsumi.csv")
+
+                dfCostoOrarioConsuntivo = pd.read_csv(
+                        complePath+"/CorrectedDatasets/dfConsuntivo.csv")
+
+                dfCostoOrarioBudget = pd.read_csv(
+                        complePath+"CorrectedDatasets/dfCostoOrario.csv")
+
+                dfImpiegoRisorse = pd.read_csv(
+                        complePath+"/CorrectedDatasets/dfImpiegoRisorse.csv")
+
+                dftuttiClienti = pd.read_csv(
+                        complePath+"/CorrectedDatasets/dftuttiClienti.csv")
+
+                dfVendite = pd.read_csv(
+                        complePath+"/CorrectedDatasets/dfVendite.csv")
+
 
 
         dfCambio["TassoCambioMedio"] = dfCambio["TassoCambioMedio"].str.replace(',','.')
@@ -119,23 +220,17 @@ class CalcoloScostamentiSenzaIntermedi:
 
 
 
-
-
-
         # join with dfCambio and dfClienti
         venditeConsuntivo = sqldf('''SELECT DISTINCT v.NrMovimento, v.budget, v.NrArticolo, v.Quantity, v.ImportoVenditaValutaLocaleTOTALEVENDITA,k.TassoCambioMedio,v.ImportoVenditaValutaLocaleTOTALEVENDITA/k.TassoCambioMedio as TotaleEuro, v.NrOrigine, c.CodCondizioniPagam, c.FattCumulative, c.Valuta
-        FROM venditeConsuntivo as v join dfClienti as c on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
+        FROM dfClienti as c join venditeConsuntivo as v on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
         where k.Anno = 'Consuntivo' or k.Anno = 'CONSUNTIVO'
         ''')
 
+
         venditeBudget = sqldf('''SELECT DISTINCT v.NrMovimento, v.budget, v.NrArticolo, v.Quantity, v.ImportoVenditaValutaLocaleTOTALEVENDITA,k.TassoCambioMedio,v.ImportoVenditaValutaLocaleTOTALEVENDITA/k.TassoCambioMedio as TotaleEuro, v.NrOrigine, c.CodCondizioniPagam, c.FattCumulative, c.Valuta
-        FROM venditeBudget as v join dfClienti as c on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
+        FROM dfClienti as c join venditeBudget as v on v.NrOrigine = c.Nr join dfCambio as k on c.Valuta = k.CodiceValuta
         where k.Anno = 'Budget' or k.Anno = 'BUDGET'
         ''')
-
-
-
-
 
 
         sumVenditeConsuntivo = sqldf('select sum(TotaleEuro) as sumVenditaTotale from venditeConsuntivo')
@@ -645,6 +740,69 @@ class CalcoloScostamentiSenzaIntermedi:
                 'ScostamentoValuta' : [ScostamentoValutaRic, 0, 0, (ScostamentoValutaRic - (0+0))],
                 'Consuntivo' : [BudgetEffettivoValutaRic, BudgetEffettivoMP, BudgetEffettivoLav, (BudgetEffettivoValutaRic - (BudgetEffettivoMP+BudgetEffettivoLav))],
                 'ScostamentoTotale' : [BudgetEffettivoValutaRic-BudgetStandardRic,BudgetEffettivoMP-BudgetStandardMP,BudgetEffettivoLav-BudgetStandardLav, (BudgetEffettivoValutaRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))]}
+
+        # MOL
+        self.molBudget = (BudgetStandardRic - (BudgetStandardMP+BudgetStandardLav))
+        self.molScostamentoVol = (ScostamentoVolumeRic - (ScostamentoVolumeMP+ScostamentoVolumeLav))
+        self.molMixStandard =  (MixStandardRic - (ImpiegoStandardMP+ImpiegoStandardLav))
+        self.molScostamentoMix = (ScostamentoMixRic - (ScostamentoImpiegoMP+ScostamentoImpiegoLav))
+        self.molMixEffettivo = (MixEffettivoRic - (ImpiegoEffettivoMP+ImpiegoEffettivoLav))
+        self.molScostamentoPrezzo = (ScostamentoPrezzoRic - (ScostamentoPrezzoMP+ScostamentoPrezzoLav))
+        self.molMixValuta = (BudgetEffettivoRic - (BudgetEffettivoMP+BudgetEffettivoLav))
+        self.molScostamentoValuta = (ScostamentoValutaRic - (0+0))
+        self.molConsuntivo = (BudgetEffettivoValutaRic - (BudgetEffettivoMP+BudgetEffettivoLav))
+        self.molScostamentoTot = (BudgetEffettivoValutaRic - BudgetStandardRic - (BudgetEffettivoMP-BudgetStandardMP+BudgetEffettivoLav-BudgetStandardLav))
+
+        # RICAVI
+        self.ricaviBudget = BudgetStandardRic
+        self.ricaviScostamentoVol = ScostamentoVolumeRic
+        self.ricaviMixStandard = MixStandardRic
+        self.ricaviScostamentoMix = ScostamentoMixRic
+        self.ricaviMixEffettivo = MixEffettivoRic 
+        self.ricaviScostamentoPrezzo = ScostamentoPrezzoRic
+        self.ricaviMixValuta = BudgetEffettivoRic
+        self.ricaviScostamentoValuta = ScostamentoValutaRic
+        self.ricaviConsuntivo = BudgetEffettivoValutaRic
+        self.ricaviScostamentoTot = BudgetEffettivoValutaRic-BudgetStandardRic
+
+
+        # MATERIE PRIME
+        self.materiePrimeBudget = BudgetStandardMP
+        self.materiePrimeScostamentoVol = ScostamentoVolumeMP
+        self.materiePrimeMixStandard = ImpiegoStandardMP
+        self.materiePrimeScostamentoMix = ScostamentoImpiegoMP
+        self.materiePrimeMixEffettivo = ImpiegoEffettivoMP
+        self.materiePrimeScostamentoPrezzo = ScostamentoPrezzoMP
+        self.materiePrimeMixValuta = BudgetEffettivoMP
+        self.materiePrimeScostamentoValuta = 0
+        self.materiePrimeConsuntivo = BudgetEffettivoMP
+        self.materiePrimeScostamentoTot = BudgetEffettivoMP-BudgetStandardMP
+
+        # LAVORAZIONI INTERNE
+        self.lavorazioniInterneBudget = BudgetStandardLav
+        self.lavorazioniInterneScostamentoVol = ScostamentoVolumeLav
+        self.lavorazioniInterneMixStandard = ImpiegoStandardLav
+        self.lavorazioniInterneScostamentoMix = ScostamentoImpiegoLav
+        self.lavorazioniInterneMixEffettivo = ImpiegoEffettivoLav
+        self.lavorazioniInterneScostamentoPrezzo = ScostamentoPrezzoLav
+        self.lavorazioniInterneMixValuta = BudgetEffettivoLav
+        self.lavorazioniInterneScostamentoValuta = 0
+        self.lavorazioniInterneConsuntivo = BudgetEffettivoLav
+        self.lavorazioniInterneScostamentoTot = BudgetEffettivoLav-BudgetStandardLav
+
+        # COSTI TOTALI
+        self.costiTotaliBudget = BudgetStandardMP + BudgetStandardLav
+        self.costiTotaliScostamentoVol = ScostamentoVolumeMP + ScostamentoVolumeLav
+        self.costiTotaliMixStandard = ImpiegoStandardMP + ImpiegoStandardLav
+        self.costiTotaliScostamentoMix = ScostamentoImpiegoMP + ScostamentoImpiegoLav
+        self.costiTotaliMixEffettivo = ImpiegoEffettivoMP + ImpiegoEffettivoLav
+        self.costiTotaliScostamentoPrezzo = ScostamentoPrezzoMP + ScostamentoPrezzoLav
+        self.costiTotaliMixValuta = BudgetEffettivoMP + BudgetEffettivoLav
+        self.costiTotaliScostamentoValuta = 0
+        self.costiTotaliConsuntivo = BudgetEffettivoMP + BudgetEffettivoLav
+        self.costiTotaliScostamentoTot = (BudgetEffettivoMP-BudgetStandardMP) + (BudgetEffettivoLav-BudgetStandardLav) 
+    
+    
 
 
 

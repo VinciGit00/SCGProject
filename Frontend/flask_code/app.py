@@ -7,7 +7,7 @@ import getpass
 import platform
 from flask_cors import CORS
 from scripts.datascript import Datascript
-from scripts.CalcoloScostamentiConIntermedi import ScostamentiConIntermedi 
+from scripts.CalcoloScostamentiSenzaIntermedi import ScostamentiSenzaIntermedi
 
 
 # This file contains all the apis required to upload the 
@@ -85,7 +85,8 @@ def get_csv_graph(filename):
 # Get test data from python scripts. It awaits data from the script
 @app.route('/get-scriptdata')
 async def get_script_data():
-    return await ScostamentiConIntermedi.getData()
+    return await ScostamentiSenzaIntermedi.getData()
+
 
 
 # Format Datasets Script

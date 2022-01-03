@@ -13,6 +13,8 @@ class PulsanteAltriScostamenti extends StatelessWidget {
       required this.dataPath,
       required this.graficoScostamentoData,
       required this.graficoBudgetConsuntivoData,
+      required this.tabellaScostamenti,
+      required this.tabellaValori,
       required this.valoreScostamento})
       : super(key: key);
 
@@ -28,6 +30,12 @@ class PulsanteAltriScostamenti extends StatelessWidget {
 
   // Function that returns data for the column graph
   final dynamic graficoBudgetConsuntivoData;
+
+  // Lista Dati della tabella scostamenti presente nella pagina secondaria
+  final dynamic tabellaScostamenti;
+
+  // Lista Dati della tabella valori presente nella pagina secondaria
+  final dynamic tabellaValori;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +58,8 @@ class PulsanteAltriScostamenti extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) {
                       return PaginaSecondaria(
+                        tabellaDatiScostamento: tabellaScostamenti,
+                        tabellaDatiValori: tabellaValori,
                         graficoBudgetConsuntivoData:
                             graficoBudgetConsuntivoData,
                         graficoScostamentoData: graficoScostamentoData,

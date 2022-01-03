@@ -19,6 +19,8 @@ class PaginaSecondaria extends StatefulWidget {
       required this.titoloPagina,
       required this.dataPath,
       required this.graficoScostamentoData,
+      required this.tabellaDatiValori,
+      required this.tabellaDatiScostamento,
       required this.graficoBudgetConsuntivoData})
       : super(key: key);
 
@@ -33,6 +35,10 @@ class PaginaSecondaria extends StatefulWidget {
 
   // Function that returns data for the column graph
   final dynamic graficoBudgetConsuntivoData;
+
+  final dynamic tabellaDatiScostamento;
+
+  final dynamic tabellaDatiValori;
 
   @override
   State<PaginaSecondaria> createState() => _PaginaSecondariaState();
@@ -74,15 +80,21 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     // BLOCCO DI SINISTRA
-                    BloccoSinistra(
-                      scostamento: data[widget.dataPath[0]]!,
-                      titoloPagina: widget.titoloPagina,
-                      budget: data![widget.dataPath[1]]!,
-                      consuntivo: data![widget.dataPath[2]]!,
+                    Expanded(
+                      flex: 10,
+                      child: BloccoSinistra(
+                        rigaTabellaScostamenti: widget.tabellaDatiScostamento,
+                        rigaTabellaValori: widget.tabellaDatiValori,
+                        scostamento: data[widget.dataPath[0]]!,
+                        titoloPagina: widget.titoloPagina,
+                        budget: data![widget.dataPath[1]]!,
+                        consuntivo: data![widget.dataPath[2]]!,
+                      ),
                     ),
 
                     // BLOCCO DI DESTRA
                     Expanded(
+                      flex: 8,
                       child: Container(
                         decoration: BoxDecoration(
                           color: ColorData().blocchiPagina,
@@ -93,21 +105,22 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            // GRAFICO SCOSTAMENTI
+                            // GRAFICO VALORE
                             ColumnChartDrawer(
-                                title: "Scostamenti ${widget.titoloPagina}",
-                                nomePrimaColonna: "Scostamento",
-                                data: widget.graficoScostamentoData),
+                              title: "Valori ${widget.titoloPagina}",
+                              nomePrimaColonna: "Value",
+                              data: widget.graficoBudgetConsuntivoData,
+                            ),
 
                             const Spacer(),
 
-                            // GRAFICO VALORE
+                            // GRAFICO SCOSTAMENTI
                             Padding(
                               padding: const EdgeInsets.only(bottom: 50),
                               child: ColumnChartDrawer(
-                                title: "Valori ${widget.titoloPagina}",
-                                nomePrimaColonna: "Value",
-                                data: widget.graficoBudgetConsuntivoData,
+                                title: "Scostamenti ${widget.titoloPagina}",
+                                nomePrimaColonna: "Scostamento",
+                                data: widget.graficoScostamentoData,
                               ),
                             )
                           ],

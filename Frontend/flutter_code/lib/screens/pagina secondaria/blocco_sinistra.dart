@@ -12,13 +12,17 @@ class BloccoSinistra extends StatefulWidget {
       required this.titoloPagina,
       required this.budget,
       required this.scostamento,
-      required this.consuntivo})
+      required this.consuntivo,
+      required this.rigaTabellaValori,
+      required this.rigaTabellaScostamenti})
       : super(key: key);
 
   final String titoloPagina;
   final double scostamento;
   final double budget;
   final double consuntivo;
+  final List<DataRow> rigaTabellaScostamenti;
+  final List<DataRow> rigaTabellaValori;
 
   @override
   _BloccoSinistraState createState() => _BloccoSinistraState();
@@ -35,129 +39,122 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: ColorData().blocchiPagina,
-          borderRadius: BorderRadius.circular(
-            10,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: ColorData().blocchiPagina,
+        borderRadius: BorderRadius.circular(
+          10,
         ),
-        margin: const EdgeInsets.only(right: 20),
-        padding: const EdgeInsets.all(25),
-        child: Column(
-          children: <Widget>[
-            // RIGA CON TESTO BUDGET/CONSUNTIVO
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // LABEL SCOSTAMENTO MOL
-                    Text(
-                      "Scostamento:",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
-
-                    // LABEL MOL BUDGET
-                    Text(
-                      "Budget:",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
-
-                    // LABEL MOL CONSUNTIVO
-                    Text(
-                      "Consuntivo:",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    // LABEL SCOSTAMENTO
-                    Text(
-                      "€ ${NumberFormat.currency(name: "").format(widget.scostamento)} ",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
-
-                    // LABEL BUDGET
-                    Text(
-                      "€ ${NumberFormat.currency(name: "").format(widget.budget)} ",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
-
-                    // LABEL CONSUNTIVO
-                    Text(
-                      "€ ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
-                      style: TextStyle(fontSize: size.width / 40),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-            /*  // RIGA CON PULSANTI BUDGET/CONSUNTIVO E SCOSTAMENTO
-            Flexible(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // PULSANTE BUDGET + CONSUNTIVO
-                  Flexible(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 30, right: 20),
-                      height: 55,
-                      width: 200,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: ColorData().pulsanti),
-                        onPressed: () {
-                          Provider.of<DataNotifier>(context, listen: false)
-                              .showGraficoBudgetConsuntivo();
-                        },
-                        child: const Text(
-                          "Overview \nBudget + Consuntivo",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
+      ),
+      margin: const EdgeInsets.only(right: 20),
+      padding: const EdgeInsets.all(25),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          // RIGA CON TESTO BUDGET/CONSUNTIVO
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // LABEL SCOSTAMENTO MOL
+                  Text(
+                    "Scostamento:",
+                    style: TextStyle(fontSize: size.width / 40),
                   ),
 
-                  // PULSANTE SCOSTAMENTO
-                  Flexible(
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 30, right: 20),
-                      height: 55,
-                      width: 200,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: ColorData().pulsanti),
-                        onPressed: () {
-                          Provider.of<DataNotifier>(context, listen: false)
-                              .showGraficoScostamento();
-                        },
-                        child: const Text("Scostamento"),
-                      ),
-                    ),
+                  // LABEL MOL BUDGET
+                  Text(
+                    "Budget:",
+                    style: TextStyle(fontSize: size.width / 40),
+                  ),
+
+                  // LABEL MOL CONSUNTIVO
+                  Text(
+                    "Consuntivo:",
+                    style: TextStyle(fontSize: size.width / 40),
                   ),
                 ],
               ),
-            ), */
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  // LABEL SCOSTAMENTO
+                  Text(
+                    "€ ${NumberFormat.currency(name: "").format(widget.scostamento)} ",
+                    style: TextStyle(fontSize: size.width / 40),
+                  ),
 
-            /*  // TABELLA DATI
-            Container(
-              margin: const EdgeInsets.only(top: 50),
-              child: DataTable(
-                border: TableBorder(borderRadius: BorderRadius.circular(8)),
-                columns: dataC,
-                rows: dataR,
+                  // LABEL BUDGET
+                  Text(
+                    "€ ${NumberFormat.currency(name: "").format(widget.budget)} ",
+                    style: TextStyle(fontSize: size.width / 40),
+                  ),
+
+                  // LABEL CONSUNTIVO
+                  Text(
+                    "€ ${NumberFormat.currency(name: "").format(widget.consuntivo)} ",
+                    style: TextStyle(fontSize: size.width / 40),
+                  ),
+                ],
               ),
-            ) */
-          ],
-        ),
+            ],
+          ),
+
+          // TABELLA DATI
+          Container(
+            margin: const EdgeInsets.only(top: 50),
+            child: DataTable(
+              border: TableBorder(borderRadius: BorderRadius.circular(8)),
+              // Nomi colonne
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Text("Budget"),
+                ),
+                DataColumn(
+                  label: Text("Mix Standard"),
+                ),
+                DataColumn(
+                  label: Text("MixEffettivo"),
+                ),
+                DataColumn(
+                  label: Text("Mix Valuta"),
+                ),
+                DataColumn(
+                  label: Text("Consuntivo"),
+                ),
+              ],
+              rows: widget.rigaTabellaValori,
+            ),
+          ),
+
+          // TABELLA DATI 2
+          Container(
+            margin: const EdgeInsets.only(top: 50),
+            child: DataTable(
+              border: TableBorder(borderRadius: BorderRadius.circular(8)),
+              // Nomi colonne
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Text("Scostamento \nVolume"),
+                ),
+                DataColumn(
+                  label: Text("Scostamento \nMix"),
+                ),
+                DataColumn(
+                  label: Text("Scostamento \nPrezzo"),
+                ),
+                DataColumn(
+                  label: Text("Scostamento \nValuta"),
+                ),
+              ],
+              rows: widget.rigaTabellaScostamenti,
+            ),
+          ),
+        ],
       ),
     );
   }
