@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/constants.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/pagina_secondaria.dart';
 import 'package:intl/intl.dart';
 
@@ -40,7 +41,9 @@ class PulsanteAltriScostamenti extends StatelessWidget {
             width: 200,
             padding: const EdgeInsets.only(right: 35),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.green[700]),
+              style: ElevatedButton.styleFrom(
+                primary: ColorData().pulsanti,
+              ),
               onPressed: () {
                 Navigator.push(
                   context,

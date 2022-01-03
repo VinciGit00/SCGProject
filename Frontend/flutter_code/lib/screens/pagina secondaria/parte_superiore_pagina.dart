@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:frontendscg/database/constants.dart';
 
 // Parte superiore della pagina secondaria. Qui sono contenuti il titolo e il pulsante back
 
@@ -17,7 +17,7 @@ class ParteSuperiorePagina extends StatelessWidget {
         margin: const EdgeInsets.only(top: 20, left: 20),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.green[400],
+            color: ColorData().blocchiPagina,
             borderRadius: BorderRadius.circular(
               10,
             ),

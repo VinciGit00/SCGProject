@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/constants.dart';
 import 'package:frontendscg/utils/data_notifier_home.dart';
 import 'package:frontendscg/widgets/pie_chart.dart';
 import 'package:intl/intl.dart';
@@ -37,7 +38,7 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.green[400],
+          color: ColorData().blocchiPagina,
           borderRadius: BorderRadius.circular(
             10,
           ),
@@ -115,7 +116,7 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
                       width: 200,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.green[700]),
+                            primary: ColorData().pulsanti),
                         onPressed: () {
                           Provider.of<DataNotifierHome>(context, listen: false)
                               .showGraficoBudgetConsuntivo();
@@ -136,12 +137,12 @@ class _BloccoSinistraHomeState extends State<BloccoSinistraHome> {
                       width: 200,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.green[700]),
+                            primary: ColorData().pulsanti),
                         onPressed: () {
                           Provider.of<DataNotifierHome>(context, listen: false)
                               .showGraficoScostamento();
                         },
-                        child: const Text("Scostamento"),
+                        child: const Text("Scostamenti"),
                       ),
                     ),
                   ),

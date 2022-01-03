@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/constants.dart';
 import 'package:frontendscg/functions/upload_dataset.dart';
 import 'package:frontendscg/utils/data_provider.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class _ParteSuperiorePaginaHomeState extends State<ParteSuperiorePaginaHome> {
         margin: const EdgeInsets.only(top: 20, left: 20),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.green[400],
+            color: ColorData().blocchiPagina,
             borderRadius: BorderRadius.circular(
               10,
             ),
@@ -59,7 +60,9 @@ class _ParteSuperiorePaginaHomeState extends State<ParteSuperiorePaginaHome> {
                   height: 70,
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.green[700]),
+                    style: ElevatedButton.styleFrom(
+                      primary: ColorData().pulsanti,
+                    ),
                     onPressed: () async {
                       setState(() {
                         isDataLoading = true;

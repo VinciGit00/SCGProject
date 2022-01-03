@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/constants.dart';
 import 'package:frontendscg/database/data_graph_builder.dart';
 import 'package:frontendscg/functions/fetch_data.dart';
 import 'package:frontendscg/screens/pagina%20secondaria/blocco_sinistra.dart';
@@ -58,7 +59,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
     dynamic data = Provider.of<DataProvider>(context).data;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.green[200],
+        backgroundColor: ColorData().sfondoPagina,
         body: Column(
           children: [
             // PARTE SUPERIORE PAGINA
@@ -84,7 +85,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.green[400],
+                          color: ColorData().blocchiPagina,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding:
@@ -96,7 +97,7 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                             ColumnChartDrawer(
                                 title: "Scostamenti ${widget.titoloPagina}",
                                 nomePrimaColonna: "Scostamento",
-                                data: widget.graficoBudgetConsuntivoData),
+                                data: widget.graficoScostamentoData),
 
                             const Spacer(),
 
@@ -106,21 +107,9 @@ class _PaginaSecondariaState extends State<PaginaSecondaria> {
                               child: ColumnChartDrawer(
                                 title: "Valori ${widget.titoloPagina}",
                                 nomePrimaColonna: "Value",
-                                data: widget.graficoScostamentoData,
+                                data: widget.graficoBudgetConsuntivoData,
                               ),
                             )
-
-                            /*  Provider.of<DataNotifier>(context)
-                                    .isGraficoScostamentoPagSecondaria
-                                ? ColumnChartDrawer(
-                                    title: "Scostamenti Ricavi",
-                                    nomePrimaColonna: "Scostamento",
-                                    data: widget.graficoBudgetConsuntivoData)
-                                : ColumnChartDrawer(
-                                    title: "Budget & Consuntivo Ricavi",
-                                    nomePrimaColonna: "Value",
-                                    data: widget.graficoScostamentoData,
-                                  ) */
                           ],
                         ),
                       ),
