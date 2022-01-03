@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/constants.dart';
 import 'package:frontendscg/utils/data_notifier.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -32,67 +33,12 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
     super.didChangeDependencies();
   }
 
-  List<DataColumn> dataC = [
-    DataColumn(
-      label: Text("Colonna1"),
-    ),
-    DataColumn(
-      label: Text("Colonna1"),
-    ),
-    DataColumn(
-      label: Text("Colonna1"),
-    ),
-    DataColumn(
-      label: Text("Colonna1"),
-    ),
-    DataColumn(
-      label: Text("Colonna1"),
-    )
-  ];
-
-  List<DataRow> dataR = [
-    DataRow(cells: [
-      DataCell(
-        Text("odaidiill"),
-      ),
-      DataCell(
-        Text("odaidiill"),
-      ),
-      DataCell(
-        Text("odaidiill"),
-      ),
-      DataCell(
-        Text("odaidiill"),
-      ),
-      DataCell(
-        Text("odaidiill"),
-      ),
-    ]),
-    DataRow(cells: [
-      DataCell(
-        Text("odaidiill"),
-      ),
-      DataCell(
-        Text("odaidiill"),
-      ),
-      DataCell(
-        Text("odaidiill"),
-      ),
-      DataCell(
-        Text("odaidiill"),
-      ),
-      DataCell(
-        Text("odaidiill"),
-      ),
-    ]),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.green[400],
+          color: ColorData().blocchiPagina,
           borderRadius: BorderRadius.circular(
             10,
           ),
@@ -154,7 +100,7 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
               ],
             ),
 
-            // RIGA CON PULSANTI BUDGET/CONSUNTIVO E SCOSTAMENTO
+            /*  // RIGA CON PULSANTI BUDGET/CONSUNTIVO E SCOSTAMENTO
             Flexible(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -167,7 +113,7 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                       width: 200,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.green[700]),
+                            primary: ColorData().pulsanti),
                         onPressed: () {
                           Provider.of<DataNotifier>(context, listen: false)
                               .showGraficoBudgetConsuntivo();
@@ -188,7 +134,7 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                       width: 200,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.green[700]),
+                            primary: ColorData().pulsanti),
                         onPressed: () {
                           Provider.of<DataNotifier>(context, listen: false)
                               .showGraficoScostamento();
@@ -199,9 +145,9 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                   ),
                 ],
               ),
-            ),
+            ), */
 
-            // TABELLA DATI
+            /*  // TABELLA DATI
             Container(
               margin: const EdgeInsets.only(top: 50),
               child: DataTable(
@@ -209,7 +155,7 @@ class _BloccoSinistraState extends State<BloccoSinistra> {
                 columns: dataC,
                 rows: dataR,
               ),
-            )
+            ) */
           ],
         ),
       ),

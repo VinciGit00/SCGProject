@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     dynamic data = Provider.of<DataProvider>(context).data;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.green[200],
+        backgroundColor: ColorData().sfondoPagina,
         body: Column(
           children: [
             // PARTE SUPERIORE PAGINA
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.green[400],
+                          color: ColorData().blocchiPagina,
                           borderRadius: BorderRadius.circular(
                             10,
                           ),
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                                       .isGraficoScostamentoHome
                                   ? ColumnChartDrawer(
                                       nomePrimaColonna: "Scostamento",
-                                      title: "Scostamento MOL",
+                                      title: "Scostamenti",
                                       data: DataGraphBuilder()
                                           .molScostamentoData(data),
                                     )

@@ -909,7 +909,7 @@ class CalcoloScostamentiConIntermedi:
         self.ricaviScostamentoVol = ScostamentoVolumeRic
         self.ricaviMixStandard = MixStandardRic
         self.ricaviScostamentoMix = ScostamentoMixRic
-        self.ricaviMixEffettivo = MixEffettivoRicavi 
+        self.ricaviMixEffettivo = MixEffettivoRic 
         self.ricaviScostamentoPrezzo = ScostamentoPrezzoRic
         self.ricaviMixValuta = BudgetEffettivoRic
         self.ricaviScostamentoValuta = ScostamentoValutaRic

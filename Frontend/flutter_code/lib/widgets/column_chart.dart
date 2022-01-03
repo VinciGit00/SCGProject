@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontendscg/database/constants.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 // WIDGET PER DISEGNARE I GRAFICI A SINGOLA/DOPPIA COLONNA
@@ -53,7 +54,7 @@ class ColumnChartDrawerState extends State<ColumnChartDrawer> {
                   xValueMapper: (ColumnChartData data, _) => data.x,
                   yValueMapper: (ColumnChartData data, _) => data.colonna1,
                   name: widget.nomePrimaColonna,
-                  color: const Color.fromRGBO(8, 142, 255, 1),
+                  color: ColorData().pulsanti,
                 ),
 
                 // SECONDA COLONNA / COLONNA CONSUNTIVO
@@ -62,7 +63,7 @@ class ColumnChartDrawerState extends State<ColumnChartDrawer> {
                   xValueMapper: (ColumnChartData data, _) => data.x,
                   yValueMapper: (ColumnChartData data, _) => data.colonna2,
                   name: widget.nomeSecondaColonna,
-                  color: const Color.fromRGBO(100, 142, 255, 1),
+                  color: ColorData().colonnaChart,
                 )
               ],
             )
@@ -80,7 +81,7 @@ class ColumnChartDrawerState extends State<ColumnChartDrawer> {
                   xValueMapper: (ColumnChartData data, _) => data.x,
                   yValueMapper: (ColumnChartData data, _) => data.colonna1,
                   name: widget.nomePrimaColonna,
-                  color: const Color.fromRGBO(8, 142, 255, 1),
+                  color: ColorData().colonnaChart,
                 ),
               ],
             ),
