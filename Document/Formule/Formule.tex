@@ -16,11 +16,11 @@
 \section{Formula completa per i ricavi}
 $\sum_{i=1} ^{n} Mix_{i}\cdot VolumeTotale \cdot $$\frac{PrezzoUnitario_{i}}{TassoCambioMedio_{i}}$
 \bigskip
-\\$\frac{Quantity_{i}}{VolumeTotale}$ as Mix\\
+\\$\frac{Quantity_{i}}{VolumeTotale}$ as $Mix_{i}$
 \bigskip
 \\VolumeTotale
 \bigskip
-\\$\frac{TotaleLocale}{Quantity}$ as PrezzoUnitario
+\\$\frac{TotaleLocale_{i}}{Quantity_{i}}$ as $PrezzoUnitario_{i}$
 
 \section{Lavorazione}
 $\sum_{i=1} ^{n} ImpiegoUnitario_i \cdot CostoOrario_i \cdot QuantitydiOutput_i$
@@ -28,10 +28,10 @@ $\sum_{i=1} ^{n} ImpiegoUnitario_i \cdot CostoOrario_i \cdot QuantitydiOutput_i$
 \\$\frac{TempoRisorsa_{i}}{QuantitydiOutput_{i}}$ as $ImpiegoUnitario_{i}$
 \bigskip
 \bigskip
-\\CostoOrario
+\\$CostoOrario_{i}$
 \bigskip
 \bigskip
-\\QuantitydiOutput
+\\$QuantitydiOutput_{i}$
 
 \section{Materia prima}
 $\sum_{i=1} ^{n}QuantityOutput_i \cdot ImpiegoPerPezzo_i\cdot CostoPerUnitaMis_i$
@@ -39,9 +39,9 @@ $\sum_{i=1} ^{n}QuantityOutput_i \cdot ImpiegoPerPezzo_i\cdot CostoPerUnitaMis_i
 \\$\frac{QuantityMPImpiegata_{i}}{QuantitydiOutput_{i}}$ as $ImpiegoPerPezzo_{i}$
 \bigskip
 \bigskip
-\\$\frac {ImportoCostoTOTALE}{QuantityMPImpiegata_{i}}$ as CostoPerUnitaMis
+\\$\frac {ImportoCostoTOTALE}{QuantityMPImpiegata_{i}}$ as $CostoPerUnitaMis_{i}$
 \bigskip
 \bigskip
-\\QuantitydiOutput
+\\$QuantitydiOutput_{i}$
 
 \end{document}
